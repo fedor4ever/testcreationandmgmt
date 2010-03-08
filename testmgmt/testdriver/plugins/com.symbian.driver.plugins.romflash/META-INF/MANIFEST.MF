@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: com.symbian.driver.plugins.romflash;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: com.symbian.driver.plugins.romflash.Activator
+Bundle-Vendor: %providerName
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ com.symbian.driver.core,
+ org.junit;resolution:=optional,
+ com.symbian.utils,
+ org.apache.commons_cli,
+ org.eclipse.debug.ui,
+ org.eclipse.debug.core
+Eclipse-LazyStart: true

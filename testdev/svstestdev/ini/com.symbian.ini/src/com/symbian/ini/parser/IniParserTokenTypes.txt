@@ -1,0 +1,15 @@
+// $ANTLR : Ini.g -> IniParserTokenTypes.txt$
+IniParser    // output token vocab name
+WS=4
+TAG=5
+TAG_KEY=6
+TAG_TRAILING_VALUE=7
+EOL=8
+STRING=9
+ID=10
+LEFT_SQ_BRAKET=11
+RIGHT_SQ_BRAKET=12
+VALUE=13
+COMMENT=14
+FORWARD_SLASH=15
+STAR=16

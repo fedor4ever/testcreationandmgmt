@@ -1,0 +1,27 @@
+/*
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+#ifndef __$(baseName)_SUITE_IBY__
+#define __$(baseName)_SUITE_IBY__
+
+#include <testexecute.iby>
+
+file=ABI_DIR\BUILD_DIR\$(baseName)Suite.exe								sys\bin\$(baseName)Suite.exe
+data=EPOCROOT##Epoc32\winscw\c$(dataEpocLoc)\$(baseName)Suite.ini	$(dataExportLoc)\$(baseName)Suite.ini
+data=EPOCROOT##Epoc32\winscw\c$(scriptEpocLoc)\$(baseName)Suite.script	$(scriptExportLoc)\$(baseName)Suite.script
+
+#endif

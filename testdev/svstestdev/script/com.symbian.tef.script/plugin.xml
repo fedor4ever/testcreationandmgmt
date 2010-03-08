@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "http://www.symbian.com/tef" 
+       class = "com.symbian.tef.script.ScriptPackage"
+       genModel = "model/tef.genmodel" /> 
+  </extension>
+  
+  <extension
+        point="org.eclipse.emf.ecore.extension_parser">
+    <parser 
+       type="script" 
+       class="com.symbian.tef.script.util.ScriptResourceFactoryImpl" />
+  </extension>
+
+</plugin>
+

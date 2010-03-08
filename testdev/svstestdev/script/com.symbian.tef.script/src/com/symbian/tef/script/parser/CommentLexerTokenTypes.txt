@@ -1,0 +1,9 @@
+// $ANTLR : CommentLexer.g -> CommentLexerTokenTypes.txt$
+CommentLexer    // output token vocab name
+WS=4
+TAG=5
+TAG_KEY=6
+TAG_TRAILING_VALUE=7
+EOL=8
+STRING=9
+ID=10

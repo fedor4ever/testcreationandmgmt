@@ -1,0 +1,37 @@
+<!ELEMENT commandLineTest (name,(timeout|commandLine|logFile?|dependencies?|beforeTestRun?|afterTestRun?|copyFrom*)+)>
+
+<!-- Header operations -->
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT timeout (#PCDATA)>
+
+<!-- Operations specific to commandLineTest -->
+<!ELEMENT commandLine (#PCDATA)>
+<!ELEMENT logFile (#PCDATA)>
+
+<!-- Dependencies of the test -->
+<!ELEMENT dependencies ((data|(buildable|build)|delete|retrieve)*,(data|(buildable|build)|delete|retrieve)*,(data|(buildable|build)|delete|retrieve)*,(data|(buildable|build)|delete|retrieve)*)*>
+<!ELEMENT data ((hostPath,devicePath+)|(devicePath+,hostPath,devicePath*))>
+<!ELEMENT buildable (hostPath,devicePath+,mmpFile,bldInfPath)>
+<!ATTLIST buildable type (normal|ASSP|Normal_ASSP|test) "test">
+<!ELEMENT retrieve ((hostPath,devicePath+)|(devicePath+,hostPath,devicePath*))>
+<!ATTLIST retrieve timeStamp (yes|no) "no">
+<!ELEMENT delete (devicePath)>
+
+<!ELEMENT build (hostPath,devicePath+,mmpFile,bldInfPath)> <!--Backwards Compatablity -->
+<!ATTLIST build type (normal|ASSP|Normal_ASSP|test) "test"> <!--Backwards Complatablity -->
+
+<!-- Used for Dependency -->
+<!ELEMENT mmpFile (#PCDATA)>
+<!ELEMENT bldInfPath (#PCDATA)>
+<!ELEMENT devicePath (#PCDATA)>
+<!ELEMENT hostPath (#PCDATA)>
+
+<!-- Operations that can occur on every test type -->
+<!ELEMENT beforeTestRun EMPTY>
+<!ATTLIST beforeTestRun cmd CDATA #REQUIRED>
+<!ELEMENT afterTestRun EMPTY>
+<!ATTLIST afterTestRun cmd CDATA #REQUIRED> 
+<!ELEMENT copyFrom EMPTY>
+<!ATTLIST copyFrom
+	src CDATA #REQUIRED
+	dst CDATA #REQUIRED>

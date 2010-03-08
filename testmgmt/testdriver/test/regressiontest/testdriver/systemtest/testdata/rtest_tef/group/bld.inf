@@ -1,0 +1,54 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+PRJ_PLATFORMS
+
+PRJ_MMPFILES
+//LegacyTestBuildAndDataDep.mmp
+//LegacyTestFail.mmp
+//LegacyTestPass.mmp
+//SampleLegacyBuildDepToDel.mmp
+//SampleLegacySuiteBuildDep.mmp
+//SampleServer.mmp
+////TestBuildDep.mmp
+//
+
+
+PRJ_TESTEXPORTS
+
+..\Sampleserver\deps\abcd.txt		\epoc32\winscw\c\abcd.txt
+
+..\sampleserver\scripts\pass.script    \epoc32\release\winscw\udeb\z\sampletest\pass.script
+..\sampleserver\scripts\pass.script    \epoc32\release\winscw\urel\z\sampletest\pass.script
+..\sampleserver\scripts\fail.script    \epoc32\release\winscw\udeb\z\sampletest\fail.script
+..\sampleserver\scripts\fail.script    \epoc32\release\winscw\urel\z\sampletest\fail.script
+
+..\sampleserver\testdata\sampletest.ini    \epoc32\release\winscw\udeb\z\sampletest\sampletest.ini
+..\sampleserver\testdata\sampletest.ini    \epoc32\release\winscw\urel\z\sampletest\sampletest.ini
+..\sampleserver\testdata\sampletest.cfg    \epoc32\release\winscw\udeb\z\sampletest\sampletest.cfg
+..\sampleserver\testdata\sampletest.cfg    \epoc32\release\winscw\urel\z\sampletest\sampletest.cfg
+
+
+	
+PRJ_TESTMMPFILES
+
+LegacyTestPass
+LegacyTestFail
+SampleServer
+
+
+TestBuildDep				support
+TestBuildDep2				support

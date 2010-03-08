@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+<title>Test modules</title>
+<link href="../../book.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+
+<h2>Test modules</h2>
+<p>In STIF, test cases are collected into separate modules, called <i>test modules</i>, which contain the actual test case implementation.</p>
+<p>There can be several test cases implemented in one test module, and test cases can be defined, for example, by a test case file (a configuration file). In addition, STIF supports running different test cases simultaneously from several test modules.</p>
+<p>The following test module types are available. Based on these types, the STIF Carbide.c++ Extension provides templates that simplify the test module creation:</p>
+
+<table width="505" border="1" cellspacing="1" cellpadding="2">
+<colgroup>
+<col width="5271*">
+<col width="22353*">
+<col width="5870*"></colgroup>
+<tbody>
+<tr>
+<td><b>Test module types</b></td>
+<td><b>Description</b></td>
+<td><b>Supported by TestDrop</b></td>
+</tr>
+<tr>
+<td><b>Normal</b></td>
+<td><p>Creates an empty test module, where test cases can be freely implemented. This template type enables you to implement unique type of test cases or use old cases as basis for new ones. </p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr>
+<td><b>Hardcoded</b></td>
+<td><p>Creates a test module template where every test case is implemented as a separate function. </p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr>
+<td><b>Testclass </b></td>
+<td><p>Creates a test class for Test Scripter usage. </p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr>
+<td><b>Kerneltest </b><b>(for Test Scripter)</b></td>
+<td><p>Creates a kernel test class for Test Scripter usage. </p></td>
+<td><p>No</p></td>
+</tr>
+<tr>
+<td><b>Capsmodifier</b></td>
+<td><p>Creates a capability modification module for your test module. </p></td>
+<td><p>No</p></td>
+</tr>
+<tr>
+<td><b>STIFUnit</b></td>
+<td><p>Creates test cases in the quickest possible way. STIFUnit limits the minimum number of files that need modification while adding a new test case. It also groups code common for all test cases, such as variables, their initialization and destruction. </p></td>
+<td><p>Yes</p></td>
+</tr>
+</tbody>
+</table>
+
+<h5>Related tasks</h5>
+<ul>
+	<li><a href="../tasks/creating_test_module.htm">Creating test modules</a></li>
+	<li><a href="../tasks/import_of_project.htm">Importing test modules</a></li>
+</ul>
+
+<div id="footer">Copyright &copy; 2009 Nokia Corporation and/or its subsidiary(-ies). All rights reserved. 
+License: <a href="http://www.eclipse.org/legal/epl-v10.html">http://www.eclipse.org/legal/epl-v10.html</a>.</div>
+</body>
+</html>

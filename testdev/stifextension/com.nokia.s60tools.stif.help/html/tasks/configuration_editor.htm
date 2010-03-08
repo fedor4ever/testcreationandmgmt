@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+<title>Editing the configuration file</title>
+<link href="../../book.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+
+<h2>Editing the configuration file</h2>
+<p></p>
+<h5>Before you start</h5>
+<p>STIF has an configuration file (.ini) that is used to set up the tool's functionality, for example, default environment settings such as filepaths for test reports, and the used test modules. For the creation of this file, see <a href="configuration_wizard.htm">Setting up the STIF configuration file</a>.</p>
+<p>By default, the .ini file is opened in Carbide's text editor. However, it is recommended to use the <b>STIF Configuration Editor</b> to enter and modify the values. The changes made to the file in the Configuration Editor are updated to the <i>.ini</i> file in real time. </p><p>To edit the configuration file, do as follows: </p>
+<ol>
+<li>In Project Explorer, select the .ini file of your choice. </li>
+<li>Right-click the file and select <b>Open With > STIF Configuration Editor</b>. </li>
+<li>Do either of the following:
+<ul>
+<li>To add or modify test modules, test case files or configuration files, select the <b>Modules</b> tab. </li>
+<li>To modify the environment settings, select the <b>Global Settings</b> tab.</li>
+</ul>
+<p>See the sections below for instructions. </p></li>
+<li>When you are finished with the edits, close the <b>Configuration Editor</b> view. </li>
+<li>To save your changes, click <b>Yes</b>. </li>
+</ol>
+
+<h3><a name="module"></a>Adding and modifying modules</h3>
+<p>It is necessary to add the test module to STIF configuration file to make it accessible for STIF. Before you can run your test case you have to add your test module to this file. Also script files for few types of test modules must be listed in this file. Modules tab of STIF Configuration Editor provides a graphical interface for these operations. On the <b>Modules</b> tab, you can do the following things: </p>
+<ul>
+<li>Add a new module for Test Scripter or Test Combiner by clicking <b>Add module</b>.</li>
+<li>Add a new test case (.cfg) file by clicking <b>Add test case files</b>.</li>
+<li>Add a new configuration (.ini) file, by clicking <b>Add ini file</b>.</li>
+<li>Edit module names or remove them.</li>
+</ul>
+
+<h3><a name="global"></a>Modifying the global settings</h3>
+<p>Editing the global settings by hand can be error-prone. The STIF Configuration Editor provides a convenient interface for editing this file. The editor contains a parser that is capable of finding mistakes in global settings (in case of manual modyfication). Global settings specify options for STIF Engine and STIF Logger:</p>
+<ul>
+<li><b>STIF Engine</b> loads test modules and executes the test cases.
+<p>In these options, you can specify things such as file paths and file names for test reports.</p></li>
+<li><b>STIF Logger</b> provides logging services. <p>In these options, you can specify paths and log format both for emulator and hardware, log modes and as well as the generated timestamps.</p></li>
+</ul>
+<p>Fields that are greyed out have default values and are not present in the .ini file. However, you can still change the values of these fields.</p>
+<p><b>Tip:</b> For details on what the fields contain and what their values can be, click the <b>Source</b> tab and check the descriptions in the text file itself. You can also edit the values in this text file directly. To get code assistance, press CTRL + Space, as shown below:</p>
+<p><img src="screenshots\config_editor_assist.png" alt="Sample of Source page and code assistance"></p>
+
+<h5>Related tasks</h5>
+<ul>
+<li><a href="configuration_wizard.htm">Setting up the STIF configuration file</a></li>
+</ul>
+
+<div id="footer">Copyright &copy; 2009 Nokia Corporation and/or its subsidiary(-ies). All rights reserved. 
+License: <a href="http://www.eclipse.org/legal/epl-v10.html">http://www.eclipse.org/legal/epl-v10.html</a>.</div>
+</body>
+</html>

@@ -1,0 +1,2506 @@
+<?xml version="1.0"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<!-- system test project for AntSys (Ant System Test extension).
+  * use 'ant -f systemtest.xml' to run the test
+  * the xml test report is located at ./report/CommandTestSuite_report.xml
+  * the html test report is located at ./report/systemtestresult.html
+  * the test suite output and error has been redirec to ./report/CommandTestSuite_output.log,
+  -->
+
+<project name="ast-systemtest" basedir="." default="systemtest">
+    <path id="lib.path">
+      <fileset dir="." includes="antsys-0.3.jar"/>
+    </path>
+    
+    <!-- define ant task extension for AST -->
+    <typedef name="testsuite"
+             classname="ant.antsys.TestSuite"
+             classpathref="lib.path"
+             loaderref="lib.path.loader"
+             />
+    <typedef name="testcase"
+             classname="ant.antsys.TestCase"
+             loaderref="lib.path.loader"
+             />
+    <typedef name="assertfileexist"
+             classname="ant.antsys.AssertFileExist"
+             loaderref="lib.path.loader"
+             />
+    <typedef name="assertfileequal"
+             classname="ant.antsys.AssertFileEquals"
+             loaderref="lib.path.loader"
+             />
+
+    <typedef name="assertfilegrep"
+             classname="ant.antsys.AssertFileGrep"
+             loaderref="lib.path.loader"
+             />
+    <typedef name="assertpropertyequal"
+             classname="ant.antsys.AssertPropertyEquals"
+             loaderref="lib.path.loader"
+             />
+
+    <target name="systemtest">
+		<property file="testdriver.test.properties"/>
+		<property name="testdriver.test.root" value="${driver}\${testdriver.test.path}"/>
+		<mkdir dir="${driver}\testdriver\xml"/>
+		<mkdir dir="${driver}\testdriver\result"/>
+		<mkdir dir="${driver}\testdriver\export"/>
+		<mkdir dir="${driver}\testdriver\repository"/>
+		<delete dir="output"/>
+		<mkdir dir="output"/>
+		<mkdir dir="output\td_cfg_common"/>
+          <!-- this test suite is using AST to test several shell commands --> 
+         <testsuite name="TestDriverCommandTestSuite" failonerror="false" todir="${testdriver.test.root}\report" htmlreport="true">
+			<!-- create working dir for testing -->
+			<echo message="Do common testdriver configuration"/>
+			<exec vmlauncher="false" executable="testdriver.cmd" output="output\td_cfg_common\cfg_epoc.log">
+				<arg line="config -e ${driver}\"/>
+			</exec>
+			<exec vmlauncher="false" executable="testdriver.cmd" output="output\td_cfg_common\cfg_xml.log">
+				<arg line="config -x ${driver}\testdriver\xml"/>
+			</exec>
+			<exec vmlauncher="false" executable="testdriver.cmd" output="output\td_cfg_common\cfg_source.log">
+				<arg line="config --source ${driver}\"/>
+			</exec>		
+			<testcase name="TD-TestDriver-VersionCmmd-0001">
+				<mkdir dir="output\TD-TestDriver-VersionCmmd-0001"/>
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\TD-TestDriver-VersionCmmd-0001\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<echo message="Test testdriver version command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\TD-TestDriver-VersionCmmd-0001\version.log">
+					<arg value="version"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\TD-TestDriver-VersionCmmd-0001\version.log" errormsg="missing version.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\TD-TestDriver-VersionCmmd-0001\version.log" regexp="(?i)testdriver\s+v\d" errormsg="Failed to get testdriver version" />
+			</testcase>
+			<testcase name="DT-TestDriver-BaseConfig-0001">
+				<mkdir dir="output\DT-TestDriver-BaseConfig-0001"/>
+				<echo message="Test testdriver config -e command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver-BaseConfig-0001\cfg_epocroot.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0001\cfg_epocroot.log" errormsg="missing cfg_epocroot.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0001\cfg_epocroot.log" regexp="(?i)epocRoot:\s+${driver}\\$" errormsg="Failed to set epocroot" />
+			</testcase>
+			<testcase name="DT-TestDriver-BaseConfig-0002">
+				<mkdir dir="output\DT-TestDriver-BaseConfig-0002"/>
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver-BaseConfig-0002\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<echo message="Test testdriver config -x command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver-BaseConfig-0002\cfg_xmlroot.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0002\cfg_xmlroot.log" errormsg="missing cfg_xmlroot.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0002\cfg_xmlroot.log" regexp="(?i)xmlRoot:\s+${driver}\\testdriver\\xml$" errormsg="Failed to set xmlroot" />
+			</testcase>
+			<testcase name="DT-TestDriver-BaseConfig-0003">
+				<mkdir dir="output\DT-TestDriver-BaseConfig-0003"/>
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver-BaseConfig-0003\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<echo message="Test testdriver config --repos command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver-BaseConfig-0003\cfg_repos.log">
+					<arg line="config --repos ${driver}\testdriver\repository"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0003\cfg_repos.log" errormsg="missing cfg_repos.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0003\cfg_repos.log" regexp="(?i)repositoryRoot:\s+${driver}\\testdriver\\repository$" errormsg="Failed to set repository root path" />
+			</testcase>
+			<testcase name="DT-TestDriver-BaseConfig-0004">
+				<mkdir dir="output\DT-TestDriver-BaseConfig-0004"/>
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver-BaseConfig-0004\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<echo message="Test testdriver config -c command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver-BaseConfig-0004\cfg_result.log">
+					<arg line="config -c ${driver}\testdriver\result"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0004\cfg_result.log" errormsg="missing cfg_result.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0004\cfg_result.log" regexp="(?i)resultRoot:\s+${driver}\\testdriver\\result$" errormsg="Failed to set result root path" />
+			</testcase>
+			<testcase name="DT-TestDriver-BaseConfig-0005">
+				<mkdir dir="output\DT-TestDriver-BaseConfig-0005"/>
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver-BaseConfig-0005\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<echo message="Test testdriver config --source command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver-BaseConfig-0005\cfg_source.log">
+					<arg line="config --source ${driver}\"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0005\cfg_source.log" errormsg="missing cfg_source.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0005\cfg_source.log" regexp="(?i)sourceRoot:\s+${driver}\\$" errormsg="Failed to set source root path" />
+			</testcase>
+			<testcase name="DT-TestDriver-BaseConfig-0006">
+				<mkdir dir="output\DT-TestDriver-BaseConfig-0006"/>
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver-BaseConfig-0006\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<echo message="Test testdriver config commands"/>
+				<echo message="Test testdriver config --source command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver-BaseConfig-0006\cfg_source.log">
+					<arg line="config --source ${driver}\"/>
+				</exec>
+				<echo message="Test testdriver config -repos command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver-BaseConfig-0006\cfg_repos.log">
+					<arg line="config --repos ${driver}\testdriver\repository"/>
+				</exec>
+				<echo message="Test testdriver config -c command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver-BaseConfig-0006\cfg_result.log">
+					<arg line="config -c ${driver}\testdriver\result"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0006\cfg_source.log" errormsg="missing cfg_source.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0006\cfg_source.log" regexp="(?i)sourceRoot:\s+${driver}\\" errormsg="Failed to set source root path" />
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0006\cfg_repos.log" errormsg="missing cfg_repository.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0006\cfg_repos.log" regexp="(?i)repositoryRoot:\s+${driver}\\testdriver\\repository$" errormsg="Failed to set repository root path" />
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0006\cfg_result.log" errormsg="missing cfg_result.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0006\cfg_result.log" regexp="(?i)resultRoot:\s+${driver}\\testdriver\\result$" errormsg="Failed to set result root path" />
+			</testcase>
+			<testcase name="DT-TestDriver-BaseConfig-0007">
+				<mkdir dir="output\DT-TestDriver-BaseConfig-0007"/>
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver-BaseConfig-0007\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<echo message="Test testdriver config --export command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver-BaseConfig-0007\cfg_export.log">
+					<arg line="config --export ${driver}\testdriver\export\defaultconfig.xml"/>
+				</exec>
+				<assertfileexist file="${driver}\testdriver\export\defaultconfig.xml" errormsg="missing defaultconfig.xml" />
+				<assertfilegrep file="${driver}\testdriver\export\defaultconfig.xml" regexp="(?i)sourceRoot" errormsg="Failed to export testdriver configuration to xml file" />
+			</testcase>
+			<testcase name="DT-TestDriver-BaseConfig-0008">
+				<mkdir dir="output\DT-TestDriver-BaseConfig-0008"/>
+				<echo message="Test testdriver config -p winscw command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver-BaseConfig-0008\cfg_platform.log">
+					<arg line="config -p winscw"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0008\cfg_platform.log" errormsg="missing cfg_platform.xml" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0008\cfg_platform.log" regexp="(?i)preference\s+platform:\s+winscw" errormsg="Failed to set platform to winscw" />
+			</testcase>
+			<testcase name="DT-TestDriver-BaseConfig-0009">
+				<mkdir dir="output\DT-TestDriver-BaseConfig-0009"/>
+				<echo message="Test testdriver config -p armv5 command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"  output="output\DT-TestDriver-BaseConfig-0009\cfg_platform.log">
+					<arg line="config -p armv5"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0009\cfg_platform.log" errormsg="missing cfg_platform.xml" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0009\cfg_platform.log" regexp="(?i)preference\s+platform:\s+armv5" errormsg="Failed to set platform to armv5" />
+			</testcase>
+			<testcase name="DT-TestDriver-BaseConfig-0010">
+				<mkdir dir="output\DT-TestDriver-BaseConfig-0010"/>
+				<echo message="Test testdriver config -t usb1 command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"  output="output\DT-TestDriver-BaseConfig-0010\cfg_transfer.log">
+					<arg line="config -t usb1"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0010\cfg_transfer.log" errormsg="missing cfg_transfer.xml" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0010\cfg_transfer.log" regexp="(?i)preference\s+transport:\s+usb1" errormsg="Failed to set transfer to usb1" />
+			</testcase>
+			<testcase name="DT-TestDriver-BaseConfig-0011">
+				<mkdir dir="output\DT-TestDriver-BaseConfig-0011"/>
+				<echo message="Test testdriver config -t tcp:192.168.0.3:3000 command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"  output="output\DT-TestDriver-BaseConfig-0011\cfg_transfer.log">
+					<arg line="config -t tcp:192.168.0.3:3000"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0011\cfg_transfer.log" errormsg="missing cfg_transfer.xml" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0011\cfg_transfer.log" regexp="(?i)preference\s+transport:\s+tcp:\d+.\d+.\d+.\d:\d+" errormsg="Failed to set transfer to tcp" />
+			</testcase>
+			<testcase name="DT-TestDriver-BaseConfig-0012">
+				<mkdir dir="output\DT-TestDriver-BaseConfig-0012"/>
+				<echo message="Test testdriver config -t serial0 command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"  output="output\DT-TestDriver-BaseConfig-0012\cfg_transfer.log">
+					<arg line="config -t serial0"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0012\cfg_transfer.log" errormsg="missing cfg_transfer.xml" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0012\cfg_transfer.log" regexp="(?i)preference\s+transport:\s+serial0" errormsg="Failed to set transfer to serial" />
+			</testcase>
+			<testcase name="DT-TestDriver-BaseConfig-0013">
+				<mkdir dir="output\DT-TestDriver-BaseConfig-0013"/>
+				<echo message="Test testdriver config --commdb ON command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"  output="output\DT-TestDriver-BaseConfig-0013\cfg_commdb.log">
+					<arg line="config --commdb ON"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0013\cfg_commdb.log" errormsg="missing cfg_commdb.xml" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0013\cfg_commdb.log" regexp="(?i)preference\s+commdb:\s+ON" errormsg="Failed to set transfer to serial" />
+			</testcase>
+			<testcase name="DT-TestDriver-BaseConfig-0014">
+				<mkdir dir="output\DT-TestDriver-BaseConfig-0014"/>
+				<echo message="Test testdriver config --commdb OFF command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"  output="output\DT-TestDriver-BaseConfig-0014\cfg_commdb.log">
+					<arg line="config --commdb OFF"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0014\cfg_commdb.log" errormsg="missing cfg_commdb.xml" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0014\cfg_commdb.log" regexp="(?i)preference\s+commdb:\s+OFF" errormsg="Failed to set transfer to serial" />
+			</testcase>
+			<testcase name="DT-TestDriver-BaseConfig-0015">
+				<mkdir dir="output\DT-TestDriver-BaseConfig-0015"/>
+				<echo message="Test testdriver config --commdb OVERWRITE command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"  output="output\DT-TestDriver-BaseConfig-0015\cfg_commdb.log">
+					<arg line="config --commdb OVERWRITE"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0015\cfg_commdb.log" errormsg="missing cfg_commdb.xml" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0015\cfg_commdb.log" regexp="(?i)preference\s+commdb:\s+OVERWRITE" errormsg="Failed to set transfer to serial" />
+			</testcase>
+			<testcase name="DT-TestDriver-BaseConfig-0016">
+				<mkdir dir="output\DT-TestDriver-BaseConfig-0016"/>
+				<echo message="Test testdriver config -i command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"  output="output\DT-TestDriver-BaseConfig-0016\cfg_workspace.log">
+					<arg line="config -i ${driver}\"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0016\cfg_workspace.log" errormsg="missing cfg_workspace.xml" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0016\cfg_workspace.log" regexp="(?i)preference\s+workingpath:\s+${driver}\\" errormsg="Failed to set working path" />
+			</testcase>
+			<testcase name="DT-TestDriver-BaseConfig-0018">
+				<mkdir dir="output\DT-TestDriver-BaseConfig-0018"/>
+				<echo message="Test testdriver config -b urel command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"  output="output\DT-TestDriver-BaseConfig-0018\cfg_target.log">
+					<arg line="config -b urel"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0018\cfg_target.log" errormsg="missing cfg_target.xml" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0018\cfg_target.log" regexp="(?i)preference\s+variant:\s+urel" errormsg="Failed to set build target variant to urel" />
+			</testcase>
+			<testcase name="DT-TestDriver-BaseConfig-0019">
+				<mkdir dir="output\DT-TestDriver-BaseConfig-0019"/>
+				<echo message="Test testdriver config -b udeb command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"  output="output\DT-TestDriver-BaseConfig-0019\cfg_target.log">
+					<arg line="config -b udeb"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0019\cfg_target.log" errormsg="missing cfg_target.xml" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0019\cfg_target.log" regexp="(?i)preference\s+variant:\s+udeb" errormsg="Failed to set build target variant to udeb" />
+			</testcase>
+			<testcase name="DT-TestDriver2-Validate-0001">
+				<mkdir dir="output\DT-TestDriver2-Validate-0001"/>
+				<echo message="Test testdriver validate command"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Validate-0001\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Validate-0001\cfg_xmlroot.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Validate-0001\cfg_entry.log">
+					<arg line="config -s te_TestServerSuite"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Validate-0001\validate.log">
+					<arg line="validate"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-Validate-0001\validate.log" errormsg="missing validate.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Validate-0001\validate.log" regexp="(?i)Testdriver finished with success" errormsg="Failed to run testdriver validation" />
+			</testcase>
+			<testcase name="DT-TestDriver2-Validate-0002">
+				<mkdir dir="output\DT-TestDriver2-Validate-0002"/>
+				<echo message="Test testdriver validate -s command"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Validate-0002\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Validate-0002\cfg_xmlroot.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Validate-0002\validate.log">
+					<arg line="validate -s te_TestServerSuite"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-Validate-0002\validate.log" errormsg="missing validate.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Validate-0002\validate.log" regexp="(?i)testdriver finished with success" errormsg="Failed to validate EntryPoint" />
+			</testcase>
+			<testcase name="DT-TestDriver2-Validate-0003">
+				<mkdir dir="output\DT-TestDriver2-Validate-0003"/>
+				<echo message="Test testdriver validate -s command"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Validate-0003\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Validate-0003\cfg_xmlroot.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Validate-0003\validate.log">
+					<arg line="validate -s te_TestServerSuite.te_TestServerTest"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-Validate-0003\validate.log" errormsg="missing validate.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Validate-0003\validate.log" regexp="(?i)testdriver finished with success" errormsg="Validate Command Failded" />
+			</testcase>
+			<testcase name="DT-TestDriver2-Validate-0004">
+				<echo message="Test testdriver validate -s command with invalid EntryPoint"/>
+				<mkdir dir="output\DT-TestDriver2-Validate-0004"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Validate-0004\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Validate-0004\cfg_xmlroot.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Validate-0004\validate.log">
+					<arg line="validate -s test"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-Validate-0004\validate.log" errormsg="missing validate.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Validate-0004\validate.log" regexp="(?i)could not load" errormsg="parameter -s doesn't work" />
+			</testcase>
+			<testcase name="DT-TestDriver2-Validate-0005">
+				<echo message="Test testdriver validate --conf command"/>
+				<mkdir dir="output\DT-TestDriver2-Validate-0005"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Validate-0005\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Validate-0005\cfg_xmlroot.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Validate-0005\validate.log">
+					<arg line="validate --conf file:/${testdriver.test.root}\tdconfig.xml"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-Validate-0005\validate.log" errormsg="Testdriver validate command didn't run" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Validate-0005\validate.log" regexp="(?i)testdriver finished with success" errormsg="Validate Command Failded" />
+			</testcase>
+			<testcase name="DT-TestDriver2-Validate-0006">
+				<echo message="Test testdriver validate --conf command with config file which dosn't exist"/>
+				<mkdir dir="output\DT-TestDriver2-Validate-0006"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Validate-0006\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Validate-0006\cfg_xmlroot.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Validate-0006\validate.log">
+					<arg line="validate --conf file:/${testdriver.test.root}\noexist.xml"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-Validate-0006\validate.log" errormsg="Testdriver validate command didn't work" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Validate-0006\validate.log" regexp="(?i)testdriver finished with failure" errormsg="Parameter --conf for validate Command doesn't work" />
+			</testcase>
+			<testcase name="DT-TestDriver2-Validate-0007">
+				<echo message="Test testdriver validate command with invalid parameters"/>
+				<mkdir dir="output\DT-TestDriver2-Validate-0007"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Validate-0007\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Validate-0007\cfg_xmlroot.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Validate-0007\validate.log">
+					<arg line="validate --s"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-Validate-0007\validate.log" errormsg="missing validate.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Validate-0007\validate.log" regexp="(?i)unrecognized\s+option:" errormsg="Validate Command with invalid parameters Failded" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Validate-0007\validate.log" regexp="(?i)testdriver finished with failure" errormsg="Validate Command with invalid parameters Failded" />
+			</testcase>
+			<testcase name="DT-TestDriver2-Build-0001">
+				<echo message="Test testdriver build command"/>
+				<mkdir dir="output\DT-TestDriver2-Build-0001"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0001\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0001\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0001\cfg_result.log">
+					<arg line="config -c ${driver}\testdriver\result"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0001\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0001\cfg_repos.log">
+					<arg line="config --repos ${driver}\testdriver\repository"/>
+				</exec>
+				<echo message="Start performing testdriver build command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0001\build.log">
+					<arg line="build -p winscw -b udeb -s te_TestServerSuite"/>
+				</exec>
+				<echo message="Finished performing testdriver build command"/>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-Build-0001\build.log" errormsg="missing build.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Build-0001\build.log" regexp="(?i)testdriver finished with success" errormsg="testdriver build Command Failded" />
+			</testcase>
+			<testcase name="DT-TestDriver2-Build-0002">
+				<echo message="Test testdriver build command"/>
+				<mkdir dir="output\DT-TestDriver2-Build-0002"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0002\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0002\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0002\cfg_result.log">
+					<arg line="config -c ${driver}\testdriver\result"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0002\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0002\cfg_repos.log">
+					<arg line="config --repos ${driver}\testdriver\repository"/>
+				</exec>
+				<echo message="Start performing testdriver build command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0002\build.log">
+					<arg line="build -p winscw -b urel -s te_TestServerSuite"/>
+				</exec>
+				<echo message="Finished performing testdriver build command"/>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-Build-0002\build.log" errormsg="missing build.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Build-0002\build.log" regexp="(?i)testdriver finished with success" errormsg="testdriver build Command Failded" />
+			</testcase>
+			<testcase name="DT-TestDriver2-Build-0003">
+				<echo message="Test testdriver build command"/>
+				<mkdir dir="output\DT-TestDriver2-Build-0003"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0003\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0003\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0003\cfg_result.log">
+					<arg line="config -c ${driver}\testdriver\result"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0003\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0003\cfg_repos.log">
+					<arg line="config --repos ${driver}\testdriver\repository"/>
+				</exec>
+				<echo message="Start performing testdriver build command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0003\build.log">
+					<arg line="build -p armv5 -b udeb -s te_TestServerSuite"/>
+				</exec>
+				<echo message="Finished performing testdriver build command"/>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-Build-0003\build.log" errormsg="missing build.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Build-0003\build.log" regexp="(?i)testdriver finished with success" errormsg="testdriver build Command Failded" />
+			</testcase>
+			<testcase name="DT-TestDriver2-Build-0004">
+				<echo message="Test testdriver build command"/>
+				<mkdir dir="output\DT-TestDriver2-Build-0004"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0004\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0004\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0004\cfg_result.log">
+					<arg line="config -c ${driver}\testdriver\result"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0004\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0004\cfg_repos.log">
+					<arg line="config --repos ${driver}\testdriver\repository"/>
+				</exec>
+				<echo message="Start performing testdriver build command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0004\build.log">
+					<arg line="build -p armv5 -b urel -s te_TestServerSuite"/>
+				</exec>
+				<echo message="Finished performing testdriver build command"/>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-Build-0004\build.log" errormsg="missing build.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Build-0004\build.log" regexp="(?i)testdriver finished with success" errormsg="testdriver build Command Failded" />
+			</testcase>
+			<!-- no buildtarget specify but with the right entrypoint -->
+			<testcase name="DT-TestDriver2-Build-0005">
+				<echo message="Test testdriver build command"/>
+				<mkdir dir="output\DT-TestDriver2-Build-0005"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0005\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0005\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0005\cfg_result.log">
+					<arg line="config -c ${driver}\testdriver\result"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0005\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0005\cfg_repos.log">
+					<arg line="config --repos ${driver}\testdriver\repository"/>
+				</exec>
+				<echo message="Start performing testdriver build command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0005\build.log">
+					<arg line="build -p winscw -s te_TestServerSuite"/>
+				</exec>
+				<echo message="Finished performing testdriver build command"/>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-Build-0005\build.log" errormsg="missing build.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Build-0005\build.log" regexp="(?i)testdriver finished with success" errormsg="testdriver build Command Failded" />
+			</testcase>
+			<!-- no platform and buildtarget specify, but with the rihgt entrypoint -->
+			<testcase name="DT-TestDriver2-Build-0006">
+				<echo message="Test testdriver build command"/>
+				<mkdir dir="output\DT-TestDriver2-Build-0006"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0006\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0006\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0006\cfg_result.log">
+					<arg line="config -c ${driver}\testdriver\result"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0006\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0006\cfg_repos.log">
+					<arg line="config --repos ${driver}\testdriver\repository"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0006\cfg_entry.log">
+					<arg line="config -s te_TestServerSuite"/>
+				</exec>
+				<echo message="Start performing testdriver build command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0006\build.log">
+					<arg line="build"/>
+				</exec>
+				<echo message="Finished performing testdriver build command"/>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-Build-0006\build.log" errormsg="missing build.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Build-0006\build.log" regexp="(?i)testdriver finished with success" errormsg="testdriver build Command Failded" />
+			</testcase>
+			<!-- input the invalid entrypoint by -s parameter -->
+			<testcase name="DT-TestDriver2-Build-0007">
+				<echo message="Test testdriver build command"/>
+				<mkdir dir="output\DT-TestDriver2-Build-0007"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0007\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0007\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0007\cfg_result.log">
+					<arg line="config -c ${driver}\testdriver\result"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0007\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0007\cfg_repos.log">
+					<arg line="config --repos ${driver}\testdriver\repository"/>
+				</exec>
+				<echo message="Start performing testdriver build command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Build-0007\build.log">
+					<arg line="build -p winscw -b urel -s invalidentrypoint"/>
+				</exec>
+				<echo message="Finished performing testdriver build command"/>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-Build-0007\build.log" errormsg="missing build.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Build-0007\build.log" regexp="(?i)testDriver\s+failed" errormsg="wrong entrypoint should cause testdriver build failure" />
+			</testcase>
+			<!-- input the invalid command-->
+			<testcase name="DT-TestDriver-negative-0001" skip="false">
+				<mkdir dir="output\DT-TestDriver-negative-0001"/>
+				<echo message="Do config epocroot"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver-negative-0001\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<echo message="Test testdriver with invalid command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"  output="output\DT-TestDriver-negative-0001\invalidcmd.log">
+					<arg line="invalidcommand"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-negative-0001\invalidcmd.log" errormsg="Testdriver didn't run" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-negative-0001\invalidcmd.log" regexp="(?i)command\s+line\s+incorrect" errormsg="Testdriver doesn't check invalid commands" />
+			</testcase>
+			<!-- input the option without argument inputs for testdriver config command -->
+			<testcase name="DT-TestDriver-negative-0002" skip="false">
+				<mkdir dir="output\DT-TestDriver-negative-0002"/>
+				<echo message="Do config epocroot"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver-negative-0002\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>		
+				<echo message="Test testdriver config command with invalid parameters"/>				
+				<exec vmlauncher="false" executable="testdriver.cmd"  output="output\DT-TestDriver-negative-0002\cfg.log">
+					<arg line="config -e"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-negative-0002\cfg.log" errormsg="Testdriver config command didn't run" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-negative-0002\cfg.log" regexp="(?i)no\s+argument\s+for:" errormsg="Config Command dosn't check options without argument inputs" />
+			</testcase>
+			<!--  input the invalid option for testdriver help command -->
+			<testcase name="DT-TestDriver-negative-0003" skip="false">
+				<mkdir dir="output\DT-TestDriver-negative-0003"/>
+				<echo message="Do config epocroot"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver-negative-0001\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<echo message="Test testdriver help command with invalid options"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"  output="output\DT-TestDriver-negative-0003\help.log">
+					<arg line="help invalidcommand"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-negative-0003\help.log" errormsg="Testdriver help command didn't run" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-negative-0003\help.log" regexp="(?i)unknown\s+command" errormsg="Help Command doesn't check invalid options input" />
+			</testcase>
+			<!--  input the invalid option for testdriver build command -->
+			<testcase name="DT-TestDriver-negative-0004" skip="false">
+				<mkdir dir="output\DT-TestDriver-negative-0004"/>
+				<echo message="Do config epocroot"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver-negative-0004\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<echo message="Test testdriver build command with invalid options"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"  output="output\DT-TestDriver-negative-0004\build.log">
+					<arg line="build -unkown unknown"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-negative-0004\build.log" errormsg="Testdriver build command didn't run" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-negative-0004\build.log" regexp="(?i)unrecognized\s+option:" errormsg="Build Command doesn't check invalid options input" />
+			</testcase>
+			<testcase name="DT-TestDriver-negative-0005" skip="false">
+				<mkdir dir="output\DT-TestDriver-negative-0005"/>
+				<echo message="Do config epocroot"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver-negative-0005\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<echo message="Test testdriver build command with invalid options"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"  output="output\DT-TestDriver-negative-0005\build.log">
+					<arg line="build --unkown unknown"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-negative-0005\build.log" errormsg="Testdriver build command didn't run" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-negative-0005\build.log" regexp="(?i)unrecognized\s+option:" errormsg="Build Command doesn't check invalid options input" />
+			</testcase>
+			<!-- input the option without argument inputs for testdriver build command -->
+			<testcase name="DT-TestDriver-negative-0006" skip="false">
+				<mkdir dir="output\DT-TestDriver-negative-0006"/>
+				<echo message="Do config epocroot"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver-negative-0006\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<echo message="Test testdriver build command with invalid options"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"  output="output\DT-TestDriver-negative-0006\build.log">
+					<arg line="build -b"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-negative-0006\build.log" errormsg="Testdriver build command didn't run" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-negative-0006\build.log" regexp="(?i)no\s+argument\s+for:" errormsg="Build Command doesn't check options without argument inputs" />
+			</testcase>
+			<!--  input the invalid option for testdriver cancel command -->
+			<testcase name="DT-TestDriver-negative-0007" skip="false">
+				<mkdir dir="output\DT-TestDriver-negative-0007"/>
+				<echo message="Do config epocroot"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver-negative-0007\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<echo message="Test testdriver cancel command with invalid options"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"  output="output\DT-TestDriver-negative-0007\cancel.log">
+					<arg line="cancel -unknown unknown"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-negative-0007\cancel.log" errormsg="Testdriver cancel command didn't run" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-negative-0007\cancel.log" regexp="(?i)unrecognized\s+option:" errormsg="Cancel Command doesn't check invalid options input" />
+			</testcase>
+			<testcase name="DT-TestDriver-negative-0008" skip="false">
+				<mkdir dir="output\DT-TestDriver-negative-0008"/>
+				<echo message="Do config epocroot"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver-negative-0008\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<echo message="Test testdriver cancel command with invalid options"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"  output="output\DT-TestDriver-negative-0008\cancel.log">
+					<arg line="cancel --unknown unknown"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-negative-0008\cancel.log" errormsg="Testdriver cancel command didn't run" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-negative-0008\cancel.log" regexp="(?i)unrecognized\s+option:" errormsg="Cancel Command doesn't check invalid options input" />
+			</testcase>
+			<!-- input the option without argument inputs for testdriver cancel command -->
+			<testcase name="DT-TestDriver-negative-0009" skip="false">
+				<mkdir dir="output\DT-TestDriver-negative-0009"/>
+				<echo message="Do config epocroot"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver-negative-0009\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<echo message="Test testdriver cancel command with invalid options"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"  output="output\DT-TestDriver-negative-0009\cancel.log">
+					<arg line="cancel --srv"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-negative-0009\cancel.log" errormsg="Testdriver cancel command didn't run" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-negative-0009\cancel.log" regexp="(?i)no\s+argument\s+for:" errormsg="Cancel Command doesn't check options without argument inputs" />
+			</testcase>
+			<!--  input the invalid option for testdriver cleanremote command -->
+			<testcase name="DT-TestDriver-negative-0010" skip="false">
+				<mkdir dir="output\DT-TestDriver-negative-0010"/>
+				<echo message="Do config epocroot"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver-negative-0010\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<echo message="Test testdriver cleanremote command with invalid options"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"  output="output\DT-TestDriver-negative-0010\cleanremote.log">
+					<arg line="cleanremote -unknown unknown"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-negative-0010\cleanremote.log" errormsg="Testdriver cleanremote command didn't run" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-negative-0010\cleanremote.log" regexp="(?i)unrecognized\s+option:" errormsg="Cleanremote Command doesn't check invalid options input" />
+			</testcase>
+			<testcase name="DT-TestDriver-negative-0011" skip="false">
+				<mkdir dir="output\DT-TestDriver-negative-0011"/>
+				<echo message="Do config epocroot"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver-negative-0011\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<echo message="Test testdriver cleanremote command with invalid options"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"  output="output\DT-TestDriver-negative-0011\cleanremote.log">
+					<arg line="cleanremote --unknown unknown"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-negative-0011\cleanremote.log" errormsg="Testdriver cleanremote command didn't run" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-negative-0011\cleanremote.log" regexp="(?i)unrecognized\s+option:" errormsg="Cleanremote Command doesn't check invalid options input" />
+			</testcase>
+			<!-- input the option without argument inputs for testdriver cleanremote command -->
+			<testcase name="DT-TestDriver-negative-0012" skip="false">
+				<mkdir dir="output\DT-TestDriver-negative-0012"/>
+				<echo message="Do config epocroot"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver-negative-0012\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<echo message="Test testdriver cleanremote command with invalid options"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"  output="output\DT-TestDriver-negative-0012\cleanremote.log">
+					<arg line="cleanremote -j"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-negative-0012\cleanremote.log" errormsg="Testdriver cleanremote command didn't run" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-negative-0012\cleanremote.log" regexp="(?i)no\s+argument\s+for:" errormsg="Cleanremote Command doesn't check options without argument inputs" />
+			</testcase>
+			<testcase name="DT-TestDriver2-RunTest-0001">
+				<echo message="Test testdriver run command on emulator"/>
+				<mkdir dir="output\DT-TestDriver2-RunTest-0001"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunTest-0001\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunTest-0001\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunTest-0001\cfg_result.log">
+					<arg line="config -c ${driver}\testdriver\result"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunTest-0001\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunTest-0001\cfg_repos.log">
+					<arg line="config --repos ${driver}\testdriver\repository"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunTest-0001\cfg_transport.log">
+					<arg line="config -t tcp"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunTest-0001\cfg_commdb.log">
+					<arg line="config --commdb OVERWRITE"/>
+				</exec>
+				<echo message="Start performing testdriver build command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunTest-0001\build.log">
+					<arg line="build -p winscw -b udeb -s te_TestServerSuite"/>
+				</exec>
+				<echo message="Finished performing testdriver build command"/>
+				<echo message="Start performing testdriver run command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunTest-0001\run.log">
+					<arg line="run -p winscw -b udeb -s te_TestServerSuite"/>
+				</exec>
+				<echo message="Finished performing testdriver run command"/>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-RunTest-0001\run.log" errormsg="missing run.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-RunTest-0001\run.log" regexp="(?i)testdriver finished with success" errormsg="testdriver build Command Failded" />
+			</testcase>
+			<testcase name="DT-TestDriver2-Clean-0001">
+				<echo message="Test testdriver clean command"/>
+				<mkdir dir="output\DT-TestDriver2-Clean-0001"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0001\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0001\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0001\cfg_result.log">
+					<arg line="config -c ${driver}\testdriver\result"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0001\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0001\cfg_repos.log">
+					<arg line="config --repos ${driver}\testdriver\repository"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0001\cfg_transport.log">
+					<arg line="config -t tcp"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0001\cfg_commdb.log">
+					<arg line="config --commdb OVERWRITE"/>
+				</exec>
+				<echo message="Start performing testdriver build command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0001\build.log">
+					<arg line="build -p winscw -b udeb -s te_TestServerSuite"/>
+				</exec>
+				<echo message="Finished performing testdriver build command"/>
+				<echo message="Start performing testdriver run command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0001\run.log">
+					<arg line="run -p winscw -b udeb -s te_TestServerSuite"/>
+				</exec>
+				<echo message="Finished performing testdriver run command"/>
+				<echo message="Start performing testdriver clean command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0001\clean.log">
+					<arg line="clean"/>
+				</exec>
+				<echo message="Finished performing testdriver clean command"/>
+				<exec executable="${perl.path}\perl.exe" spawn="false" outputproperty="DT-TestDriver2-Clean-0001.repos_empty" output="output\DT-TestDriver2-Clean-0001\file_utility_repos.log">
+					<arg line="${file.checker} -local -dir -empty ${driver}\testdriver\repository"/>
+				</exec>
+				<exec executable="${perl.path}\perl.exe" spawn="false" outputproperty="DT-TestDriver2-Clean-0001.result_empty" output="output\DT-TestDriver2-Clean-0001\file_utility_result.log">
+					<arg line="${file.checker} -local -dir -empty ${driver}\testdriver\result"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-Clean-0001\clean.log" errormsg="missing clean.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Clean-0001\clean.log" regexp="(?i)testdriver finished with success" errormsg="testdriver build Command Failded" />
+				<assertpropertyequal property="DT-TestDriver2-Clean-0001.repos_empty" value="0"/>
+				<assertpropertyequal property="DT-TestDriver2-Clean-0001.result_empty" value="0"/>
+			</testcase>
+			<testcase name="DT-TestDriver2-Clean-0002" skip="false">
+				<mkdir dir="output\DT-TestDriver2-Clean-0002"/>
+				<echo message="clean testdriver result, repository and xml directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0002\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0002\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0002\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0002\cfg_work.log">
+					<arg line="config -i ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0002\cfg_transfer.log">
+					<arg line="config -t tcp:192.168.0.3:3000"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0002\cfg_tp.log">
+					<arg line="config --tp ${driver}\sample.tpkg"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0002\build.log">
+					<arg line="build -p winscw -s te_TestServerSuite"/>
+				</exec>
+				 <exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0002\packeage.log">
+					<arg line="package -p winscw -s te_TestServerSuite"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0002\cleanjobs.log">
+					<arg line="clean --jobs"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0002\cleanrunnumber.log">
+					<arg line="clean --runnumber"/>
+				</exec>
+				<delete dir="store"/>
+				<parallel>
+					<sequential>
+						<echo message="start master"/>
+						<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver2-Clean-0002\master.log">
+							<arg line="master"/>
+						</exec>
+					</sequential>
+					<sequential>
+						<sleep seconds="10"/>
+						<echo message="start client"/>
+						<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver2-Clean-0002\client.log">
+							<arg line="runremote"/>
+						</exec>
+					</sequential>
+					<sequential>
+						<sleep seconds="120"/>
+						<echo message="start clean --jobs"/>
+						<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0002\cleanjobs.log">
+							<arg line="clean --jobs"/>
+						</exec>
+					</sequential>
+					<sequential>
+						<sleep seconds="160"/>
+						<echo message="kill Test Driver(master)"/>
+						<exec executable="${perl.path}\perl.exe" output="output\DT-TestDriver2-Clean-0002\killtd.log">
+							<arg line="${process.killer}"/>
+						</exec>
+					</sequential>
+				</parallel>
+				<assertfileexist negative="true" file="${master.job.path}\1\TestResult.zip" errormsg="result.zip is not cleaned" />
+			</testcase>
+			<testcase name="DT-TestDriver2-Clean-0003">
+				<echo message="Test testdriver clean --repos command "/>
+				<mkdir dir="output\DT-TestDriver2-Clean-0003"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0003\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0003\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0003\cfg_result.log">
+					<arg line="config -c ${driver}\testdriver\result"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0003\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0003\cfg_repos.log">
+					<arg line="config --repos ${driver}\testdriver\repository"/>
+				</exec>
+				<echo message="Start performing testdriver build command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0003\build.log">
+					<arg line="build -p winscw -b udeb -s te_TestServerSuite"/>
+				</exec>
+				<echo message="Finished performing testdriver build command"/>
+				<echo message="Start performing testdriver clean command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0003\clean.log">
+					<arg line="clean --repos"/>
+				</exec>
+				<echo message="Finished performing testdriver clean command"/>
+				<exec executable="${perl.path}\perl.exe" spawn="false" outputproperty="DT-TestDriver2-Clean-0003.repos_empty" output="output\DT-TestDriver2-Clean-0003\file_utility_repos.log">
+					<arg line="${file.checker} -local -dir -empty ${driver}\testdriver\repository"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-Clean-0003\clean.log" errormsg="missing run.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Clean-0003\clean.log" regexp="(?i)testdriver finished with success" errormsg="testdriver clean --repos Failded" />
+				<assertpropertyequal property="DT-TestDriver2-Clean-0003.repos_empty" value="0" errormsg="Failed to clean repository"/>
+			</testcase>
+			<testcase name="DT-TestDriver2-Clean-0004">
+				<echo message="Test testdriver clean --reallyclean command "/>
+				<mkdir dir="output\DT-TestDriver2-Clean-0004"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0004\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0004\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0004\cfg_result.log">
+					<arg line="config -c ${driver}\testdriver\result"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0004\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0004\cfg_repos.log">
+					<arg line="config --repos ${driver}\testdriver\repository"/>
+				</exec>
+				<echo message="Start performing testdriver build command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0004\build.log">
+					<arg line="build -p winscw -b udeb -s te_TestServerSuite"/>
+				</exec>
+				<echo message="Finished performing testdriver build command"/>
+				<echo message="Start performing testdriver clean command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0004\clean.log">
+					<arg line="clean --reallyclean"/>
+				</exec>
+				<echo message="Finished performing testdriver clean --reallyclean command"/>
+				<exec executable="${perl.path}\perl.exe" spawn="false" outputproperty="DT-TestDriver2-Clean-0004.repos_empty" output="output\DT-TestDriver2-Clean-0004\file_util_repos.log">
+					<arg line="${file.checker} -local -dir -empty ${driver}\testdriver\repository"/>
+				</exec>
+				<exec executable="${perl.path}\perl.exe" spawn="false" outputproperty="DT-TestDriver2-Clean-0004.driver_existed" output="output\DT-TestDriver2-Clean-0004\file_util_driver.log">
+					<arg line="${file.checker} -local -file -regexp ${driver}\testdriver\xml .driver$"/>
+				</exec>
+				<exec executable="${perl.path}\perl.exe" spawn="false" outputproperty="DT-TestDriver2-Clean-0004.result_empty" output="output\DT-TestDriver2-Clean-0004\file_util_result.log">
+					<arg line="${file.checker} -local -dir -empty ${driver}\testdriver\result"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-Clean-0004\clean.log" errormsg="missing run.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Clean-0004\clean.log" regexp="(?i)testdriver finished with success" errormsg="testdriver clean --repos Failded" />
+				<assertpropertyequal property="DT-TestDriver2-Clean-0004.repos_empty" value="0" errormsg="Failed to clean testdriver repository"/>
+				<assertpropertyequal property="DT-TestDriver2-Clean-0004.driver_existed" value="0" errormsg="Failed to clean driver file from testdriver xmlroot path"/>
+				<assertpropertyequal property="DT-TestDriver2-Clean-0004.result_empty" value="0" errormsg="Failed to clean testdriver result path"/>
+			</testcase>
+			<testcase name="DT-TestDriver2-Clean-0005">
+				<echo message="Test testdriver clean --clear command "/>
+				<mkdir dir="output\DT-TestDriver2-Clean-0005"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0005\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0005\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0005\cfg_result.log">
+					<arg line="config -c ${driver}\testdriver\result"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0005\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0005\cfg_repos.log">
+					<arg line="config --repos ${driver}\testdriver\repository"/>
+				</exec>
+				<echo message="Start performing testdriver clean command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0005\clean.log">
+					<arg line="clean --clear"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0005\cfg.log">
+					<arg line="config"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-Clean-0005\clean.log" errormsg="missing clean.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Clean-0005\cfg.log" regexp="(?i)Preference\s+xmlRoot:\s+${testdriver.test.root}\\." errormsg="testdriver clean --clear Failded" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Clean-0005\cfg.log" regexp="(?i)Preference\s+sourceRoot:\s+${testdriver.test.root}\\." errormsg="testdriver clean --clear Failded" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Clean-0005\cfg.log" regexp="(?i)Preference\s+resultRoot:\s+${testdriver.test.root}\\.\\results" errormsg="testdriver clean --clear Failded" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Clean-0005\cfg.log" regexp="(?i)Preference\s+repositoryRoot:\s+${testdriver.test.root}\\.\\repository" errormsg="testdriver clean --clear Failded" />
+			</testcase>
+			<testcase name="DT-TestDriver2-Clean-0006">
+				<echo message="Test testdriver clean --stat command "/>
+				<mkdir dir="output\DT-TestDriver2-Clean-0006"/>
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0006\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<echo message="Start performing testdriver clean --stat command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0006\clean.log">
+					<arg line="clean --stat"/>
+				</exec>
+				<exec executable="${perl.path}\perl.exe" spawn="false" outputproperty="DT-TestDriver2-Clean-0006.work_empty" output="output\DT-TestDriver2-Clean-0006\file_util_work.log">
+					<arg line="${file.checker} -local -dir -empty c:\apps\stat\work"/>
+				</exec>
+				<echo message="Finished performing testdriver clean --stat command"/>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-Clean-0006\clean.log" errormsg="missing clean.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Clean-0006\clean.log" regexp="(?i)testdriver finished with success" errormsg="testdriver clean --stat Failded" />
+				<assertpropertyequal property="DT-TestDriver2-Clean-0006.work_empty" value="0" errormsg="Failed to clean stat work path"/>
+			</testcase>
+			<testcase name="DT-TestDriver2-Clean-0007">
+				<echo message="Test testdriver clean --runnumber command"/>
+				<mkdir dir="output\DT-TestDriver2-Clean-0007"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0007\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0007\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0007\cfg_result.log">
+					<arg line="config -c ${driver}\testdriver\result"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0007\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0007\cfg_repos.log">
+					<arg line="config --repos ${driver}\testdriver\repository"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0007\cfg_transport.log">
+					<arg line="config -t tcp"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0007\cfg_commdb.log">
+					<arg line="config --commdb OVERWRITE"/>
+				</exec>
+				<echo message="Start performing testdriver build command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0007\build.log">
+					<arg line="build -p winscw -b udeb -s te_TestServerSuite"/>
+				</exec>
+				<echo message="Finished performing testdriver build command"/>
+				<echo message="Start performing testdriver run command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0007\run.log">
+					<arg line="run -p winscw -b udeb -s te_TestServerSuite"/>
+				</exec>
+				<echo message="Finished performing testdriver run command"/>
+				<echo message="perform testdriver clean --runnumber command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0007\clean.log">
+					<arg line="clean --runnumber"/>
+				</exec>
+				<echo message="perform testdriver config command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0007\cfg.log">
+					<arg line="config"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-Clean-0007\clean.log" errormsg="missing clean.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Clean-0007\clean.log" regexp="(?i)testdriver finished with success" errormsg="testdriver clean --runnumber Failded" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Clean-0007\cfg.log" regexp="(?i)Preference runNumber:\s+0" errormsg="testdriver clean --runnumber Failded" />
+			</testcase>
+			<testcase name="DT-TestDriver2-Clean-0008">
+				<echo message="Test testdriver clean -c command"/>
+				<mkdir dir="output\DT-TestDriver2-Clean-0008"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0008\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0008\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0008\cfg_result.log">
+					<arg line="config -c ${driver}\testdriver\result"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0008\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0008\cfg_repos.log">
+					<arg line="config --repos ${driver}\testdriver\repository"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0008\cfg_transport.log">
+					<arg line="config -t tcp"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0008\cfg_commdb.log">
+					<arg line="config --commdb OVERWRITE"/>
+				</exec>
+				<echo message="Start performing testdriver build command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0008\build.log">
+					<arg line="build -p winscw -b udeb -s te_TestServerSuite"/>
+				</exec>
+				<echo message="Finished performing testdriver build command"/>
+				<echo message="Start performing testdriver run command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0008\run.log">
+					<arg line="run -p winscw -b udeb -s te_TestServerSuite"/>
+				</exec>
+				<echo message="Finished performing testdriver run command"/>
+				<echo message="perform testdriver clean -c command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0008\clean.log">
+					<arg line="clean -c"/>
+				</exec>
+				<exec executable="${perl.path}\perl.exe" spawn="false" outputproperty="DT-TestDriver2-Clean-0008.result_empty" output="output\DT-TestDriver2-Clean-0008\file_util_result.log">
+					<arg line="${file.checker} -local -dir -empty ${driver}\testdriver\result"/>
+				</exec>
+				<exec executable="${perl.path}\perl.exe" spawn="false" outputproperty="DT-TestDriver2-Clean-0008.tdlog_existed" output="output\DT-TestDriver2-Clean-0008\file_util_tdlog.log">
+					<arg line="${file.checker} -local -file -regexp ${driver}\tdep\test\systemtest testdriver\d+_\d+.log"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-Clean-0008\clean.log" errormsg="missing clean.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Clean-0008\clean.log" regexp="(?i)testdriver finished with success" errormsg="testdriver clean --runnumber Failded" />
+				<assertpropertyequal property="DT-TestDriver2-Clean-0008.result_empty" value="0" errormsg="Failed to clean result path"/>
+				<assertpropertyequal property="DT-TestDriver2-Clean-0008.tdlog_existed" value="0" errormsg="Failed to clean testdriver log"/>
+			</testcase>
+			<testcase name="DT-TestDriver2-Clean-0009">
+				<echo message="Test testdriver clean -x true command"/>
+				<mkdir dir="output\DT-TestDriver2-Clean-0009"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo file="${driver}\testdriver\xml\1.txt" append="false">this is a test</echo>
+				<echo file="${driver}\testdriver\xml\2.txt" append="false">this is a test</echo>
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0009\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0009\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0009\cfg_result.log">
+					<arg line="config -c ${driver}\testdriver\result"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0009\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0009\cfg_repos.log">
+					<arg line="config --repos ${driver}\testdriver\repository"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0009\cfg_transport.log">
+					<arg line="config -t tcp"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0009\cfg_commdb.log">
+					<arg line="config --commdb OVERWRITE"/>
+				</exec>
+				<echo message="perform testdriver clean -x true command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0009\clean.log">
+					<arg line="clean -x true"/>
+				</exec>
+				<exec executable="${perl.path}\perl.exe" spawn="false" outputproperty="DT-TestDriver2-Clean-0009.xml_empty" output="output\DT-TestDriver2-Clean-0009\file_util_xml.log">
+					<arg line="${file.checker} -local -dir -empty ${driver}\testdriver\xml"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-Clean-0009\clean.log" errormsg="missing clean.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Clean-0009\clean.log" regexp="(?i)testdriver finished with success" errormsg="testdriver clean -x true Failded" />
+				<assertpropertyequal property="DT-TestDriver2-Clean-0009.xml_empty" value="0" errormsg="Failed to clean xml root path"/>
+			</testcase>
+			<testcase name="DT-TestDriver2-Clean-0010">
+				<echo message="Test testdriver clean -x false command"/>
+				<mkdir dir="output\DT-TestDriver2-Clean-0010"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo file="${driver}\testdriver\xml\1.txt" append="false">this is a test</echo>
+				<echo file="${driver}\testdriver\xml\2.txt" append="false">this is a test</echo>
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0010\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0010\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0010\cfg_result.log">
+					<arg line="config -c ${driver}\testdriver\result"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0010\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0010\cfg_repos.log">
+					<arg line="config --repos ${driver}\testdriver\repository"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0010\cfg_transport.log">
+					<arg line="config -t tcp"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0010\cfg_commdb.log">
+					<arg line="config --commdb OVERWRITE"/>
+				</exec>
+				<echo message="perform testdriver clean -x false command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Clean-0010\clean.log">
+					<arg line="clean -x false"/>
+				</exec>
+				<exec executable="${perl.path}\perl.exe" spawn="false" outputproperty="DT-TestDriver2-Clean-0010.driver_existed" output="output\DT-TestDriver2-Clean-0010/file_util_driver.log">
+					<arg line="${file.checker} -local -file -regexp ${driver}\testdriver\xml .driver$"/>
+				</exec>
+				<exec executable="${perl.path}\perl.exe" spawn="false" outputproperty="DT-TestDriver2-Clean-0010.other_existed" output="output\DT-TestDriver2-Clean-0010/file_util_other.log">
+					<arg line="${file.checker} -local -file -regexp ${driver}\testdriver\xml .txt$"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-Clean-0010\clean.log" errormsg="missing clean.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Clean-0010\clean.log" regexp="(?i)testdriver finished with success" errormsg="testdriver clean -x false Failded" />
+				<assertpropertyequal property="DT-TestDriver2-Clean-0010.driver_existed" value="0" errormsg="Failed to clean driver file from xml root path"/>
+				<assertpropertyequal property="DT-TestDriver2-Clean-0010.other_existed" value="1" errormsg="Shouldn't delete other files from xml root path except driver file"/>
+			</testcase>
+			<testcase name="DT-TestDriver2-rbuild-0001">
+				<echo message="Test testdriver rbuild command"/>
+				<mkdir dir="output\DT-TestDriver2-rbuild-0001"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-rbuild-0001\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-rbuild-0001\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-rbuild-0001\cfg_result.log">
+					<arg line="config -c ${driver}\testdriver\result"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-rbuild-0001\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-rbuild-0001\cfg_repos.log">
+					<arg line="config --repos ${driver}\testdriver\repository"/>
+				</exec>
+				<echo message="Start performing testdriver build command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-rbuild-0001\build.log">
+					<arg line="build -p winscw -b udeb -s te_TestServerSuite"/>
+				</exec>
+				<echo message="Finished performing testdriver build command"/>
+				<echo message="Do testdriver clean --repos"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-rbuild-0001\build.log">
+					<arg line="clean --repos"/>
+				</exec>
+				<echo message="Start performing testdriver rbuild command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-rbuild-0001\rbuild.log">
+					<arg line="rbuild -p winscw -b udeb -s te_TestServerSuite"/>
+				</exec>
+				<echo message="Finished performing testdriver rbuild command"/>
+				<exec executable="${perl.path}\perl.exe" spawn="false" outputproperty="DT-TestDriver2-rbuild-0001.repos_empty" output="output\DT-TestDriver2-rbuild-0001\file_util_repos.log">
+					<arg line="${file.checker} -local -dir -empty ${driver}\testdriver\repository"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-rbuild-0001\rbuild.log" errormsg="missing rbuild.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-rbuild-0001\rbuild.log" regexp="(?i)testdriver finished with success" errormsg="testdriver rbuild Command Failded" />
+				<assertpropertyequal property="DT-TestDriver2-rbuild-0001.repos_empty" value="1" errormsg="Failed to create a TestDriver repository from a pre-built EPOC tree"/>
+			</testcase>
+			<testcase name="DT-TestDriver2-Print-0001">
+				<echo message="Test testdriver print command"/>
+				<mkdir dir="output\DT-TestDriver2-Print-0001"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Print-0001\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Print-0001\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Print-0001\cfg_result.log">
+					<arg line="config -c ${driver}\testdriver\result"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Print-0001\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Print-0001\cfg_repos.log">
+					<arg line="config --repos ${driver}\testdriver\repository"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Print-0001\cfg_entry.log">
+					<arg line="config -s te_TestServerSuite"/>
+				</exec>
+				<echo message="Do testdriver print"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Print-0001\print.log">
+					<arg line="print"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-Print-0001\print.log" errormsg="missing print.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Print-0001\print.log" regexp="(?i)testdriver\s+finished\s+with\s+success" errormsg="testdriver print Failded" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Print-0001\print.log" regexp="(?i)Visiting\s+Task:\s+sample/" errormsg="testdriver print Command Failded" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Print-0001\print.log" regexp="(?i)Visiting\s+Task:\s+sample/te_TestServerSuite/" errormsg="testdriver print Command Failded" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Print-0001\print.log" regexp="(?i)Visiting\s+Task:\s+sample/te_TestServerSuite/te_TestServerTest/" errormsg="testdriver print Command Failded" />
+			</testcase>
+			<testcase name="DT-TestDriver2-Print-0002">
+				<echo message="Test testdriver print command"/>
+				<mkdir dir="output\DT-TestDriver2-Print-0002"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Print-0002\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Print-0002\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Print-0002\cfg_result.log">
+					<arg line="config -c ${driver}\testdriver\result"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Print-0002\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Print-0002\cfg_repos.log">
+					<arg line="config --repos ${driver}\testdriver\repository"/>
+				</exec>
+				<echo message="Do testdriver print"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Print-0002\print.log">
+					<arg line="print -s sample.te_TestServerSuite"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-Print-0002\print.log" errormsg="missing print.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Print-0002\print.log" regexp="(?i)testdriver\s+finished\s+with\s+success" errormsg="testdriver print -s Failded" />				
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Print-0002\print.log" regexp="(?i)Visiting\s+Task:\s+sample/" errormsg="testdriver print Command Failded" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Print-0002\print.log" regexp="(?i)Visiting\s+Task:\s+sample/te_TestServerSuite/" errormsg="testdriver print Command Failded" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Print-0002\print.log" regexp="(?i)Visiting\s+Task:\s+sample/te_TestServerSuite/te_TestServerTest/" errormsg="testdriver print Command Failded" />
+			</testcase>
+			<testcase name="DT-TestDriver2-BuildPkgTest-0001">
+				<echo message="Test testdriver print command"/>
+				<mkdir dir="output\DT-TestDriver2-BuildPkgTest-0001"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-BuildPkgTest-0001\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-BuildPkgTest-0001\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-BuildPkgTest-0001\cfg_result.log">
+					<arg line="config -c ${driver}\testdriver\result"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-BuildPkgTest-0001\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-BuildPkgTest-0001\cfg_repos.log">
+					<arg line="config --repos ${driver}\testdriver\repository"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-BuildPkgTest-0001\cfg_pkg.log">
+					<arg line="config --tp ${driver}\testdriver\repository\sample.tpkg"/>
+				</exec>
+				<echo message="Start performing testdriver build command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-BuildPkgTest-0001\build.log">
+					<arg line="build -p winscw -b udeb -s te_TestServerSuite"/>
+				</exec>
+				<echo message="Finished performing testdriver build command"/>
+				<echo message="Do testdriver package command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-BuildPkgTest-0001\package.log">
+					<arg line="package -p winscw -b udeb -s te_TestServerSuite"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-BuildPkgTest-0001\package.log" errormsg="missing package.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-BuildPkgTest-0001\package.log" regexp="(?i)testdriver\s+finished\s+with\s+success" errormsg="testdriver package Failded" />
+				<assertfileexist file="${driver}\testdriver\repository\sample.tpkg" errormsg="TestDriver Failed to create a test package" />				
+			</testcase>
+			<testcase name="DT-TestDriver2-InstallPackage-0001">
+				<echo message="Test testdriver print command"/>
+				<mkdir dir="output\DT-TestDriver2-InstallPackage-0001"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-InstallPackage-0001\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-InstallPackage-0001\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-InstallPackage-0001\cfg_result.log">
+					<arg line="config -c ${driver}\testdriver\result"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-InstallPackage-0001\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-InstallPackage-0001\cfg_repos.log">
+					<arg line="config --repos ${driver}\testdriver\repository"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-InstallPackage-0001\cfg_pkg.log">
+					<arg line="config --tp ${driver}\testdriver\export\sample.tpkg"/>
+				</exec>
+				<echo message="Start performing testdriver build command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-InstallPackage-0001\build.log">
+					<arg line="build -p winscw -b udeb -s te_TestServerSuite"/>
+				</exec>
+				<echo message="Finished performing testdriver build command"/>
+				<echo message="Do testdriver package command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-InstallPackage-0001\package.log">
+					<arg line="package -p winscw -b udeb -s te_TestServerSuite"/>
+				</exec>
+				<echo message="Do testdriver clean --repos"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-InstallPackage-0001\clean_repos.log">
+					<arg line="clean --repos"/>
+				</exec>
+				<echo message="Start performing testdriver installpackage command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-InstallPackage-0001\installpackage.log">
+					<arg line="installpackage --tp ${driver}\testdriver\export\sample.tpkg"/>
+				</exec>
+				<echo message="Finished performing testdriver installpackage command"/>
+				<exec executable="${perl.path}\perl.exe" spawn="false" outputproperty="DT-TestDriver2-InstallPackage-0001.repos_empty" output="output\DT-TestDriver2-InstallPackage-0001\file_util_repos.log">
+					<arg line="${file.checker} -local -dir -empty ${driver}\testdriver\repository"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver2-InstallPackage-0001\installpackage.log" errormsg="missing installpackage.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-InstallPackage-0001\installpackage.log" regexp="(?i)testdriver\s+finished\s+with\s+success" errormsg="testdriver package Failded" />
+				<assertfileexist file="${driver}\testdriver\export\sample.tpkg" errormsg="TestDriver Failed to create a test package" />	
+				<assertpropertyequal property="DT-TestDriver2-InstallPackage-0001.repos_empty" value="1" errormsg="Failed to create a TestDriver repository from testdriver package file"/>				
+			</testcase>
+			<testcase name="TD-TestDriver-HelpCmmd-0001">
+				<mkdir dir="output\TD-TestDriver-HelpCmmd-0001"/>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\TD-TestDriver-HelpCmmd-0001\help_ver.log">
+					<arg line="help version"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\TD-TestDriver-HelpCmmd-0001\help_build.log">
+					<arg line="help build"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\TD-TestDriver-HelpCmmd-0001\help_cancel.log">
+					<arg line="help cancel"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\TD-TestDriver-HelpCmmd-0001\help_cleanremote.log">
+					<arg line="help cleanremote"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\TD-TestDriver-HelpCmmd-0001\help_config.log">
+					<arg line="help config"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\TD-TestDriver-HelpCmmd-0001\help_clean.log">
+					<arg line="help clean"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\TD-TestDriver-HelpCmmd-0001\help_emulatorpackage.log">
+					<arg line="help emulatorpackage"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\TD-TestDriver-HelpCmmd-0001\help_import.log">
+					<arg line="help import"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\TD-TestDriver-HelpCmmd-0001\help_install.log">
+					<arg line="help install"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\TD-TestDriver-HelpCmmd-0001\help_installpkg.log">
+					<arg line="help installpackage"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\TD-TestDriver-HelpCmmd-0001\help_jobstatus.log">
+					<arg line="help jobstatus"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\TD-TestDriver-HelpCmmd-0001\help_master.log">
+					<arg line="help master"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\TD-TestDriver-HelpCmmd-0001\help_masterstatus.log">
+					<arg line="help masterstatus"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\TD-TestDriver-HelpCmmd-0001\help_package.log">
+					<arg line="help package"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\TD-TestDriver-HelpCmmd-0001\help_print.log">
+					<arg line="help print"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\TD-TestDriver-HelpCmmd-0001\help_rbuild.log">
+					<arg line="help rbuild"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\TD-TestDriver-HelpCmmd-0001\help_results.log">
+					<arg line="help results"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\TD-TestDriver-HelpCmmd-0001\help_run.log">
+					<arg line="help run"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\TD-TestDriver-HelpCmmd-0001\help_runremote.log">
+					<arg line="help runremote"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\TD-TestDriver-HelpCmmd-0001\help_resultpath.log">
+					<arg line="help resultpath"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd"   output="output\TD-TestDriver-HelpCmmd-0001\help_validate.log">
+					<arg line="help validate"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_ver.log" errormsg="missing help_ver.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_ver.log" regexp="(?i)testdriver\s+finished\s+with\s+success" errormsg="Failed to get helping information of version" />
+				<assertfileexist file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_build.log" errormsg="missing help_build.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_build.log" regexp="(?i)testdriver\s+finished\s+with\s+success" errormsg="Failed to get helping information of build" />
+				<assertfileexist file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_cancel.log" errormsg="missing help_cancel.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_cancel.log" regexp="(?i)testdriver\s+finished\s+with\s+success" errormsg="Failed to get helping information of cancel" />
+				<assertfileexist file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_cleanremote.log" errormsg="missing help_cleanremote.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_cleanremote.log" regexp="(?i)testdriver\s+finished\s+with\s+success" errormsg="Failed to get helping information of cleanremote" />
+				<assertfileexist file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_config.log" errormsg="missing help_config.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_config.log" regexp="(?i)testdriver\s+finished\s+with\s+success" errormsg="Failed to get helping information of config" />
+				<assertfileexist file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_clean.log" errormsg="missing help_clean.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_clean.log" regexp="(?i)testdriver\s+finished\s+with\s+success" errormsg="Failed to get helping information of clean" />
+				<assertfileexist file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_emulatorpackage.log" errormsg="missing help_emulatorpackage.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_emulatorpackage.log" regexp="(?i)testdriver\s+finished\s+with\s+success" errormsg="Failed to get helping information of emulatorpackage" />
+				<assertfileexist file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_import.log" errormsg="missing help_import.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_import.log" regexp="(?i)testdriver\s+finished\s+with\s+success" errormsg="Failed to get helping information of import" />
+				<assertfileexist file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_install.log" errormsg="missing help_install.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_install.log" regexp="(?i)testdriver\s+finished\s+with\s+success" errormsg="Failed to get helping information of install" />
+				<assertfileexist file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_installpkg.log" errormsg="missing help_installpkg.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_installpkg.log" regexp="(?i)testdriver\s+finished\s+with\s+success" errormsg="Failed to get helping information of installpackage" />
+				<assertfileexist file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_jobstatus.log" errormsg="missing help_jobstatus.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_jobstatus.log" regexp="(?i)testdriver\s+finished\s+with\s+success" errormsg="Failed to get helping information of jobstatus" />
+				<assertfileexist file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_master.log" errormsg="missing help_master.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_master.log" regexp="(?i)testdriver\s+finished\s+with\s+success" errormsg="Failed to get helping information of master" />
+				<assertfileexist file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_masterstatus.log" errormsg="missing help_masterstatus.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_masterstatus.log" regexp="(?i)testdriver\s+finished\s+with\s+success" errormsg="Failed to get helping information of masterstatus" />
+				<assertfileexist file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_package.log" errormsg="missing help_package.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_package.log" regexp="(?i)testdriver\s+finished\s+with\s+success" errormsg="Failed to get helping information of package" />
+				<assertfileexist file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_print.log" errormsg="missing help_print.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_print.log" regexp="(?i)testdriver\s+finished\s+with\s+success" errormsg="Failed to get helping information of print" />	
+				<assertfileexist file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_rbuild.log" errormsg="missing help_rbuild.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_rbuild.log" regexp="(?i)testdriver\s+finished\s+with\s+success" errormsg="Failed to get helping information of rbuild" />	
+				<assertfileexist file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_results.log" errormsg="missing help_results.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_results.log" regexp="(?i)testdriver\s+finished\s+with\s+success" errormsg="Failed to get helping information of results" />	
+				<assertfileexist file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_run.log" errormsg="missing help_run.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_run.log" regexp="(?i)testdriver\s+finished\s+with\s+success" errormsg="Failed to get helping information of run" />	
+				<assertfileexist file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_runremote.log" errormsg="missing help_runremote.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_runremote.log" regexp="(?i)testdriver\s+finished\s+with\s+success" errormsg="Failed to get helping information of runremote" />
+				<assertfileexist file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_resultpath.log" errormsg="missing help_resultpath.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_resultpath.log" regexp="(?i)testdriver\s+finished\s+with\s+success" errormsg="Failed to get helping information of resultpath" />
+				<assertfileexist file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_validate.log" errormsg="missing help_validate.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\TD-TestDriver-HelpCmmd-0001\help_validate.log" regexp="(?i)testdriver\s+finished\s+with\s+success" errormsg="Failed to get helping information of validate" />				
+			</testcase>
+			<testcase name="DT-TestDriver2-Cancel-0002" skip="false">
+				<mkdir dir="output\DT-TestDriver2-Cancel-0002"/>
+				<echo message="clean testdriver result, repository and xml directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<echo message="delete store dir"/>
+				<delete dir="store"/>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Cancel-0002\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Cancel-0002\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Cancel-0002\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Cancel-0002\cfg_work.log">
+					<arg line="config -i ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Cancel-0002\cfg_transfer.log">
+					<arg line="config -t tcp:192.168.0.3:3000"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Cancel-0002\cfg_tp.log">
+					<arg line="config --tp ${driver}\sample.tpkg"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Cancel-0002\build.log">
+					<arg line="build -p winscw -s te_TestServerSuite"/>
+				</exec>
+				 <exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Cancel-0002\packeage.log">
+					<arg line="package -p winscw -s te_TestServerSuite"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Cancel-0002\cleanjobs.log">
+					<arg line="clean --jobs"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Cancel-0002\cleanrunnumber.log">
+					<arg line="clean --runnumber"/>
+				</exec>
+				<parallel>
+					<sequential>
+						<echo message="start master"/>
+						<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver2-Cancel-0002\master.log">
+							<arg line="master"/>
+						</exec>
+					</sequential>
+					<sequential>
+						<sleep seconds="10"/>
+						<echo message="start client"/>
+						<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver2-Cancel-0002\client1.log">
+							<arg line="runremote"/>
+						</exec>
+						<echo message="start client2 at once"/>
+						<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver2-Cancel-0002\client2.log">
+							<arg line="runremote"/>
+						</exec>
+						<echo message="cancel job2"/>
+						<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver2-Cancel-0002\cancel.log">
+							<arg line="cancel -j 2"/>
+						</exec>
+					</sequential>
+					<sequential>
+						<sleep seconds="180"/>
+						<echo message="kill Test Driver(master)"/>
+						<exec executable="${perl.path}\perl.exe" output="output\DT-TestDriver2-Cancel-0002\killtd.log">
+							<arg line="${process.killer}"/>
+						</exec>
+					</sequential>
+				</parallel>
+				<assertfileexist file="${master.job.path}\1\TestResult.zip" errormsg="missing result.zip" />
+				<assertfileexist negative="true" file="${master.job.path}\2\TestResult.zip" errormsg="job2 is not expected to run" />
+			</testcase>
+			<testcase name="DT-TestDriver2-Master-0001" skip="false">
+				<mkdir dir="output\DT-TestDriver2-Master-0001"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Master-0001\cleanjobs.log">
+					<arg line="clean --jobs"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Master-0001\cleanrunnumber.log">
+					<arg line="clean --runnumber"/>
+				</exec>
+				<delete dir="store"/>
+				<parallel>
+					<sequential>
+						<echo message="start master"/>
+						<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver2-Master-0001\master.log">
+							<arg line="master"/>
+						</exec>
+					</sequential>
+					<sequential>
+						<sleep seconds="10"/>
+						<echo message="kill Test Driver(master)"/>
+						<exec executable="${perl.path}\perl.exe" output="output\DT-TestDriver2-Master-0001\killtd.log">
+							<arg line="${process.killer}"/>
+						</exec>
+					</sequential>
+				</parallel>
+				<assertfilegrep negative="true" file="${testdriver.test.root}\output\DT-TestDriver2-Master-0001\master.log" regexp="Exception" errormsg="Exception found"/>
+			</testcase>
+			<testcase name="DT-TestDriver2-MasterStatus-0001" skip="false">
+				<mkdir dir="output\DT-TestDriver2-MasterStatus-0001"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-MasterStatus-0001\cleanjobs.log">
+					<arg line="clean --jobs"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-MasterStatus-0001\cleanrunnumber.log">
+					<arg line="clean --runnumber"/>
+				</exec>
+				<delete dir="store"/>
+				<parallel>
+					<sequential>
+						<echo message="start master"/>
+						<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver2-MasterStatus-0001\master.log">
+							<arg line="master"/>
+						</exec>
+					</sequential>
+					<sequential>
+						<sleep seconds="10"/>
+						<echo message="get masterststus"/>
+						<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver2-MasterStatus-0001\client.log">
+							<arg line="masterstatus"/>
+						</exec>
+					</sequential>
+					<sequential>
+						<sleep seconds="30"/>
+						<echo message="kill Test Driver(master)"/>
+						<exec executable="${perl.path}\perl.exe" output="output\DT-TestDriver2-MasterStatus-0001\killtd.log">
+							<arg line="${process.killer}"/>
+						</exec>
+					</sequential>
+				</parallel>
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-MasterStatus-0001\client.log" regexp="no jobs waiting in the queue" errormsg="Exception found"/>
+			</testcase>
+			<testcase name="DT-TestDriver2-MasterStatus-0003" skip="false">
+				<mkdir dir="output\DT-TestDriver2-MasterStatus-0003"/>
+				<echo message="clean testdriver result, repository and xml directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<delete dir="store"/>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-MasterStatus-0003\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-MasterStatus-0003\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-MasterStatus-0003\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-MasterStatus-0003\cfg_work.log">
+					<arg line="config -i ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-MasterStatus-0003\cfg_transfer.log">
+					<arg line="config -t tcp:192.168.0.3:3000"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-MasterStatus-0003\cfg_tp.log">
+					<arg line="config --tp ${driver}\sample.tpkg"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-MasterStatus-0003\build.log">
+					<arg line="build -p winscw -s te_TestServerSuite"/>
+				</exec>
+				 <exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-MasterStatus-0003\packeage.log">
+					<arg line="package -p winscw -s te_TestServerSuite"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-MasterStatus-0003\cleanrunnumber.log">
+					<arg line="clean --runnumber"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-MasterStatus-0003\cleanjobs.log">
+					<arg line="clean --jobs"/>
+				</exec>
+				<parallel>
+					<sequential>
+						<echo message="start master"/>
+						<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver2-MasterStatus-0003\master.log">
+							<arg line="master"/>
+						</exec>
+					</sequential>
+					<sequential>
+						<sleep seconds="10"/>
+						<echo message="start client"/>
+						<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver2-MasterStatus-0003\client.log">
+							<arg line="runremote"/>
+						</exec>
+					</sequential>
+					<sequential>
+						<sleep seconds="20"/>
+						<echo message="get masterstatus"/>
+						<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver2-MasterStatus-0003\client2.log">
+							<arg line="masterstatus"/>
+						</exec>
+					</sequential>
+					<sequential>
+						<sleep seconds="150"/>
+						<echo message="kill Test Driver(master)"/>
+						<exec executable="${perl.path}\perl.exe" output="output\DT-TestDriver2-MasterStatus-0003\killtd.log">
+							<arg line="${process.killer}"/>
+						</exec>
+					</sequential>
+				</parallel>
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-MasterStatus-0003\client2.log" regexp="is currently busy" errormsg="Exception found"/>
+			</testcase>
+			<testcase name="DT-TestDriver2-Results-0001" skip="false">
+				<mkdir dir="output\DT-TestDriver2-Results-0001"/>
+				<echo message="clean testdriver result, repository and xml directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Results-0001\cleanjobs.log">
+					<arg line="clean --jobs"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Results-0001\cleanrunnumber.log">
+					<arg line="clean --runnumber"/>
+				</exec>
+				<delete dir="store"/>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Results-0001\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Results-0001\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Results-0001\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Results-0001\cfg_work.log">
+					<arg line="config -i ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Results-0001\cfg_transfer.log">
+					<arg line="config -t tcp:192.168.0.3:3000"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Results-0001\cfg_tp.log">
+					<arg line="config --tp ${driver}\sample.tpkg"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Results-0001\build.log">
+					<arg line="build -p winscw -s te_TestServerSuite"/>
+				</exec>
+				 <exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Results-0001\packeage.log">
+					<arg line="package -p winscw -s te_TestServerSuite"/>
+				</exec>
+				<parallel>
+					<sequential>
+						<echo message="start master"/>
+						<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver2-Results-0001\master.log">
+							<arg line="master"/>
+						</exec>
+					</sequential>
+					<sequential>
+						<sleep seconds="10"/>
+						<echo message="start client"/>
+						<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver2-Results-0001\client.log">
+							<arg line="runremote"/>
+						</exec>
+					</sequential>
+					<sequential>
+						<sleep seconds="120"/>
+						<echo message="get result"/>
+						<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver2-Results-0001\result.log">
+							<arg line="results -j 1"/>
+						</exec>
+					</sequential>
+					<sequential>
+						<sleep seconds="160"/>
+						<echo message="kill Test Driver(master)"/>
+						<exec executable="${perl.path}\perl.exe" output="output\DT-TestDriver2-Results-0001\killtd.log">
+							<arg line="${process.killer}"/>
+						</exec>
+					</sequential>
+				</parallel>
+				<assertfileexist file="${master.job.path}\1\TestResult.zip" errormsg="missing result.zip" />
+			</testcase>
+			<testcase name="DT-TestDriver2-Results-0003" skip="false">
+				<mkdir dir="output\DT-TestDriver2-Results-0003"/>
+				<echo message="clean testdriver result, repository and xml directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Results-0003\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Results-0003\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Results-0003\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Results-0003\cfg_work.log">
+					<arg line="config -i ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Results-0003\cfg_transfer.log">
+					<arg line="config -t tcp:192.168.0.3:3000"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Results-0003\cfg_tp.log">
+					<arg line="config --tp ${driver}\sample.tpkg"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Results-0003\build.log">
+					<arg line="build -p winscw -s te_TestServerSuite"/>
+				</exec>
+				 <exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Results-0003\packeage.log">
+					<arg line="package -p winscw -s te_TestServerSuite"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Results-0003\cleanjobs.log">
+					<arg line="clean --jobs"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Results-0003\cleanrunnumber.log">
+					<arg line="clean --runnumber"/>
+				</exec>
+				<delete dir="store"/>
+				<parallel>
+					<sequential>
+						<echo message="start master"/>
+						<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver2-Results-0003\master.log">
+							<arg line="master"/>
+						</exec>
+					</sequential>
+					<sequential>
+						<sleep seconds="10"/>
+						<echo message="start client"/>
+						<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver2-Results-0003\client.log">
+							<arg line="runremote"/>
+						</exec>
+					</sequential>
+					<sequential>
+						<sleep seconds="120"/>
+						<echo message="get result"/>
+						<mkdir dir="${master.job.path}1\tmp"/>
+						<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver2-Results-0003\result.log">
+							<arg line="results -j 1 -c ${master.job.path}\1\tmp"/>
+						</exec>
+					</sequential>
+					<sequential>
+						<sleep seconds="160"/>
+						<echo message="kill Test Driver(master)"/>
+						<exec executable="${perl.path}\perl.exe" output="output\DT-TestDriver2-Results-0003\killtd.log">
+							<arg line="${process.killer}"/>
+						</exec>
+					</sequential>
+				</parallel>
+				<assertfileexist file="${master.job.path}\1\tmp\TestResult.zip" errormsg="missing result.zip" />
+				<delete dir="{master.job.path}\1\tmp" />
+			</testcase>
+			<testcase name="DT-TestDriver2-RunRemote-0007" skip="false">
+				<mkdir dir="output\DT-TestDriver2-RunRemote-0007"/>
+				<echo message="clean testdriver result, repository and xml directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunRemote-0007\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunRemote-0007\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunRemote-0007\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunRemote-0007\cfg_work.log">
+					<arg line="config -i ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunRemote-0007\cfg_transfer.log">
+					<arg line="config -t tcp:192.168.0.3:3000"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunRemote-0007\cfg_tp.log">
+					<arg line="config --tp ${driver}\sample.tpkg"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunRemote-0007\build.log">
+					<arg line="build -p winscw -s te_TestServerSuite"/>
+				</exec>
+				 <exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunRemote-0007\packeage.log">
+					<arg line="package -p winscw -s te_TestServerSuite"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunRemote-0007\cleanjobs.log">
+					<arg line="clean --jobs"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunRemote-0007\cleanrunnumber.log">
+					<arg line="clean --runnumber"/>
+				</exec>
+				<delete dir="store"/>
+				<parallel>
+					<sequential>
+						<echo message="start master"/>
+						<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver2-RunRemote-0007\master.log">
+							<arg line="master"/>
+						</exec>
+					</sequential>
+					<sequential>
+						<sleep seconds="10"/>
+						<echo message="start client"/>
+						<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver2-RunRemote-0007\client.log">
+							<arg line="runremote -m async"/>
+						</exec>
+					</sequential>
+					<sequential>
+						<sleep seconds="160"/>
+						<echo message="kill Test Driver(master)"/>
+						<exec executable="${perl.path}\perl.exe" output="output\DT-TestDriver2-RunRemote-0007\killtd.log">
+							<arg line="${process.killer}"/>
+						</exec>
+					</sequential>
+				</parallel>
+				<assertfileexist file="${master.job.path}\1\TestResult.zip" errormsg="missing result.zip" />
+			</testcase>
+			<testcase name="DT-TestDriver2-RunRemote-0008" skip="false">
+				<mkdir dir="output\DT-TestDriver2-RunRemote-0008"/>
+				<echo message="clean testdriver result, repository and xml directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\sample_proj_tef\group\sample.driver" todir="${driver}\testdriver\xml" />
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunRemote-0008\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunRemote-0008\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunRemote-0008\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\sample_proj_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunRemote-0008\cfg_work.log">
+					<arg line="config -i ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunRemote-0008\cfg_transfer.log">
+					<arg line="config -t tcp:192.168.0.3:3000"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunRemote-0008\cfg_tp.log">
+					<arg line="config --tp ${driver}\sample.tpkg"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunRemote-0008\build.log">
+					<arg line="build -p winscw -s te_TestServerSuite"/>
+				</exec>
+				 <exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunRemote-0008\packeage.log">
+					<arg line="package -p winscw -s te_TestServerSuite"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunRemote-0008\cleanjobs.log">
+					<arg line="clean --jobs"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RunRemote-0008\cleanrunnumber.log">
+					<arg line="clean --runnumber"/>
+				</exec>
+				<delete dir="store"/>
+				<parallel>
+					<sequential>
+						<echo message="start master"/>
+						<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver2-RunRemote-0008\master.log">
+							<arg line="master"/>
+						</exec>
+					</sequential>
+					<sequential>
+						<sleep seconds="10"/>
+						<echo message="start client"/>
+						<exec vmlauncher="false" executable="testdriver.cmd"   output="output\DT-TestDriver2-RunRemote-0008\client.log">
+							<arg line="runremote -m sync"/>
+						</exec>
+					</sequential>
+					<sequential>
+						<sleep seconds="160"/>
+						<echo message="kill Test Driver(master)"/>
+						<exec executable="${perl.path}\perl.exe" output="output\DT-TestDriver2-RunRemote-0008\killtd.log">
+							<arg line="${process.killer}"/>
+						</exec>
+					</sequential>
+				</parallel>
+				<assertfileexist file="${master.job.path}\1\TestResult.zip" errormsg="missing result.zip" />
+			</testcase>
+			<testcase name="DT-TestDriver-BaseConfig-0017">
+				<mkdir dir="output\DT-TestDriver-BaseConfig-0017"/>
+				<echo message="Do necessary testdriver configuration"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver-BaseConfig-0017\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<echo message="Test testdriver config --import command"/>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver-BaseConfig-0017\cfg_import.log">
+					<arg line="config --import ${testdriver.test.root}\tdconfig.xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver-BaseConfig-0017\cfg_epoc.log">
+					<arg line="config -e ${driver}\"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver-BaseConfig-0017\cfg.log">
+					<arg line="config"/>
+				</exec>
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0017\cfg_import.log" errormsg="missing cfg_import.log" />
+				<assertfileexist file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0017\cfg.log" errormsg="missing config.log" />
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver-BaseConfig-0017\cfg.log" regexp="(?i)transport:\s+usb1$" errormsg="Failed to import testdriver configuration from xml file" />
+			</testcase>
+			<testcase name="DT-TestDriver2-Driver-0001">
+				<echo message="Test testdriver driver syntax test"/>
+				<mkdir dir="output\DT-TestDriver2-Driver-0001"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\driverfiles\allsyntax.driver" todir="${driver}\testdriver\xml" />
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Driver-0001\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Driver-0001\cfg_xml.log">
+					<arg line="config -s te_TestServerSuite"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Driver-0001\cfg_platform.log">
+					<arg line="config -p winscw"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Driver-0001\run.log">
+					<arg value="build"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Driver-0001\run.log">
+					<arg value="run -p winscw"/>
+				</exec>
+				<echo message="Finished performing testdriver run command"/>
+				<assertfileexist file="c:\tdconfig.xml.fromdevice" errormsg="should transfer file from device" />
+				<delete file="c:\tdconfig.xml.fromdevice" />
+			</testcase>
+			<testcase name="DT-TestDriver2-Driver-0002">
+				<echo message="Test testdriver multiple tasks in driver"/>
+				<mkdir dir="output\DT-TestDriver2-Driver-0002"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\driverfiles\multitasks.driver" todir="${driver}\testdriver\xml" />
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Driver-0002\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Driver-0002\cfg_xml.log">
+					<arg line="config -s te_TestServerSuite"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Driver-0002\run.log">
+					<arg value="build"/>
+				</exec>
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-Driver-0002\run.log" regexp="multitasktest" errormsg="echo command output not foundd"/>
+				<echo message="Finished performing testdriver run command"/>
+			</testcase>
+			<testcase name="DT-TestDriver2-Flash-0001">
+				<echo message="Test testdriver flashrom"/>
+				<mkdir dir="output\DT-TestDriver2-Flash-0001"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\driverfiles\reboot.driver" todir="${driver}\testdriver\xml" />
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Flash-0001\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Flash-0001\cfg_xml.log">
+					<arg line="config -s te_TestServerSuite"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Flash-0001\run.log">
+					<arg value="build"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-Flash-0001\run.log">
+					<arg value="run -p winscw"/>
+				</exec>
+				<echo message="Finished performing testdriver run command"/>
+			</testcase>
+            <testcase name="DT-TestDriver2-RTESTTEF-0001">
+				<echo message="Test rdeb build for RTEST and TEF code"/>
+				<mkdir dir="output\DT-TestDriver2-RTESTTEF-0001"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\rtest_tef\group\rtesttef.driver" todir="${driver}\testdriver\xml" />
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RTESTTEF-0001\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RTESTTEF-0001\cfg_xml.log">
+					<arg line="config -s demo"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RTESTTEF-0001\cfg_xml.log">
+					<arg line="config --bldmake ON"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RTESTTEF-0001\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\rtest_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RTESTTEF-0001\run.log">
+					<arg line="build -p winscw -b udeb"/>
+				</exec>
+				<assertfileexist file="${driver}\testdriver\repository\${buildnum}\winscw\udeb\rtesttef\demo\legacytestpass.exe" errormsg="should built rtest exe" />
+				<assertfileexist file="${driver}\testdriver\repository\${buildnum}\winscw\udeb\rtesttef\demo\sampleserver.exe" errormsg="should built tef exe" />
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RTESTTEF-0001\run.log">
+					<arg line="build -p armv5 -b udeb"/>
+				</exec>
+				<assertfileexist file="${driver}\testdriver\repository\${buildnum}\armv5\udeb\rtesttef\demo\legacytestpass.exe" errormsg="should built rtest exe" />
+				<assertfileexist file="${driver}\testdriver\repository\${buildnum}\armv5\udeb\rtesttef\demo\sampleserver.exe" errormsg="should built tef exe" />
+				<echo message="Finished performing testdriver run command"/>
+			</testcase>
+			<testcase name="DT-TestDriver2-RTESTTEF-0002">
+				<echo message="Test release build for RTEST and TEF code"/>
+				<mkdir dir="output\DT-TestDriver2-RTESTTEF-0002"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\rtest_tef\group\rtesttef.driver" todir="${driver}\testdriver\xml" />
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RTESTTEF-0002\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RTESTTEF-0002\cfg_xml.log">
+					<arg line="config -s demo"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RTESTTEF-0002\cfg_xml.log">
+					<arg line="config --bldmake ON"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RTESTTEF-0002\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\rtest_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RTESTTEF-0002\run.log">
+					<arg line="build -p winscw -b urel"/>
+				</exec>
+				<assertfileexist file="${driver}\testdriver\repository\${buildnum}\winscw\urel\rtesttef\demo\legacytestpass.exe" errormsg="should built rtest exe" />
+				<assertfileexist file="${driver}\testdriver\repository\${buildnum}\winscw\urel\rtesttef\demo\sampleserver.exe" errormsg="should built tef exe" />
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RTESTTEF-0002\run.log">
+					<arg line="build -p armv5 -b urel"/>
+				</exec>
+				<assertfileexist file="${driver}\testdriver\repository\${buildnum}\armv5\urel\rtesttef\demo\legacytestpass.exe" errormsg="should built rtest exe" />
+				<assertfileexist file="${driver}\testdriver\repository\${buildnum}\armv5\urel\rtesttef\demo\sampleserver.exe" errormsg="should built tef exe" />
+				<echo message="Finished performing testdriver run command"/>
+			</testcase>
+			<testcase name="DT-TestDriver2-RTESTTEF-0003">
+				<echo message="Test run rdebug for RTEST and TEF"/>
+				<mkdir dir="output\DT-TestDriver2-RTESTTEF-0003"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\rtest_tef\group\rtesttef.driver" todir="${driver}\testdriver\xml" />
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RTESTTEF-0003\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RTESTTEF-0003\cfg_xml.log">
+					<arg line="config -s demo"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RTESTTEF-0003\cfg_xml.log">
+					<arg line="config --bldmake ON"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RTESTTEF-0003\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\rtest_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RTESTTEF-0003\run.log">
+					<arg line="build -b udeb -p winscw"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RTESTTEF-0003\run.log">
+					<arg line="run -p winscw"/>
+				</exec>
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-RTESTTEF-0003\run.log" regexp="(?i)testdriver finished with success" errormsg="testdriver run rtesttef Command Failded" />
+				<echo message="Finished performing testdriver run command"/>
+			</testcase>
+			<testcase name="DT-TestDriver2-RTESTTEF-0004">
+				<echo message="Test run urel for RTEST and TEF"/>
+				<mkdir dir="output\DT-TestDriver2-RTESTTEF-0004"/>
+				<echo message="clean testdriver result and repository directory"/>
+				<delete includeemptydirs="true">
+					<fileset dir="${driver}\testdriver\result" includes="**/*"/>
+					<fileset dir="${driver}\testdriver\repository" includes="**/*"/>
+				</delete>
+				<echo message="Clean xml root path"/>
+				<delete>
+					<fileset dir="${driver}\testdriver\xml" includes="*.driver"/>
+				</delete>
+				<copy file="${testdriver.test.root}\testdata\rtest_tef\group\rtesttef.driver" todir="${driver}\testdriver\xml" />
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RTESTTEF-0004\cfg_xml.log">
+					<arg line="config -x ${driver}\testdriver\xml"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RTESTTEF-0004\cfg_xml.log">
+					<arg line="config -s demo"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RTESTTEF-0004\cfg_xml.log">
+					<arg line="config --bldmake ON"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RTESTTEF-0004\cfg_source.log">
+					<arg line="config --source ${testdriver.test.root}\testdata\rtest_tef"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RTESTTEF-0004\run.log">
+					<arg line="build -b udeb -p winscw"/>
+				</exec>
+				<exec vmlauncher="false" executable="testdriver.cmd" output="output\DT-TestDriver2-RTESTTEF-0004\run.log">
+					<arg line="run -p winscw"/>
+				</exec>
+				<assertfilegrep file="${testdriver.test.root}\output\DT-TestDriver2-RTESTTEF-0004\run.log" regexp="(?i)testdriver finished with success" errormsg="testdriver run rtesttef Command Failded" />
+				<echo message="Finished performing testdriver run command"/>
+			</testcase>
+		</testsuite>
+    </target>
+</project>

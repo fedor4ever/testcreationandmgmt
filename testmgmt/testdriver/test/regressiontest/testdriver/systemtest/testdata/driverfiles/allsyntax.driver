@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<driver:driver xmlns:driver="http://www.symbian.com/TestDriver">
+  <task name="allsyntax" timeout="100000">
+    <task name="te_TestServerSuite">
+	     <startTrace enablePrimaryFilters="1" disableSecondaryFilters=""/>
+    <transferToSymbian>
+        <transfer PCPath="./tdconfig.xml" SymbianPath="c:\syntaxtest\tdconfig.xml"/>
+      </transferToSymbian>
+      <retrieveFromSymbian>
+        <transfer PCPath="c:\tdconfig.xml.fromdevice" SymbianPath="c:\syntaxtest\tdconfig.xml"/>
+      </retrieveFromSymbian>
+      <executeOnPC>
+        <cmd phase="both">dir</cmd>
+      </executeOnPC>
+      <executeOnSymbian>
+        <cmd output="" statCommand="run">
+            <argument>dir</argument>
+        </cmd>
+      </executeOnSymbian>
+       <stopTrace/>
+    </task>
+  </task>
+</driver:driver>

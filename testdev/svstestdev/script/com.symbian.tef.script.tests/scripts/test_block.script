@@ -1,0 +1,103 @@
+//
+// Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+START_TESTCASE UsingTestData0
+
+START_TEST_BLOCK !Heap=123 999 server c:\data1\bbSuite.ini
+
+//test createobject
+CREATE_OBJECT objtype objname
+
+//test restoreobject
+RESTORE_OBJECT  objtype2 objname2
+
+//test command
+COMMAND objname3 objname3 Section1
+COMMAND !Error=0 objname4 objname4 Section1
+COMMAND !Error=1 objname5 objname5 Section1
+COMMAND !Error=-1 objname6 objname6 Section1
+COMMAND !AsyncError=0 objname7 objname7 Section1
+COMMAND !AsyncError=1 objname8 objname8 Section1
+COMMAND !AsyncError=-1 objname9 objname9 Section1
+COMMAND !Error=0 !AsyncError=0 objname10 objname10 Section1
+COMMAND !AsyncError=0 !Error=1 objname11 objname11 Section1
+
+//test store
+STORE Section1
+
+//test outstanding
+OUTSTANDING 
+OUTSTANDING 0
+OUTSTANDING 0 objSection12
+
+//test delay
+DELAY 1
+DELAY 0
+DELAY -1
+
+//test async_delay
+ASYNC_DELAY 1
+ASYNC_DELAY 0
+ASYNC_DELAY -1
+
+END_TEST_BLOCK !PanicCode=12 !PanicString=pa_string
+
+//test shared_actived_scheduler and store_active_schdeluer
+START_TEST_BLOCK !Heap=123 999 server c:\data1\bbSuite.ini
+SHARED_ACTIVE_SCHEDULER
+STORE_ACTIVE_SCHEDULER
+END_TEST_BLOCK !PanicCode=12 !PanicString=pa_string
+
+START_TEST_BLOCK !Heap=123 999 server c:\data1\bbSuite.ini
+SHARED_ACTIVE_SCHEDULER
+END_TEST_BLOCK !PanicCode=12 !PanicString=pa_string
+
+START_TEST_BLOCK !Heap=123 999 server c:\data1\bbSuite.ini
+STORE_ACTIVE_SCHEDULER
+END_TEST_BLOCK !PanicCode=12 !PanicString=pa_string
+
+//test empty block
+START_TEST_BLOCK !Heap=123 999 server c:\data1\bbSuite.ini
+
+END_TEST_BLOCK !PanicCode=12 !PanicString=pa_string
+
+//test block argu
+START_TEST_BLOCK  999 server c:\data1\bbSuite.ini
+END_TEST_BLOCK !PanicCode=12 !PanicString=pa_string
+
+START_TEST_BLOCK  999 server c:\data1\bbSuite.ini
+END_TEST_BLOCK !PanicCode=12 
+
+START_TEST_BLOCK  999 server c:\data1\bbSuite.ini
+END_TEST_BLOCK !PanicString=pa_string
+
+START_TEST_BLOCK  999 server c:\data1\bbSuite.ini
+END_TEST_BLOCK 
+
+START_TEST_BLOCK !Heap=123 999 server c:\data1\bbSuite.ini
+END_TEST_BLOCK !PanicCode=12 
+
+START_TEST_BLOCK !Heap=123 999 server c:\data1\bbSuite.ini
+END_TEST_BLOCK  !PanicString=pa_string
+
+START_TEST_BLOCK !Heap=123 999 server c:\data1\bbSuite.ini
+END_TEST_BLOCK 
+
+START_TEST_BLOCK !Heap=123 999 server c:\data1\bbSuite.ini
+END_TEST_BLOCK  !PanicString=pa_string !PanicCode=12
+
+END_TESTCASE UsingTestData0
+
+

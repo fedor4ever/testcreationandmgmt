@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xsd2ecore:XSD2EcoreMappingRoot xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsd2ecore="http://www.eclipse.org/emf/2002/XSD2Ecore" inputs="../model/driver.xsd#/"
+    outputs="driver.ecore#/" topToBottom="true">
+  <nested inputs="bundleentry://226/cache/www.w3.org/2001/XMLSchema.xsd#//string;XSDSimpleTypeDefinition=7"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//String"/>
+  <nested inputs="../model/driver.xsd#//info;XSDComplexTypeDefinition=2" outputs="driver.ecore#//Info">
+    <nested inputs="../model/driver.xsd#//info;XSDComplexTypeDefinition=2/XSDAttributeUse"
+        outputs="driver.ecore#//Info/key"/>
+  </nested>
+  <nested inputs="../model/driver.xsd#//driverInfo;XSDComplexTypeDefinition=1" outputs="driver.ecore#//DriverInfo">
+    <nested inputs="../model/driver.xsd#//driverInfo;XSDComplexTypeDefinition=1/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="driver.ecore#//DriverInfo/info"/>
+  </nested>
+  <nested inputs="../model/driver.xsd#//cmdPC;XSDComplexTypeDefinition=10/XSDAttributeUse/phase;XSDAttributeDeclaration/XSDSimpleTypeDefinition"
+      outputs="driver.ecore#//Phase">
+    <nested inputs="../model/driver.xsd#//cmdPC;XSDComplexTypeDefinition=10/XSDAttributeUse/phase;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet"
+        outputs="driver.ecore#//Phase/build"/>
+    <nested inputs="../model/driver.xsd#//cmdPC;XSDComplexTypeDefinition=10/XSDAttributeUse/phase;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet=1"
+        outputs="driver.ecore#//Phase/run"/>
+    <nested inputs="../model/driver.xsd#//cmdPC;XSDComplexTypeDefinition=10/XSDAttributeUse/phase;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet=2"
+        outputs="driver.ecore#//Phase/both"/>
+  </nested>
+  <nested inputs="bundleentry://226/cache/www.w3.org/2001/XMLSchema.xsd#//boolean;XSDSimpleTypeDefinition=8"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//Boolean"/>
+  <nested inputs="../model/driver.xsd#//sync;XSDAttributeGroupDefinition=1/XSDAttributeUse"
+      outputs="driver.ecore#//CmdPC/sync"/>
+  <nested inputs="bundleentry://226/cache/www.w3.org/2001/XMLSchema.xsd#//anyURI;XSDSimpleTypeDefinition=23"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//AnyURI"/>
+  <nested inputs="../model/driver.xsd#//URI;XSDAttributeGroupDefinition/XSDAttributeUse"
+      outputs="driver.ecore#//CmdPC/uRI"/>
+  <nested inputs="../model/driver.xsd#//cmdPC;XSDComplexTypeDefinition=10" outputs="driver.ecore#//CmdPC">
+    <nested inputs="../model/driver.xsd#//cmdPC;XSDComplexTypeDefinition=10/XSDAttributeUse"
+        outputs="driver.ecore#//CmdPC/phase"/>
+  </nested>
+  <nested inputs="../model/driver.xsd#//build;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle/componentName;XSDElementDeclaration/XSDSimpleTypeDefinition"
+      outputs="driver.ecore#//ComponentNameType"/>
+  <nested inputs="../model/driver.xsd#//URI;XSDAttributeGroupDefinition/XSDAttributeUse"
+      outputs="driver.ecore#//Build/uRI"/>
+  <nested inputs="../model/driver.xsd#//build;XSDComplexTypeDefinition=12" outputs="driver.ecore#//Build">
+    <nested inputs="../model/driver.xsd#//build;XSDComplexTypeDefinition=12/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="driver.ecore#//Build/componentName"/>
+    <nested inputs="../model/driver.xsd#//build;XSDComplexTypeDefinition=12/XSDAttributeUse"
+        outputs="driver.ecore#//Build/testBuild"/>
+  </nested>
+  <nested inputs="../model/driver.xsd#//executeOnPC;XSDComplexTypeDefinition=4" outputs="driver.ecore#//ExecuteOnPC">
+    <nested inputs="../model/driver.xsd#//executeOnPC;XSDComplexTypeDefinition=4/XSDParticle"
+        outputs="driver.ecore#//ExecuteOnPC/group"/>
+    <nested inputs="../model/driver.xsd#//executeOnPC;XSDComplexTypeDefinition=4/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="driver.ecore#//ExecuteOnPC/cmd"/>
+    <nested inputs="../model/driver.xsd#//executeOnPC;XSDComplexTypeDefinition=4/XSDParticle/XSDModelGroup/XSDParticle=1"
+        outputs="driver.ecore#//ExecuteOnPC/build"/>
+  </nested>
+  <nested inputs="../model/driver.xsd#//SymbianPath;XSDSimpleTypeDefinition=1" outputs="driver.ecore#//SymbianPath"/>
+  <nested inputs="../model/driver.xsd#//transfer;XSDComplexTypeDefinition=8" outputs="driver.ecore#//Transfer">
+    <nested inputs="../model/driver.xsd#//transfer;XSDComplexTypeDefinition=8/XSDAttributeUse=2"
+        outputs="driver.ecore#//Transfer/move"/>
+    <nested inputs="../model/driver.xsd#//transfer;XSDComplexTypeDefinition=8/XSDAttributeUse=1"
+        outputs="driver.ecore#//Transfer/pCPath"/>
+    <nested inputs="../model/driver.xsd#//transfer;XSDComplexTypeDefinition=8/XSDAttributeUse"
+        outputs="driver.ecore#//Transfer/symbianPath"/>
+  </nested>
+  <nested inputs="../model/driver.xsd#//transferToSymbian;XSDComplexTypeDefinition=6"
+      outputs="driver.ecore#//TransferToSymbian">
+    <nested inputs="../model/driver.xsd#//transferToSymbian;XSDComplexTypeDefinition=6/XSDParticle"
+        outputs="driver.ecore#//TransferToSymbian/group"/>
+    <nested inputs="../model/driver.xsd#//transferToSymbian;XSDComplexTypeDefinition=6/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="driver.ecore#//TransferToSymbian/transfer"/>
+  </nested>
+  <nested inputs="../model/driver.xsd#//statCommand;XSDSimpleTypeDefinition" outputs="driver.ecore#//StatCommand">
+    <nested inputs="../model/driver.xsd#//statCommand;XSDSimpleTypeDefinition/XSDEnumerationFacet"
+        outputs="driver.ecore#//StatCommand/createFolder"/>
+    <nested inputs="../model/driver.xsd#//statCommand;XSDSimpleTypeDefinition/XSDEnumerationFacet=1"
+        outputs="driver.ecore#//StatCommand/removeFolder"/>
+    <nested inputs="../model/driver.xsd#//statCommand;XSDSimpleTypeDefinition/XSDEnumerationFacet=2"
+        outputs="driver.ecore#//StatCommand/listDrives"/>
+    <nested inputs="../model/driver.xsd#//statCommand;XSDSimpleTypeDefinition/XSDEnumerationFacet=3"
+        outputs="driver.ecore#//StatCommand/listFiles"/>
+    <nested inputs="../model/driver.xsd#//statCommand;XSDSimpleTypeDefinition/XSDEnumerationFacet=4"
+        outputs="driver.ecore#//StatCommand/getScreenCapture"/>
+    <nested inputs="../model/driver.xsd#//statCommand;XSDSimpleTypeDefinition/XSDEnumerationFacet=5"
+        outputs="driver.ecore#//StatCommand/delete"/>
+    <nested inputs="../model/driver.xsd#//statCommand;XSDSimpleTypeDefinition/XSDEnumerationFacet=6"
+        outputs="driver.ecore#//StatCommand/run"/>
+    <nested inputs="../model/driver.xsd#//statCommand;XSDSimpleTypeDefinition/XSDEnumerationFacet=7"
+        outputs="driver.ecore#//StatCommand/startLogging"/>
+    <nested inputs="../model/driver.xsd#//statCommand;XSDSimpleTypeDefinition/XSDEnumerationFacet=8"
+        outputs="driver.ecore#//StatCommand/stopLogging"/>
+  </nested>
+  <nested inputs="../model/driver.xsd#//sync;XSDAttributeGroupDefinition=1/XSDAttributeUse"
+      outputs="driver.ecore#//CmdSymbian/sync"/>
+  <nested inputs="../model/driver.xsd#//cmdSymbian;XSDComplexTypeDefinition=11" outputs="driver.ecore#//CmdSymbian">
+    <nested inputs="../model/driver.xsd#//cmdSymbian;XSDComplexTypeDefinition=11/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="driver.ecore#//CmdSymbian/argument"/>
+    <nested inputs="../model/driver.xsd#//cmdSymbian;XSDComplexTypeDefinition=11/XSDAttributeUse=1"
+        outputs="driver.ecore#//CmdSymbian/output"/>
+    <nested inputs="../model/driver.xsd#//cmdSymbian;XSDComplexTypeDefinition=11/XSDAttributeUse"
+        outputs="driver.ecore#//CmdSymbian/statCommand"/>
+  </nested>
+  <nested inputs="../model/driver.xsd#//testCase;XSDComplexTypeDefinition=15/XSDAttributeUse/target;XSDAttributeDeclaration/XSDSimpleTypeDefinition"
+      outputs="driver.ecore#//TargetType"/>
+  <nested inputs="../model/driver.xsd#//testCase;XSDComplexTypeDefinition=15" outputs="driver.ecore#//TestCase">
+    <nested inputs="../model/driver.xsd#//testCase;XSDComplexTypeDefinition=15/XSDAttributeUse"
+        outputs="driver.ecore#//TestCase/target"/>
+  </nested>
+  <nested inputs="../model/driver.xsd#//testCasesList;XSDComplexTypeDefinition=14/XSDAttributeUse/operator;XSDAttributeDeclaration/XSDSimpleTypeDefinition"
+      outputs="driver.ecore#//OperatorType">
+    <nested inputs="../model/driver.xsd#//testCasesList;XSDComplexTypeDefinition=14/XSDAttributeUse/operator;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet"
+        outputs="driver.ecore#//OperatorType/include"/>
+    <nested inputs="../model/driver.xsd#//testCasesList;XSDComplexTypeDefinition=14/XSDAttributeUse/operator;XSDAttributeDeclaration/XSDSimpleTypeDefinition/XSDEnumerationFacet=1"
+        outputs="driver.ecore#//OperatorType/exclude"/>
+  </nested>
+  <nested inputs="../model/driver.xsd#//testCasesList;XSDComplexTypeDefinition=14"
+      outputs="driver.ecore#//TestCasesList">
+    <nested inputs="../model/driver.xsd#//testCasesList;XSDComplexTypeDefinition=14/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="driver.ecore#//TestCasesList/testCase"/>
+    <nested inputs="../model/driver.xsd#//testCasesList;XSDComplexTypeDefinition=14/XSDAttributeUse"
+        outputs="driver.ecore#//TestCasesList/operator"/>
+  </nested>
+  <nested inputs="../model/driver.xsd#//testExecuteScript;XSDComplexTypeDefinition=13"
+      outputs="driver.ecore#//TestExecuteScript">
+    <nested inputs="../model/driver.xsd#//testExecuteScript;XSDComplexTypeDefinition=13/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="driver.ecore#//TestExecuteScript/testCasesList"/>
+    <nested inputs="../model/driver.xsd#//testExecuteScript;XSDComplexTypeDefinition=13/XSDAttributeUse"
+        outputs="driver.ecore#//TestExecuteScript/pCPath"/>
+    <nested inputs="../model/driver.xsd#//testExecuteScript;XSDComplexTypeDefinition=13/XSDAttributeUse=1"
+        outputs="driver.ecore#//TestExecuteScript/symbianPath"/>
+  </nested>
+  <nested inputs="../model/driver.xsd#//rtest;XSDComplexTypeDefinition=16" outputs="driver.ecore#//Rtest">
+    <nested inputs="../model/driver.xsd#//rtest;XSDComplexTypeDefinition=16/XSDAttributeUse=1"
+        outputs="driver.ecore#//Rtest/resultFile"/>
+    <nested inputs="../model/driver.xsd#//rtest;XSDComplexTypeDefinition=16/XSDAttributeUse"
+        outputs="driver.ecore#//Rtest/symbianPath"/>
+  </nested>
+  <nested inputs="../model/driver.xsd#//executeOnSymbian;XSDComplexTypeDefinition=5"
+      outputs="driver.ecore#//ExecuteOnSymbian">
+    <nested inputs="../model/driver.xsd#//executeOnSymbian;XSDComplexTypeDefinition=5/XSDParticle"
+        outputs="driver.ecore#//ExecuteOnSymbian/group"/>
+    <nested inputs="../model/driver.xsd#//executeOnSymbian;XSDComplexTypeDefinition=5/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="driver.ecore#//ExecuteOnSymbian/cmd"/>
+    <nested inputs="../model/driver.xsd#//executeOnSymbian;XSDComplexTypeDefinition=5/XSDParticle/XSDModelGroup/XSDParticle=1"
+        outputs="driver.ecore#//ExecuteOnSymbian/testExecuteScript"/>
+    <nested inputs="../model/driver.xsd#//executeOnSymbian;XSDComplexTypeDefinition=5/XSDParticle/XSDModelGroup/XSDParticle=2"
+        outputs="driver.ecore#//ExecuteOnSymbian/rtest"/>
+  </nested>
+  <nested inputs="../model/driver.xsd#//retrieveFromSymbian;XSDComplexTypeDefinition=7"
+      outputs="driver.ecore#//RetrieveFromSymbian">
+    <nested inputs="../model/driver.xsd#//retrieveFromSymbian;XSDComplexTypeDefinition=7/XSDParticle"
+        outputs="driver.ecore#//RetrieveFromSymbian/group"/>
+    <nested inputs="../model/driver.xsd#//retrieveFromSymbian;XSDComplexTypeDefinition=7/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="driver.ecore#//RetrieveFromSymbian/transfer"/>
+  </nested>
+  <nested inputs="../model/driver.xsd#//reference;XSDComplexTypeDefinition=9" outputs="driver.ecore#//Reference">
+    <nested inputs="../model/driver.xsd#//reference;XSDComplexTypeDefinition=9/XSDAttributeUse"
+        outputs="driver.ecore#//Reference/uri"/>
+  </nested>
+  <nested inputs="../model/driver.xsd#//flashROM;XSDComplexTypeDefinition=17" outputs="driver.ecore#//FlashROM">
+    <nested inputs="../model/driver.xsd#//flashROM;XSDComplexTypeDefinition=17/XSDAttributeUse"
+        outputs="driver.ecore#//FlashROM/pCPath"/>
+  </nested>
+  <nested inputs="../model/driver.xsd#//startTrace;XSDComplexTypeDefinition=18" outputs="driver.ecore#//StartTrace">
+    <nested inputs="../model/driver.xsd#//startTrace;XSDComplexTypeDefinition=18/XSDAttributeUse=4"
+        outputs="driver.ecore#//StartTrace/configFilePath"/>
+    <nested inputs="../model/driver.xsd#//startTrace;XSDComplexTypeDefinition=18/XSDAttributeUse=2"
+        outputs="driver.ecore#//StartTrace/disablePrimaryFilters"/>
+    <nested inputs="../model/driver.xsd#//startTrace;XSDComplexTypeDefinition=18/XSDAttributeUse=3"
+        outputs="driver.ecore#//StartTrace/disableSecondaryFilters"/>
+    <nested inputs="../model/driver.xsd#//startTrace;XSDComplexTypeDefinition=18/XSDAttributeUse"
+        outputs="driver.ecore#//StartTrace/enablePrimaryFilters"/>
+    <nested inputs="../model/driver.xsd#//startTrace;XSDComplexTypeDefinition=18/XSDAttributeUse=1"
+        outputs="driver.ecore#//StartTrace/enableSecondaryFilters"/>
+  </nested>
+  <nested inputs="../model/driver.xsd#//stopTrace;XSDComplexTypeDefinition=19" outputs="driver.ecore#//StopTrace"/>
+  <nested inputs="bundleentry://226/cache/www.w3.org/2001/XMLSchema.xsd#//ID;XSDSimpleTypeDefinition=35"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//ID"/>
+  <nested inputs="bundleentry://226/cache/www.w3.org/2001/XMLSchema.xsd#//int;XSDSimpleTypeDefinition=42"
+      outputs="http://www.eclipse.org/emf/2003/XMLType#//Int"/>
+  <nested inputs="../model/driver.xsd#//task;XSDComplexTypeDefinition=3" outputs="driver.ecore#//Task">
+    <nested inputs="../model/driver.xsd#//task;XSDComplexTypeDefinition=3/XSDParticle"
+        outputs="driver.ecore#//Task/group"/>
+    <nested inputs="../model/driver.xsd#//task;XSDComplexTypeDefinition=3/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="driver.ecore#//Task/executeOnPC"/>
+    <nested inputs="../model/driver.xsd#//task;XSDComplexTypeDefinition=3/XSDParticle/XSDModelGroup/XSDParticle=1"
+        outputs="driver.ecore#//Task/transferToSymbian"/>
+    <nested inputs="../model/driver.xsd#//task;XSDComplexTypeDefinition=3/XSDParticle/XSDModelGroup/XSDParticle=2"
+        outputs="driver.ecore#//Task/executeOnSymbian"/>
+    <nested inputs="../model/driver.xsd#//task;XSDComplexTypeDefinition=3/XSDParticle/XSDModelGroup/XSDParticle=3"
+        outputs="driver.ecore#//Task/retrieveFromSymbian"/>
+    <nested inputs="../model/driver.xsd#//task;XSDComplexTypeDefinition=3/XSDParticle/XSDModelGroup/XSDParticle=4"
+        outputs="driver.ecore#//Task/reference"/>
+    <nested inputs="../model/driver.xsd#//task;XSDComplexTypeDefinition=3/XSDParticle/XSDModelGroup/XSDParticle=5"
+        outputs="driver.ecore#//Task/task"/>
+    <nested inputs="../model/driver.xsd#//task;XSDComplexTypeDefinition=3/XSDParticle/XSDModelGroup/XSDParticle=6"
+        outputs="driver.ecore#//Task/flashrom"/>
+    <nested inputs="../model/driver.xsd#//task;XSDComplexTypeDefinition=3/XSDParticle/XSDModelGroup/XSDParticle=7"
+        outputs="driver.ecore#//Task/startTrace"/>
+    <nested inputs="../model/driver.xsd#//task;XSDComplexTypeDefinition=3/XSDParticle/XSDModelGroup/XSDParticle=8"
+        outputs="driver.ecore#//Task/stopTrace"/>
+    <nested inputs="../model/driver.xsd#//task;XSDComplexTypeDefinition=3/XSDAttributeUse"
+        outputs="driver.ecore#//Task/name"/>
+    <nested inputs="../model/driver.xsd#//task;XSDComplexTypeDefinition=3/XSDAttributeUse=2"
+        outputs="driver.ecore#//Task/preRebootDevice"/>
+    <nested inputs="../model/driver.xsd#//task;XSDComplexTypeDefinition=3/XSDAttributeUse=1"
+        outputs="driver.ecore#//Task/timeout"/>
+  </nested>
+  <nested inputs="../model/driver.xsd#//driver;XSDComplexTypeDefinition" outputs="driver.ecore#//Driver">
+    <nested inputs="../model/driver.xsd#//driver;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle"
+        outputs="driver.ecore#//Driver/driverInfo"/>
+    <nested inputs="../model/driver.xsd#//driver;XSDComplexTypeDefinition/XSDParticle/XSDModelGroup/XSDParticle=1"
+        outputs="driver.ecore#//Driver/task"/>
+  </nested>
+  <nested inputs="../model/driver.xsd#//driver;XSDElementDeclaration" outputs="driver.ecore#//DocumentRoot/driver"/>
+</xsd2ecore:XSD2EcoreMappingRoot>

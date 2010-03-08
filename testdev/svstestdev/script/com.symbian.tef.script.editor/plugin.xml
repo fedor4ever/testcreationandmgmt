@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+
+  <extension
+    point = "org.eclipse.ui.newWizards">
+    <category
+      id = "org.eclipse.tdep.Wizard.category.ID"
+      name="%_UI_Wizard_category">
+    </category>
+    <wizard
+      id = "com.symbian.tef.script.presentation.ScriptModelWizardID"
+      name = "%_UI_ScriptModelWizard_label"
+      class = "com.symbian.tef.script.presentation.ScriptModelWizard"
+      category = "org.eclipse.tdep.Wizard.category.ID"
+      icon = "icons/full/obj16/ScriptModelFile.gif">
+      <description>%_UI_ScriptModelWizard_description</description>
+      <selection class = "org.eclipse.core.resources.IResource" />
+    </wizard>
+  </extension>
+
+  <extension point = "org.eclipse.ui.editors">
+    <editor
+        id = "com.symbian.tef.script.presentation.ScriptEditorID"
+        name = "%_UI_ScriptEditor_label"
+        icon = "icons/full/obj16/ScriptModelFile.gif"
+        extensions = "script"
+        class = "com.symbian.tef.script.presentation.ScriptEditor" 
+        contributorClass="com.symbian.tef.script.presentation.ScriptActionBarContributor" >
+    </editor>
+  </extension>    
+<!--
+  <extension
+    point = "org.eclipse.ui.newWizards">
+    <category
+      id = "org.eclipse.emf.ecore.Wizard.category.ID"
+      name="%_UI_Wizard_category">
+    </category>
+    <wizard
+      id = "com.symbian.comment.presentation.CommentModelWizardID"
+      name = "%_UI_CommentModelWizard_label"
+      class = "com.symbian.comment.presentation.CommentModelWizard"
+      category = "org.eclipse.emf.ecore.Wizard.category.ID"
+      icon = "icons/full/obj16/CommentModelFile.gif">
+      <description>%_UI_CommentModelWizard_description</description>
+      <selection class = "org.eclipse.core.resources.IResource" />
+    </wizard>
+  </extension>
+
+  <extension point = "org.eclipse.ui.editors">
+    <editor
+        id = "com.symbian.comment.presentation.CommentEditorID"
+        name = "%_UI_CommentEditor_label"
+        icon = "icons/full/obj16/CommentModelFile.gif"
+        extensions = "comment"
+        class = "com.symbian.comment.presentation.CommentEditor" 
+        contributorClass="com.symbian.comment.presentation.CommentActionBarContributor" >
+    </editor>
+  </extension>    
+
+  <extension
+    point = "org.eclipse.ui.newWizards">
+    <category
+      id = "org.eclipse.emf.ecore.Wizard.category.ID"
+      name="%_UI_Wizard_category">
+    </category>
+    <wizard
+      id = "com.symbian.ini.presentation.IniModelWizardID"
+      name = "%_UI_IniModelWizard_label"
+      class = "com.symbian.ini.presentation.IniModelWizard"
+      category = "org.eclipse.emf.ecore.Wizard.category.ID"
+      icon = "icons/full/obj16/IniModelFile.gif">
+      <description>%_UI_IniModelWizard_description</description>
+      <selection class = "org.eclipse.core.resources.IResource" />
+    </wizard>
+  </extension>
+
+  <extension point = "org.eclipse.ui.editors">
+    <editor
+        id = "com.symbian.ini.presentation.IniEditorID"
+        name = "%_UI_IniEditor_label"
+        icon = "icons/full/obj16/IniModelFile.gif"
+        extensions = "ini"
+        class = "com.symbian.ini.presentation.IniEditor" 
+        contributorClass="com.symbian.ini.presentation.IniActionBarContributor" >
+    </editor>
+  </extension>    -->
+</plugin>

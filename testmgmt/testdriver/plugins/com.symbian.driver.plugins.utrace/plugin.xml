@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         id="com.symbian.driver.plugins.utrace"
+         name="UTrace"
+         point="com.symbian.driver.core.SoftwareTrace">
+      <SoftwareTrace
+            class="com.symbian.driver.plugins.utrace.UTraceCtl">
+      </SoftwareTrace>
+   </extension>
+
+</plugin>

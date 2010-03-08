@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Reference" link_to="toc.xml#references">
+	
+	<!-- Enter topic entries here for References section of help -->
+	
+	<topic label="Test Scripter keywords" href="html/references/testscripter_keywords.htm" />
+	<topic label="Test Combiner keywords" href="html/references/testcombiner_keywords.htm" />
+	
+</toc>

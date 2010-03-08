@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="pde_headless_build" name="TDEP_Build">
+
+	<target name="init">
+		<property environment="env" />
+		<property name="tdep.destination" value="${env.EPOCROOT}epoc32/tools/TDEP" />
+		<property name="tdep.eclipse" value="${env.ECLIPSEHOME}" />
+		<property name="tdep.carbide" value="${env.CARBIDEHOME}" />
+		<property name="tdep.eclipse.startupjar" value="${env.ECLIPSEHOME}/plugins/org.eclipse.equinox.launcher.jar" />
+		<property name="BuildType" value="I" />
+		<property name="BuildId" value="svstestdev"/>
+		<property name="TDEPArchive.Name" value="tdep"/>
+		<property name="CarbideTemplateArchive.Name" value="carbide_template"/>
+		
+		<property name="td.builddir" value="${env.EPOCROOT}epoc32/BUILD/TDBuildDir" />
+		<property name="TDArchive.Name" value="testdriver2"/>
+        <available file="${env.EPOCROOT}${TDArchive.Name}.zip" property="TDArchive.present"/>
+		
+		<!-- create tmp duild dir -->
+		<property name="tdep.builddir" value="${env.EPOCROOT}epoc32/BUILD/TDEPBuildDir" />
+		<property name="tdep.plugins" value="${tdep.builddir}/plugins" />
+		<property name="tdep.features" value="${tdep.builddir}/features" />
+		
+	</target>
+        
+    <target name="buildTD" unless="TDArchive.present">
+        <echo>Build TestDriver</echo>
+		<ant antfile="build.xml" dir="../../../testmgmt/testdriver/group/"/>		
+    </target>
+
+    <target name="removeTD" unless="TDArchive.present">
+        <echo>Remove TestDriver.</echo>
+		<delete file="${env.EPOCROOT}${TDArchive.Name}.zip"/>
+    </target>
+	
+    <target name="disassembleTD" depends="init,buildTD">
+        <echo>Disassemble TestDriver.</echo>
+		<property name="tdeptmp" value="${tdep.builddir}/tdeptmp" />
+		<property name="tdeptmp.plugins" value="${tdeptmp}/testdriver/eclipse/plugins" />
+		<property name="tdeptmp.features" value="${tdeptmp}/testdriver/eclipse/features" />
+        <mkdir dir="${tdeptmp}" />
+        <unzip overwrite="false" src="${env.EPOCROOT}${TDArchive.Name}.zip" dest="${tdep.plugins}">	
+            <patternset
+              includes="testdriver/eclipse/plugins/**" 
+              excludes="testdriver/eclipse/plugins/org.eclipse.*.jar testdriver/eclipse/plugins/org.eclipse.*/** testdriver/eclipse/plugins/com.ibm.icu*.jar"/>
+            <mapper type="glob" from="testdriver/eclipse/plugins/*" to="*"/>
+        </unzip>
+
+		<zip destfile="${tdeptmp}/${TDArchive.Name}-plugin.zip" filesonly="true" whenempty="skip" update="false">
+			<zipfileset 
+              src="${env.EPOCROOT}${TDArchive.Name}.zip" 
+              includes="testdriver/eclipse/automation/**"/>
+			<zipfileset 
+              src="${env.EPOCROOT}${TDArchive.Name}.zip" 
+              includes="testdriver/eclipse/plugins/**" 
+              excludes="testdriver/eclipse/plugins/org.eclipse.*.jar testdriver/eclipse/plugins/org.eclipse.*/** testdriver/eclipse/plugins/com.ibm.icu*.jar"/>
+		</zip>
+		<antcall target="removeTD"/>
+    </target>
+
+	<target name="copysource" depends="init,disassembleTD">
+        
+		<mkdir dir="${tdep.builddir}" />
+		<mkdir dir="${tdep.builddir}/features" />
+		<mkdir dir="${tdep.builddir}/plugins" />
+
+		<!--copy plugins to tmp build dir-->
+
+		<copy overwrite="false" todir="${tdep.plugins}/com.symbian.driver.edit"> <fileset dir="../driver/com.symbian.driver.edit"/>
+		</copy>
+		<copy overwrite="false" todir="${tdep.plugins}/com.symbian.driver.editor"> <fileset dir="../driver/com.symbian.driver.editor"/>
+		</copy>
+		<copy overwrite="false" todir="${tdep.plugins}/com.symbian.driver.report.edit"> <fileset dir="../driver/com.symbian.driver.report.edit"/>
+		</copy>
+		<copy overwrite="false" todir="${tdep.plugins}/com.symbian.ini"> <fileset dir="../ini/com.symbian.ini"/>
+		</copy>
+		<copy overwrite="false" todir="${tdep.plugins}/com.symbian.ini.edit"> <fileset dir="../ini/com.symbian.ini.edit"/>
+		</copy>
+		<copy overwrite="false" todir="${tdep.plugins}/com.symbian.ini.editor"> <fileset dir="../ini/com.symbian.ini.editor"/>
+		</copy>
+		<copy overwrite="false" todir="${tdep.plugins}/com.symbian.tef.script"> <fileset dir="../script/com.symbian.tef.script"/>
+		</copy>
+		<copy overwrite="false" todir="${tdep.plugins}/com.symbian.tef.script.edit"> <fileset dir="../script/com.symbian.tef.script.edit"/>
+		</copy>
+		<copy overwrite="false" todir="${tdep.plugins}/com.symbian.tef.script.editor"> <fileset dir="../script/com.symbian.tef.script.editor"/>
+		</copy>
+		<copy overwrite="false" todir="${tdep.plugins}/com.symbian.tdep.templates.carbide"> <fileset dir="../tef/com.symbian.tdep.templates.carbide"/>
+		</copy>
+
+		<!-- copy features -->
+        <copy overwrite="false" todir="${tdep.features}/com.symbian.tef.templates.carbide.feature"> <fileset dir="../tef/com.symbian.tef.templates.carbide.feature"/>
+        </copy>
+        <copy overwrite="false" todir="${tdep.features}/com.symbian.tdep"> <fileset dir="com.symbian.tdep"/>
+        </copy>
+		<copy overwrite="false" todir="${tdep.features}/com.symbian.driver.editor.feature"> <fileset dir="../driver/com.symbian.driver.editor.feature"/>
+        </copy>
+		<copy overwrite="false" todir="${tdep.features}/com.symbian.ini.feature"> <fileset dir="../ini/com.symbian.ini.feature"/>
+		</copy>
+		<copy overwrite="false" todir="${tdep.features}/com.symbian.tef.script.feature"> <fileset dir="../script/com.symbian.tef.script.feature"/>
+		</copy>
+
+		<!-- copy 3rdparty plugins -->
+		<copy overwrite="false" todir="${tdep.plugins}/org.antlr"> <fileset dir="../../../../../dev/eclipseenv/eclipseplugins/antlr-2.7.7"/>
+		</copy>
+
+	</target>
+
+	<!-- ================================= 
+          target: default_target
+		build testdriver as am rcp application,
+      		build tep
+		update zip files
+		copy to epoc tree		
+         ================================= -->
+	 <target name="pde_headless_build" depends="copysource">
+         
+          <copy tofile="${env.ECLIPSEHOME}/plugins/org.eclipse.equinox.launcher.jar">
+            <fileset dir="${env.ECLIPSEHOME}/plugins" includes="**/org.eclipse.equinox.launcher_*.jar"/>
+          </copy>
+
+		<!-- build tdep -->
+		<echo> Building TDEP project template feature </echo>
+		<java classname="org.eclipse.core.launcher.Main" fork="yes" clonevm="true">
+			<classpath>
+				<pathelement location="${tdep.eclipse.startupjar}" />
+			</classpath>
+			<arg line="-application org.eclipse.ant.core.antRunner -buildfile ${basedir}/tdep.builder/build.xml -Dbuilder=${basedir}/tdep.builder -DcarbideLocation=${env.CARBIDEHOME} -Dbase=${env.ECLIPSEHOME}/.. -DbuildDirectory=${tdep.builddir} -DbuildType=${BuildType} -DbuildId=${BuildId} -Dtdep.archivename=${TDEPArchive.Name} -DjavacDebugInfo=false -DjavacFailOnError=true -DjavacVerbose=false -DjavacSource=1.5 -DjavacTarget=1.5 -DcompilerArg=-nowarn" />
+		</java>
+                
+        <echo> Building TDEP editors features </echo>
+        <java classname="org.eclipse.core.launcher.Main" fork="yes" clonevm="true">
+			<classpath>
+				<pathelement location="${tdep.eclipse.startupjar}" />
+			</classpath>
+			<arg line="-application org.eclipse.ant.core.antRunner -buildfile ${basedir}/tdep.builder2/build.xml -Dbuilder=${basedir}/tdep.builder2 -DcarbideLocation=${env.CARBIDEHOME} -Dbase=${env.ECLIPSEHOME}/.. -DbuildDirectory=${tdep.builddir} -DbuildType=${BuildType} -DbuildId=${BuildId} -Dtdep.archivename=${TDEPArchive.Name} -DjavacDebugInfo=false -DjavacFailOnError=true -DjavacVerbose=false -DjavacSource=1.5 -DjavacTarget=1.5 -DcompilerArg=-nowarn" />
+		</java>	
+	
+		<!-- merge the two zip files into one.-->
+        <!-- first unzip carbide in a tmp folder -->
+        <mkdir dir="${tdep.builddir}/tdeptmp" />
+               
+        <unzip overwrite="false" src="${tdep.builddir}/${BuildType}.${BuildId}/${CarbideTemplateArchive.Name}.zip" dest="${tdep.builddir}/tdeptmp" />
+        <unzip overwrite="false" src="${tdep.builddir}/${BuildType}.${BuildId}/${TDEPArchive.Name}.zip" dest="${tdep.builddir}/tdeptmp" />
+        <unzip overwrite="false" src="${tdeptmp}/${TDArchive.Name}-plugin.zip" dest="${tdep.builddir}/tdeptmp">	
+            <mapper type="glob" from="testdriver/eclipse/*" to="eclipse/*"/>
+        </unzip>
+                
+		<unjar overwrite="false" dest="${tdep.builddir}/tdeptmp/eclipse/plugins/com.symbian.tdep.templates.carbide_1.0.0" src="${tdep.builddir}/tdeptmp/eclipse/plugins/com.symbian.tdep.templates.carbide_1.0.0.jar"/>
+		
+  		<delete file="${tdep.builddir}/tdeptmp/eclipse/plugins/com.symbian.tdep.templates.carbide_1.0.0.jar"/>
+  		
+		<delete file="${tdep.builddir}/${BuildType}.${BuildId}/${TDEPArchive.Name}.zip"/>
+			
+  		<!-- Copy the files to epoc tree -->
+  		<copy todir="${env.EPOCROOT}" overwrite="true">
+			<fileset dir="${tdep.builddir}/tdeptmp/eclipse"/>
+		</copy>
+	 </target>
+
+	<!-- ================================= 
+       	target: clean
+	- This target is mandatory for the Symbian buid process.
+	- Please clean up all generated files during the build proccess.
+	- Used by "abld clean" and "abld reallyclean".
+	================================= -->
+	<target name="clean" depends="init">
+
+		<java classname="org.eclipse.core.launcher.Main" fork="yes" clonevm="true">
+			<classpath>
+				<pathelement location="${tdep.eclipse.startupjar}" />
+			</classpath>
+                        <arg line="-application org.eclipse.ant.core.antRunner clean -buildfile ${basedir}/tdep.builder/build.xml -Dbuilder=${basedir}/tdep.builder -DcarbideLocation=${env.CARBIDEHOME} -Dbase=${env.ECLIPSEHOME}/.. -DbuildDirectory=${tdep.builddir} -DbuildType=${BuildType} -DbuildId=${BuildId} -Dtdep.archivename=${TDEPArchive.Name}" />
+		</java>
+                
+                <java classname="org.eclipse.core.launcher.Main" fork="yes" clonevm="true">
+			<classpath>
+				<pathelement location="${tdep.eclipse.startupjar}" />
+			</classpath>
+			<arg line="-application org.eclipse.ant.core.antRunner clean -buildfile ${basedir}/tdep.builder2/build.xml -Dbuilder=${basedir}/tdep.builder2 -DcarbideLocation=${env.CARBIDEHOME} -Dbase=${env.ECLIPSEHOME}/.. -DbuildDirectory=${tdep.builddir} -DbuildType=${BuildType} -DbuildId=${BuildId} -Dtdep.archivename=${TDEPArchive.Name}" />
+		</java>	
+
+		<delete dir="${tdep.destination}" />
+                <delete dir="${tdep.builddir}/${BuildType}.${BuildId}" />
+		
+	</target>
+
+	<!-- ================================= 
+          target: what
+                    
+          - This target is mandatory for the Symbian buid process.
+          - Please echo all created files, sperated by whitespace.
+          - Used by "abld build -what".
+         ================================= -->
+	 <target name="what" depends="init" description="Prints out all releasables">
+ 		<pathconvert pathsep="${line.separator}" property="output">
+ 			<fileset id="automation" dir="/automation" casesensitive="no"/>
+ 			<fileset id="features" dir="/features" casesensitive="no">
+ 				<include name="com.symbian.driver.editor.feature*/*" />
+ 				<include name="com.symbian.ini.feature*/*" />
+ 				<include name="com.symbian.tdep*/*" />
+ 				<include name="com.symbian.tef.script.feature*/*" />
+ 				<include name="com.symbian.tef.templates.carbide.feature*/*" />
+ 			</fileset>
+ 			<fileset id="plugins" dir="/plugins" casesensitive="no">
+ 				<include name="com.symbian.tdep.templates.carbide*/**" />
+ 				<include name="org.antlr*/**" />
+ 				<include name="org.apache.commons_cli*/**" />
+ 				<include name="org.apache.commons_net*/**" />
+ 				<include name="org.apache.oro*/**" />
+ 				<include name="org.java.javax.mail*/**" />
+ 				<include name="org.jdom*/**" />
+ 				<include name="org.junit*/**" />
+ 				<include name="org.RXTX*/**" />
+ 				<include name="com.symbian.driver*.jar" />
+ 				<include name="com.symbian.ini*.jar" />
+ 				<include name="com.symbian.tef.script*.jar" />
+ 				<include name="com.symbian.jstat*.jar" />
+ 				<include name="com.symbian.nativeprocesshandler*.jar" />
+ 				<include name="com.symbian.utils*.jar" />				
+ 			</fileset>
+ 		</pathconvert>
+ 		<echo message="${output}" />
+	</target>	
+
+	<target name="init.cc" depends="init">
+		<property environment="env" />
+		<property name="tdep.destination" value="${basedir}/results" />
+		<property name="tdep.eclipse" value="C:/apps/eclipse/eclipse_3_2/eclipse/" />
+		<property name="tdep.eclipse.startupjar" value="${tdep.eclipse}startup.jar" />
+		<property name="tdep.carbide" value="C:/apps/carbide/carbide_1_2/Carbide.c++v1.2/" />
+	</target>
+
+	<target name="copyfiles.cc" depends="init.cc">
+		<antcall taget="copyfiles"/>
+	</target>
+
+	<target name="build.tdep.cc" depends="copyfiles.cc">
+		<antcall target="pde_headless_build" />
+	</target>
+
+	<target name="tdep.clean.cc" depends="init.cc">
+		<antcall target="clean" />
+	</target>
+
+</project>

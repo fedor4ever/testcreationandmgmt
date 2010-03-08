@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id$
+-->
+
+<plugin>
+
+
+  <extension
+    point = "org.eclipse.ui.newWizards">
+    <category
+      id = "org.eclipse.tdep.Wizard.category.ID"
+      name="%_UI_Wizard_category">
+    </category>
+    <wizard
+      id = "com.symbian.driver.presentation.DriverModelWizardID"
+      name = "%_UI_DriverModelWizard_label"
+      class = "com.symbian.driver.presentation.DriverModelWizard"
+      category = "org.eclipse.tdep.Wizard.category.ID"
+      icon = "icons/full/obj16/DriverModelFile.gif">
+      <description>%_UI_DriverModelWizard_description</description>
+      <selection class = "org.eclipse.core.resources.IResource" />
+    </wizard>
+  </extension>
+  
+
+  <extension point = "org.eclipse.ui.editors">
+    <editor
+        id = "com.symbian.driver.presentation.DriverEditorID"
+        name = "%_UI_DriverEditor_label"
+        icon = "icons/full/obj16/DriverModelFile.gif"
+        extensions = "driver"
+        class = "com.symbian.driver.presentation.DriverEditor" 
+        contributorClass="com.symbian.driver.presentation.DriverActionBarContributor" >
+    </editor>
+  </extension>
+  
+  
+  
+  
+  <extension
+        point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+     <launchConfigurationTabGroup
+           class="com.symbian.driver.launch.DriverLaunchTabGroup"
+           id="com.symbian.driver.editor.launchConfigurationTabGroup"
+           type="com.symbian.driver.editor.launchConfigurationType">
+        <launchMode
+              description="Run Test Driver application"
+              mode="run"
+              perspective="com.symbian.driver.editor.SymbianTest"/>
+     </launchConfigurationTabGroup>
+  </extension>
+  
+  
+  <extension
+        point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+     <launchConfigurationTypeImage
+           configTypeID="com.symbian.driver.editor.launchConfigurationType"
+           icon="icons/full/obj16/DriverModelFile.gif"
+           id="com.symbian.driver.editor.launchConfigurationTypeImage"/>
+  </extension>
+  <extension
+        point="org.eclipse.debug.core.launchConfigurationTypes">
+    <launchConfigurationType
+           delegate="com.symbian.driver.launch.DriverLaunch"
+           id="com.symbian.driver.editor.launchConfigurationType"
+           modes="run"
+           name="%_UI_Test_Driver_Application"
+           public="true">
+        <!--fileExtension
+              default="true"
+              extension="driver"/-->
+     </launchConfigurationType>
+  </extension>
+  
+  <!--
+  <extension
+        point="org.eclipse.debug.core.launchDelegates">
+     <launchDelegate
+           delegate="com.symbian.driver.launch.DriverLaunch"
+           id="com.symbian.driver.editor.launchDelegate"
+           modes="run"
+           type="com.symbian.driver.editor.launchConfigurationType"/>
+  </extension>
+  -->
+  
+  <extension
+        point="org.eclipse.ui.perspectives">
+     <perspective
+           class="com.symbian.driver.perspectives.TestPespective"
+           id="com.symbian.driver.editor.SymbianTest"
+           name="%_UI_Perspective_label"/>
+  </extension>
+  
+  <extension point="org.eclipse.ui.perspectiveExtensions"> 
+     <perspectiveExtension 
+           targetID="com.symbian.driver.editor.SymbianTest"> 
+         <actionSet id="org.eclipse.debug.ui.launchActionSet"/> 
+     </perspectiveExtension>
+  </extension>
+  
+  <extension
+        point="org.eclipse.debug.ui.launchShortcuts">
+     <shortcut
+           category="com.symbian.driver.editor.launchConfigurationType"
+           class="com.symbian.driver.launch.DriverLaunchShortcut"
+           icon="icons/full/obj16/DriverModelFile.gif"
+           id="com.symbian.driver.editor.shortcut"
+           label="Test Driver"
+           modes="run">
+          <contextualLaunch>
+            <enablement>
+               <with variable="selection">
+                  <count value="1" />
+                  <iterate>
+                  		<or>
+					  	<test property="org.eclipse.debug.ui.matchesPattern" value="*.driver"/>
+        				<instanceof value="org.eclipse.core.resources.IProject"/>
+					  	</or>
+               	  </iterate>
+               </with>
+            </enablement>
+         </contextualLaunch>
+    </shortcut>
+ </extension>
+  
+  <!--extension
+        point="org.eclipse.debug.core.launchModes">
+     <launchMode
+           label="Run TestDriver"
+           launchAsLabel="Run TestDriver"
+           mode="run"/>
+  </extension-->
+  
+  
+  <extension
+        point="org.eclipse.ui.views">
+     <view
+           allowMultiple="false"
+           class="com.symbian.driver.report.views.TestViewer"
+           icon="icons/full/obj16/watchlist_view.gif"
+           id="com.symbian.driver.edit.views.TestViewer"
+           name="%_UI_TestViewer_Label"/>
+  </extension>
+  
+  
+  <extension
+        point="org.eclipse.ui.popupMenus">
+     <objectContribution
+           id="com.symbian.driver.editor.objectContribution"
+           nameFilter="*.xml"
+           objectClass="org.eclipse.core.resources.IFile">
+        <menu
+              id="com.symbian.driver.editor.menu1"
+              label="Show In"
+              path="additions">
+           <separator name="group1"/>
+        </menu>
+        <action
+              class="com.symbian.driver.report.actions.ShowInTDResultsView"
+              enablesFor="1"
+              icon="icons/full/obj16/watchlist_view.gif"
+              id="com.symbian.driver.edit.ShowTDResultsView"
+              label="Test Driver Test Results View"
+              menubarPath="com.symbian.driver.editor.menu1/group1"/>
+     </objectContribution>
+  </extension>
+  
+  
+  <extension
+        point="org.eclipse.ui.preferencePages">
+     <page
+           class="com.symbian.driver.preferences.RootPreferencePage"
+           id="com.symbian.RootPreferencePage"
+           name="Symbian"/>
+  </extension>    
+  
+  
+</plugin>

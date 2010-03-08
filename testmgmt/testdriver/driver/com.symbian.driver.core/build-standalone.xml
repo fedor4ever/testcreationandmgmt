@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="build.stubs" name="RMI stubs">
+
+	<!-- ================================= 
+          target: classpaths
+         ================================= -->
+	<path id="project.classpath">
+		<path refid="mainproject.classpath" />
+	</path>
+	<path id="mainproject.classpath">
+		<pathelement location="bin" />
+	</path>
+	
+	<!-- ================================= 
+          target: init
+         ================================= -->
+	<target name="init.core">
+		<delete dir="bin" />
+		<mkdir dir="bin" />
+	</target>
+
+
+
+	<!-- ================================= 
+          target: build Stubs
+         ================================= -->
+	<target name="build.stubs">
+		<javac destdir="bin">
+			<src path="src/com/symbian/driver/remoting/client" />
+			<src path="src/com/symbian/driver/remoting/master" />
+			<include name="src/com/symbian/driver/remoting/client/ClientRemoteImpl.java"/>
+			<include name="src/com/symbian/driver/remoting/master/MasterRemoteImpl.java"/>
+			<classpath refid="project.classpath" />
+		</javac>
+		<rmic classname="com.symbian.driver.remoting.master.MasterRemoteImpl" base="bin" />
+		<rmic classname="com.symbian.driver.remoting.client.ClientRemoteImpl" base="bin" />
+		
+		<delete dir="com" />
+		<move todir="com/symbian/driver/remoting/client">
+			<fileset dir="bin/com/symbian/driver/remoting/client/">
+				<include name="**/*Stub.class"/>
+				<include name="**/*Skel.class"/>
+			</fileset>
+		</move>
+		<move todir="com/symbian/driver/remoting/master">
+			<fileset dir="bin/com/symbian/driver/remoting/master/">
+				<include name="**/*Stub.class"/>
+				<include name="**/*Skel.class"/>
+			</fileset>
+		</move>
+	</target>
+	
+	<target name="delete.stubs">
+		<delete dir="com" />
+	</target>
+
+
+</project>

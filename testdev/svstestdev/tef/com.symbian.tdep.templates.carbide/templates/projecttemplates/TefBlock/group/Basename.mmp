@@ -1,0 +1,30 @@
+// $(baseName).mmp
+// $(copyright)
+
+TARGET				$(baseName).exe
+TARGETTYPE			exe
+UID					0x1000007A $(uid3)
+
+//Please add any change under here
+SOURCEPATH			$(mmpSourcePath)
+SOURCE				$(baseName)BlockServer.cpp
+SOURCE				$(baseName)BlockController.cpp
+$(mmpSource)
+
+USERINCLUDE 		$(mmpUserInclude)
+
+SYSTEMINCLUDE		\epoc32\include
+SYSTEMINCLUDE		\epoc32\include\test
+$(mmpSystemInclude)
+
+//Please add your system include under here. 
+
+LIBRARY				euser.lib
+LIBRARY				testexecuteutils.lib 
+LIBRARY				testexecutelogclient.lib 
+$(mmpLibrary)
+
+//Please add your libraries under here. For example:
+//LIBRARY		efsrv.lib
+//LIBRARY		insock.lib
+//LIBRARY		esock.lib

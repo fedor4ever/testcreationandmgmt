@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+   		id = "devicereboot"
+   		name = "Symbian Device Reboot"
+        point="com.symbian.driver.core.DeviceReboot">
+     <DeviceReboot class="com.symbian.driver.plugins.reboot.Activator">
+        <variable name="rebootmethod" value="PortTalk"/>
+        <variable
+              name="username"
+              value="apc"/>
+        <variable
+              name="password"
+              value="apc"/>
+        <variable
+              name="hostaddress"
+              value="10.16.54.166"/>
+        <variable
+              name="outletnumber"
+              value="3"/>
+     </DeviceReboot>
+   </extension>
+   <extension
+         id="DeviceRebootConfig"
+         point="com.symbian.driver.core.TDConfig">
+         <TDConfig class="com.symbian.driver.plugins.reboot.Activator"/>
+   </extension>
+   <extension
+         id="TDLaunch"
+         name="UIConfigDeviceReboot"
+         point="com.symbian.driver.core.TDLauncher">
+         <TDLauncher class="com.symbian.driver.plugins.reboot.RebootLaunchTab"/>
+   </extension>
+</plugin>

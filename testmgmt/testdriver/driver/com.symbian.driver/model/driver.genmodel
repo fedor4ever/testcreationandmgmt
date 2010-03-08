@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/com.symbian.driver/src"
+    modelPluginID="com.symbian.driver" modelName="Driver" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false">
+  <foreignModel>driver.ecore</foreignModel>
+  <genPackages prefix="Driver" basePackage="com.symbian" resource="XML" disposableProviderFactory="true"
+      ecorePackage="driver.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="driver.ecore#//OperatorType">
+      <genEnumLiterals ecoreEnumLiteral="driver.ecore#//OperatorType/include"/>
+      <genEnumLiterals ecoreEnumLiteral="driver.ecore#//OperatorType/exclude"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="driver.ecore#//Phase">
+      <genEnumLiterals ecoreEnumLiteral="driver.ecore#//Phase/build"/>
+      <genEnumLiterals ecoreEnumLiteral="driver.ecore#//Phase/run"/>
+      <genEnumLiterals ecoreEnumLiteral="driver.ecore#//Phase/both"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="driver.ecore#//StatCommand">
+      <genEnumLiterals ecoreEnumLiteral="driver.ecore#//StatCommand/createFolder"/>
+      <genEnumLiterals ecoreEnumLiteral="driver.ecore#//StatCommand/removeFolder"/>
+      <genEnumLiterals ecoreEnumLiteral="driver.ecore#//StatCommand/listDrives"/>
+      <genEnumLiterals ecoreEnumLiteral="driver.ecore#//StatCommand/listFiles"/>
+      <genEnumLiterals ecoreEnumLiteral="driver.ecore#//StatCommand/getScreenCapture"/>
+      <genEnumLiterals ecoreEnumLiteral="driver.ecore#//StatCommand/delete"/>
+      <genEnumLiterals ecoreEnumLiteral="driver.ecore#//StatCommand/run"/>
+      <genEnumLiterals ecoreEnumLiteral="driver.ecore#//StatCommand/startLogging"/>
+      <genEnumLiterals ecoreEnumLiteral="driver.ecore#//StatCommand/stopLogging"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="driver.ecore#//ComponentNameType"/>
+    <genDataTypes ecoreDataType="driver.ecore#//OperatorTypeObject"/>
+    <genDataTypes ecoreDataType="driver.ecore#//PhaseObject"/>
+    <genDataTypes ecoreDataType="driver.ecore#//StatCommandObject"/>
+    <genDataTypes ecoreDataType="driver.ecore#//SymbianPath"/>
+    <genDataTypes ecoreDataType="driver.ecore#//TargetType"/>
+    <genClasses ecoreClass="driver.ecore#//Build">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//Build/componentName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//Build/testBuild"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//Build/uRI"/>
+    </genClasses>
+    <genClasses ecoreClass="driver.ecore#//CmdPC">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//CmdPC/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//CmdPC/phase"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//CmdPC/sync"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//CmdPC/uRI"/>
+    </genClasses>
+    <genClasses ecoreClass="driver.ecore#//CmdSymbian">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//CmdSymbian/argument"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//CmdSymbian/output"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//CmdSymbian/statCommand"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//CmdSymbian/sync"/>
+    </genClasses>
+    <genClasses ecoreClass="driver.ecore#//DocumentRoot">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//DocumentRoot/mixed"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference driver.ecore#//DocumentRoot/xMLNSPrefixMap"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference driver.ecore#//DocumentRoot/xSISchemaLocation"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference driver.ecore#//DocumentRoot/driver"/>
+    </genClasses>
+    <genClasses ecoreClass="driver.ecore#//Driver">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference driver.ecore#//Driver/driverInfo"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference driver.ecore#//Driver/task"/>
+    </genClasses>
+    <genClasses ecoreClass="driver.ecore#//DriverInfo">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference driver.ecore#//DriverInfo/info"/>
+    </genClasses>
+    <genClasses ecoreClass="driver.ecore#//ExecuteOnPC">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute driver.ecore#//ExecuteOnPC/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference driver.ecore#//ExecuteOnPC/cmd"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference driver.ecore#//ExecuteOnPC/build"/>
+    </genClasses>
+    <genClasses ecoreClass="driver.ecore#//ExecuteOnSymbian">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute driver.ecore#//ExecuteOnSymbian/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference driver.ecore#//ExecuteOnSymbian/cmd"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference driver.ecore#//ExecuteOnSymbian/testExecuteScript"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference driver.ecore#//ExecuteOnSymbian/rtest"/>
+    </genClasses>
+    <genClasses ecoreClass="driver.ecore#//FlashROM">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//FlashROM/pCPath"/>
+    </genClasses>
+    <genClasses ecoreClass="driver.ecore#//Info">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//Info/value"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//Info/key"/>
+    </genClasses>
+    <genClasses ecoreClass="driver.ecore#//Reference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference driver.ecore#//Reference/uri"/>
+    </genClasses>
+    <genClasses ecoreClass="driver.ecore#//RetrieveFromSymbian">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute driver.ecore#//RetrieveFromSymbian/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference driver.ecore#//RetrieveFromSymbian/transfer"/>
+    </genClasses>
+    <genClasses ecoreClass="driver.ecore#//Rtest">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//Rtest/resultFile"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//Rtest/symbianPath"/>
+    </genClasses>
+    <genClasses ecoreClass="driver.ecore#//Task">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute driver.ecore#//Task/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference driver.ecore#//Task/executeOnPC"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference driver.ecore#//Task/transferToSymbian"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference driver.ecore#//Task/executeOnSymbian"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference driver.ecore#//Task/retrieveFromSymbian"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference driver.ecore#//Task/reference"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference driver.ecore#//Task/task"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference driver.ecore#//Task/flashrom"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//Task/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//Task/preRebootDevice"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//Task/timeout"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference driver.ecore#//Task/startTrace"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference driver.ecore#//Task/stopTrace"/>
+    </genClasses>
+    <genClasses ecoreClass="driver.ecore#//TestCase">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//TestCase/target"/>
+    </genClasses>
+    <genClasses ecoreClass="driver.ecore#//TestCasesList">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference driver.ecore#//TestCasesList/testCase"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//TestCasesList/operator"/>
+    </genClasses>
+    <genClasses ecoreClass="driver.ecore#//TestExecuteScript">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference driver.ecore#//TestExecuteScript/testCasesList"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//TestExecuteScript/pCPath"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//TestExecuteScript/symbianPath"/>
+    </genClasses>
+    <genClasses ecoreClass="driver.ecore#//Transfer">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//Transfer/move"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//Transfer/pCPath"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//Transfer/symbianPath"/>
+    </genClasses>
+    <genClasses ecoreClass="driver.ecore#//TransferToSymbian">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute driver.ecore#//TransferToSymbian/group"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference driver.ecore#//TransferToSymbian/transfer"/>
+    </genClasses>
+    <genClasses ecoreClass="driver.ecore#//StartTrace" labelFeature="#//driver/StartTrace/enablePrimaryFilters">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//StartTrace/enablePrimaryFilters"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//StartTrace/enableSecondaryFilters"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//StartTrace/disablePrimaryFilters"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//StartTrace/disableSecondaryFilters"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute driver.ecore#//StartTrace/configFilePath"/>
+    </genClasses>
+    <genClasses ecoreClass="driver.ecore#//StopTrace"/>
+  </genPackages>
+</genmodel:GenModel>

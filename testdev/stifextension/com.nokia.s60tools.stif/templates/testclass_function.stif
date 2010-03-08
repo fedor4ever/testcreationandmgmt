@@ -1,0 +1,31 @@
+?type ?classname::?member_function( CStifItemParser& aItem )
+    {
+    _LIT( K?classname, "?classname" );
+    _LIT( K?member_function, "In ?member_function" );
+    TestModuleIf().Printf( 0, K?classname, K?member_function );
+    
+    iLog->Log( K?member_function );
+    
+    
+    //Please use STIF parser for retrieving data from cfg file
+    /*Below example of retriving string Parameters
+
+	/*TInt i = 0;
+    TPtrC string;
+    _LIT( KParam, "Param[%i]: %S" );
+    while ( aItem.GetNextString ( string ) == KErrNone )
+        {
+        TestModuleIf().Printf( i, KTestClass, 
+                                KParam, i, &string );
+        i++;
+        }
+    */
+     
+    /*
+        
+  		?code
+    		
+    */                              
+       
+    return KErrNone;
+    }

@@ -1,0 +1,13 @@
+Before executing the systemtest for TestDriver2, please configure the test environment following the steps described below: 
+
+1.  Download the antsys-0.3x.jar and put it into the systemtest folder. 
+http://code.google.com/p/antsys/
+
+
+2.  Download the emma.jar and put into the systemtest folder. 
+http://emma.sourceforge.net/
+
+
+3.  Download and configure ant.  
+http://ant.apache.org/
+

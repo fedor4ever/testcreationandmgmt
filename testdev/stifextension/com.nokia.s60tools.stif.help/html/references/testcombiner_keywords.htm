@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+<title>Test Combiner keywords</title>
+<link href="../../book.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+
+<h2>Test Combiner keywords</h2>
+<table width="477" border="1" cellspacing="1" cellpadding="2">
+<colgroup>
+<col width="32*">
+<col width="158*"></colgroup>
+<tbody>
+<tr>
+<td><p><b>Keyword</b></p></td>
+<td><p><b>Explanation and usage examples</b></p></td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><p>Describes the test case. This is mandatory for every test case and must be the first keyword. The description is placed after the keyword. </p><code>title Create, print, run example and delete</code></td>
+</tr>
+<tr>
+<td><code>timeout</code></td>
+<td><p>Used to give a timeout value for a test case. The timeout value is given in milliseconds. For example, timeout of 10 seconds would be marked as: </p><code>timeout 10000</code></td>
+</tr>
+<tr>
+<td><code>priority</code></td>
+<td><p>The priority value of the test case is either an integer or the string (high, normal or low). Negative values are low and positive values are high.  </p><p>For example, &ndash;100 is low, 0 is normal, 100 is high, 1000 is very high: </p><code>priority high<br>priority 100<br>priority &ndash;100<br>priority 0</code></td>
+</tr>
+<tr>
+<td><code>print</code></td>
+<td><p>Can be used to print, for example, progress information to the UI. The printed description is placed after the print keyword, as in the example in <a href="../concepts/scripts.htm">Test scripts</a>.</p></td>
+</tr>
+<tr>
+<td><code>canceliferror</code></td>
+<td><p>Used to cancel the execution of the remaining test cases if one of the executed test cases has failed. This keyword is normally used to stop the test case execution when some of the test cases are long running.</p><code>[Test] <br>title Simple test case with canceliferror keyword <br>canceliferror <br>run testmodule1 myConfig.cfg 1 // test case fails  <br>run testmodule2 mySecondConfig.cfg 2 // long running test case <br>[Endtest] </code></td>
+</tr>
+<tr>
+<td><code>pausecombiner</code></td>
+<td><p>Used to pause test combiner for a specified time. The keyword has one mandatory argument, which is the timeout for the pause (in milliseconds).</p><p>For example, to pause for ten seconds: </p><code>pausecombiner 10000</code></td>
+</tr>
+<tr>
+<td><code>run</code></td>
+<td><p>Used to start a specified test case. It has several mandatory and optional arguments. The mandatory arguments are: </p>
+<ul>
+<li>testmodule: The test module name. </li>
+<li>configfile: The test case configuration file. </li>
+<li>test case number: The test case number to be executed from configfile.</li>
+</ul>
+<p>Optional arguments contain, for example, testid (identification for the test case), ini (initialization file for the test module) and category (normal, leave, panic, exception or timeout). </p><p>For example: </p><code>run netmodule net.cfg 5 testid=test1 expect=3 ini=ini.txt <br><br>run netmodule net.cfg -1 testid=test1 &ldquo;title=My test case example&rdquo;</code></td>
+</tr>
+<tr>
+<td><code>cancel</code></td>
+<td><p>Used to cancel a started test case. The test case is cancelled by immediately killing the thread that executes the test case. The keyword has one mandatory argument, the test ID. </p><code>cancel test1</code></td>
+</tr>
+<tr>
+<td><code>pause</code></td>
+<td><p>Used to pause a test case. The test case is paused by pausing the thread that executes the test case. The pause keyword has one mandatory argument, the test ID. </p><p>Optionally, the timeout (in milliseconds) can also be given. After this time, resume is called automatically (if not given, resume needs to be called explicitly).</p><code>pause test1 time=10</code></td>
+</tr>
+<tr>
+<td><code>resume</code></td>
+<td><p>Used to resume a paused test case. Has one mandatory argument, the test ID. </p><code>resume test1</code></td>
+</tr>
+<tr>
+<td><code>complete</code></td>
+<td><p>Used to have a started test case wait to complete and blocks until the test case has finished. Has one mandatory argument, the test ID. </p><code>complete test1</code></td>
+</tr>
+<tr>
+<td><code>testmeasurement</code></td>
+<td><p>Used for test measurement testing. It can take the following arguments:</p>
+<ul>
+<li>Command (start or stop) </li>
+<li>Type</li>
+<li>parameters</li>
+</ul>
+<code>testmeasurement start stifmeasurementplugin02 c:\ConfigurationInfo.txt <br>.
+. . <br>testmeasurement stop stifmeasurementplugin02</code></td>
+</tr>
+<tr>
+<td><code>loop</code><br><code>endloop</code></td>
+<td><p>Used to repeat a section of the test case file for the specified number of iterations. The section to be repeated is enclosed with the loop and endloop keywords. Nested loops are not supported. Available arguments are: </p>
+<ul> 
+<li>Loop times: The loop count, that is, the number of times that the loop is executed. </li>
+<li>msec (optional): This keyword indicates that &lsquo;Loop times&rsquo; argument stands for the time in milliseconds during which loop will be repeated.</li>
+<li>passlimit (optional): turns on passlimit (endurance) feature.</li>
+<li>passlimit value (only when passlimit is enabled): defines how many iterations must pass to let pass the whole loop</li>
+</ul>
+<p>For example, to execute a loop for 5 times: </p><code>loop 5 // execute this 5 times <br>run netmodule net.cfg 5 testid=test1 expect=3 ini=ini.txt <br>complete test1<br>endloop</code><p></p><p></p><code>loop 5 passlimit 3 <br>//execute something for 5 times <br>endloop</code></td>
+</tr>
+<tr>
+<td><code>request</code></td>
+<td><p>Used to request an event. If someone wants to use an event, it must first be requested, and after that it can be waited. After the event is not used anymore, it must be released. The event name is a mandatory parameter.</p><code>request Event1</code></td>
+</tr>
+<tr>
+<td><code>wait</code></td>
+<td><p>Used to wait for an event. A request must be called before wait, and wait blocks until the requested event is set. wait may proceed immediately if the requested event is a state event and already pending (for example, a phone call is already active). It has one mandatory argument, which is the event name. </p><code>wait Event1</code></td>
+</tr>
+<tr>
+<td><code>release</code></td>
+<td><p>Used to release an event. Every requested event must be released explicitly when it is not used anymore. It has one mandatory argument, which is the event name. </p><code>release Event1</code></td>
+</tr>
+<tr>
+<td><code>set</code></td>
+<td><p>Used to set an event. Every set state event must be explicitly unset. The arguments are: </p>
+<ul>
+<li>Event: The event name. </li>
+<li>State (Optional): If set to 1, indicates that this is a state event, i.e. it remains set until it is unset explicitly with the unset keyword. If set to 0, indicates that the event is an indication, so it is set only once to every requester and implicitly unset after that.</li>
+</ul><p>For example: </p><code>set Event1 <br>set Event2 state</code></td>
+</tr>
+<tr>
+<td><code>unset</code></td>
+<td><p>Used to unset a state event. Every set state event must be unset. Indication events cannot be unset. unset blocks until everyone who has requested the specified event has released the event. The mandatory argument is the event name. </p><code>unset Event1</code></td>
+</tr>
+<tr>
+<td><code>allocate</code></td>
+<td><p>Used to allocate a slave, for example for running a test case on a remote phone. It uses Remote Control Protocol (RPC). The slave must always be allocated first before it can be used.</p>
+<ul>
+<li>Slave type: The type of the slave. STIF only supports slave phone. phone indicates that slave phone is also running STIF. Other types must be handled by the slave implementation, that is, when implementing separate support for external network simulator. </li>
+<li>Slave name: A unique name for the slave.</li>
+</ul>
+<p>For example: </p><code>allocate phone MySlave</code></td>
+</tr>
+<tr>
+<td><code>free</code></td>
+<td><p>Every allocated slave must be freed with free when it becomes unused. It has one mandatory argument, the slave name. </p><code>free MySlave</code></td>
+</tr>
+<tr>
+<td><code>remote</code></td>
+<td><p>Used to start the execution of a test case in a slave and also to request and release events from the slave. Other test case controlling for remote test cases is done with the same keywords as for the local test cases. </p>
+<ul>
+<li>Slave name: The slave name, the same that was given for allocate. </li>
+<li>Command name	: The remote command name (supported: run, request, wait, set, unset,  release).</li>
+</ul>
+<p>For example: </p><code>remote MySlave run netmodule net.cfg 5 testid=test1 expect=3 ini=ini.txt <br>remote MySlave request Event1 <br>remote MySlave wait Event1 <br>remote MySlave set Event1 <br>remote MySlave unsetEvent1 <br>remote MySlave release Event1</code></td>
+</tr>
+</tbody>
+</table>
+
+<div id="footer">Copyright &copy; 2009 Nokia Corporation and/or its subsidiary(-ies). All rights reserved. 
+License: <a href="http://www.eclipse.org/legal/epl-v10.html">http://www.eclipse.org/legal/epl-v10.html</a>.</div>
+</body>
+</html>

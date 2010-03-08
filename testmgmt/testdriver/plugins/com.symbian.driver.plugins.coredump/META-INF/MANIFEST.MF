@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: CoreDump Plug-in
+Bundle-SymbolicName: com.symbian.driver.plugins.coredump;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: com.symbian.driver.plugins.coredump.Activator
+Bundle-Vendor: SYMBIAN
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ com.symbian.driver.core,
+ com.symbian.utils
+Eclipse-LazyStart: true

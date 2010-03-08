@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<template label="TEF Project" version="1.0">
+
+	<description>Creates a TEF (Test Execute Framework) Project for Symbian OS.</description>
+
+	<wizardPage id="basics" label="Basics">
+		<description>Basics</description>
+		<uidField id="uid3" label="UID 3" min="0x00000000" max="0x0fffffff" mandatory="true" persist="true">
+			<description>UID 3</description>
+		</uidField>
+		<textField id="author" label="Author" persist="true">
+			<description>Author</description>
+		</textField>
+		<textField id="copyright" label="Copyright" multiline="true" default="Your copyright notice" persist="true">
+			<description>Copyright</description>
+		</textField>
+	</wizardPage>
+
+	<wizardPage id="directories" label="Project Directories">
+		<description>The location of the directories</description>
+		<filenameField id="incDir" label="Include" default="inc" mandatory="true" persist="true" />
+		<filenameField id="sourceDir" label="Source" default="src" mandatory="true" persist="true" />
+		<filenameField id="dataDir" label="Test Data" default="data" mandatory="true" persist="true" />
+		<textField id="dataExportLoc" label="Data on Device" default="c:\data" mandatory="true" persist="true" pattern="^c\:\\([0-9a-zA-Z]+\\)*[0-9a-zA-Z]+$" />
+		<filenameField id="scriptDir" label="Script" default="scripts" mandatory="true" persist="true" />
+		<textField id="scriptExportLoc" label="Scripts on Device" default="c:\scripts" mandatory="true" persist="true" pattern="^c\:\\([0-9a-zA-Z]+\\)*[0-9a-zA-Z]+$" />
+		<filenameField id="groupDir" label="Group" default="group" mandatory="true" persist="true" />
+		<filenameField id="sisDir" label="SIS" default="sis" mandatory="true" persist="true" />
+	</wizardPage>
+
+	<process class="com.nokia.carbide.cpp.project.core.processes.NewProject" bundle="com.nokia.carbide.cpp.project.core">
+		<parameter name="project" projectName="$(projectName)" />
+	</process>
+
+	<process class="com.nokia.carbide.cpp.project.core.processes.CreateRezId" bundle="com.nokia.carbide.cpp.project.core">
+		<parameter name="project" projectName="$(projectName)" />
+	</process>
+
+	<process class="com.nokia.carbide.templatewizard.processes.CreateFolders" bundle="com.nokia.carbide.templatewizard">
+		<parameter name="project" projectName="$(projectName)" />
+		<parameter name="folder" path="$(sourceDir)" />
+		<parameter name="folder" path="$(incDir)" />
+		<parameter name="folder" path="$(dataDir)" />
+		<parameter name="folder" path="$(groupDir)" />
+		<parameter name="folder" path="$(sisDir)" />
+		<parameter name="folder" path="$(scriptDir)" />
+	</process>
+
+	<process class="com.symbian.tdep.templates.carbide.FillTestProject" bundle="com.symbian.tdep.templates.carbide">
+		<parameter name="project" projectName="$(projectName)" />
+	</process>
+
+	<process class="com.nokia.carbide.templatewizard.processes.CopyFiles" bundle="com.nokia.carbide.templatewizard">
+		<parameter name="project" projectName="$(projectName)" />
+
+		<!-- Source Files -->
+		<parameter name="file" sourcePath="src/BasenameSuiteServer.cpp" targetPath="$(sourceDir)/$(baseName)SuiteServer.cpp" />
+		<parameter name="file" sourcePath="src/BasenameStepBase.cpp" targetPath="$(sourceDir)/$(baseName)SuiteStepBase.cpp" />
+		<parameter name="file" sourcePath="src/test0Step.cpp" targetPath="$(sourceDir)/test0Step.cpp" />
+		<parameter name="file" sourcePath="src/test1Step.cpp" targetPath="$(sourceDir)/test1Step.cpp" />
+		<parameter name="file" sourcePath="src/test2Step.cpp" targetPath="$(sourceDir)/test2Step.cpp" />
+		
+		<!-- Include Files -->
+		<parameter name="file" sourcePath="inc/BasenameSuiteDefs.h" targetPath="$(incDir)/$(baseName)SuiteDefs.h" />
+		<parameter name="file" sourcePath="inc/BasenameSuiteServer.h" targetPath="$(incDir)/$(baseName)SuiteServer.h" />
+		<parameter name="file" sourcePath="inc/BasenameSuiteStepBase.h" targetPath="$(incDir)/$(baseName)SuiteStepBase.h" />
+		<parameter name="file" sourcePath="inc/test0Step.h" targetPath="$(incDir)/test0Step.h" />
+		<parameter name="file" sourcePath="inc/test1Step.h" targetPath="$(incDir)/test1Step.h" />
+		<parameter name="file" sourcePath="inc/test2Step.h" targetPath="$(incDir)/test2Step.h" />
+		
+		<!-- Test  Files -->
+		<parameter name="file" sourcePath="testdata/BasenameSuite.ini" targetPath="$(dataDir)/$(baseName)Suite.ini" />
+		
+		<!-- Script Files -->
+		<parameter name="file" sourcePath="scripts/BasenameSuite.script" targetPath="$(scriptDir)/$(baseName)Suite.script" />
+
+       <!--  Policy File for Root Dir-->
+       
+		<!-- Project Group Files -->
+		<parameter name="file" sourcePath="group1/bld1.inf" targetPath="$(groupDir)/bld.inf" />
+		<parameter name="file" sourcePath="group1/BasenameSuite.mmp" targetPath="$(groupDir)/$(baseName)Suite.mmp" />
+		<parameter name="file" sourcePath="group1/BasenameSuite.iby" targetPath="$(groupDir)/$(baseName)Suite.iby" />
+		<parameter name="file" sourcePath="group1/test.driver" targetPath="$(groupDir)/$(baseName).driver" />
+		<parameter name="file" sourcePath="group1/test.pkg" targetPath="$(groupDir)/$(baseName).pkg" />
+	</process>
+
+	<process class="com.nokia.carbide.cpp.project.ui.processes.ProjectCreatedTasks" bundle="com.nokia.carbide.cpp.project.ui">
+		<parameter name="project" projectName="$(projectName)" bldInfPath="$(groupDir)/bld.inf" targetMMPFileName="$(baseName).mmp" />
+	</process>
+
+</template>
+

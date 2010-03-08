@@ -1,0 +1,15 @@
+// BLD.INF
+//
+// $(copyright) 
+PRJ_EXPORTS
+
+PRJ_TESTEXPORTS
+..\$(scriptDir)\$(baseName)Suite.script		\epoc32\winscw\c$(scriptEpocLoc)\$(baseName)Suite.script
+..\$(dataDir)\$(baseName)Suite.ini		\epoc32\winscw\c$(dataEpocLoc)\$(baseName)Suite.ini
+.\$(baseName)Suite.iby					\epoc32\rom\include\$(baseName)Suite.iby
+
+PRJ_MMPFILES
+// None
+
+PRJ_TESTMMPFILES
+$(baseName)Suite.mmp

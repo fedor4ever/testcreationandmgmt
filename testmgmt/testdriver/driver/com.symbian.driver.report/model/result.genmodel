@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/com.symbian.driver.report/src"
+    editDirectory="/com.symbian.driver.report.edit/src" editorDirectory="/com.symbian.driver.report.editor/src"
+    modelPluginID="com.symbian.driver.report" redirection="" modelName="Result" importerID="org.eclipse.xsd.ecore.importer">
+  <foreignModel>report.xsd</foreignModel>
+  <genPackages prefix="Report" basePackage="com.symbian.driver" resource="XML" disposableProviderFactory="true"
+      ecorePackage="report.ecore#/">
+    <genEnums ecoreEnum="report.ecore#//GenericResult">
+      <genEnumLiterals ecoreEnumLiteral="report.ecore#//GenericResult/error"/>
+      <genEnumLiterals ecoreEnumLiteral="report.ecore#//GenericResult/warning"/>
+      <genEnumLiterals ecoreEnumLiteral="report.ecore#//GenericResult/pass"/>
+    </genEnums>
+    <genEnums ecoreEnum="report.ecore#//TefTestCaseResult">
+      <genEnumLiterals ecoreEnumLiteral="report.ecore#//TefTestCaseResult/pass"/>
+      <genEnumLiterals ecoreEnumLiteral="report.ecore#//TefTestCaseResult/fail"/>
+      <genEnumLiterals ecoreEnumLiteral="report.ecore#//TefTestCaseResult/inconclusive"/>
+      <genEnumLiterals ecoreEnumLiteral="report.ecore#//TefTestCaseResult/skippedSelectively"/>
+    </genEnums>
+    <genEnums ecoreEnum="report.ecore#//TefTestRunWsProgramResult">
+      <genEnumLiterals ecoreEnumLiteral="report.ecore#//TefTestRunWsProgramResult/pass"/>
+      <genEnumLiterals ecoreEnumLiteral="report.ecore#//TefTestRunWsProgramResult/fail"/>
+      <genEnumLiterals ecoreEnumLiteral="report.ecore#//TefTestRunWsProgramResult/inconclusive"/>
+      <genEnumLiterals ecoreEnumLiteral="report.ecore#//TefTestRunWsProgramResult/abort"/>
+      <genEnumLiterals ecoreEnumLiteral="report.ecore#//TefTestRunWsProgramResult/panic"/>
+      <genEnumLiterals ecoreEnumLiteral="report.ecore#//TefTestRunWsProgramResult/unknown"/>
+      <genEnumLiterals ecoreEnumLiteral="report.ecore#//TefTestRunWsProgramResult/unexecuted"/>
+    </genEnums>
+    <genEnums ecoreEnum="report.ecore#//TefTestStepResult">
+      <genEnumLiterals ecoreEnumLiteral="report.ecore#//TefTestStepResult/pass"/>
+      <genEnumLiterals ecoreEnumLiteral="report.ecore#//TefTestStepResult/fail"/>
+      <genEnumLiterals ecoreEnumLiteral="report.ecore#//TefTestStepResult/inconclusive"/>
+      <genEnumLiterals ecoreEnumLiteral="report.ecore#//TefTestStepResult/abort"/>
+      <genEnumLiterals ecoreEnumLiteral="report.ecore#//TefTestStepResult/panic"/>
+      <genEnumLiterals ecoreEnumLiteral="report.ecore#//TefTestStepResult/unknown"/>
+      <genEnumLiterals ecoreEnumLiteral="report.ecore#//TefTestStepResult/unexecuted"/>
+      <genEnumLiterals ecoreEnumLiteral="report.ecore#//TefTestStepResult/testSuiteError"/>
+    </genEnums>
+    <genDataTypes ecoreDataType="report.ecore#//GenericResultObject"/>
+    <genDataTypes ecoreDataType="report.ecore#//TefTestCaseResultObject"/>
+    <genDataTypes ecoreDataType="report.ecore#//TefTestRunWsProgramResultObject"/>
+    <genDataTypes ecoreDataType="report.ecore#//TefTestStepResultObject"/>
+    <genClasses ecoreClass="report.ecore#//BaseReport">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference report.ecore#//BaseReport/execptionReport"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//BaseReport/duration"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//BaseReport/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//BaseReport/task"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//BaseReport/timeout"/>
+    </genClasses>
+    <genClasses ecoreClass="report.ecore#//DocumentRoot">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EAttribute report.ecore#//DocumentRoot/mixed"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference report.ecore#//DocumentRoot/xMLNSPrefixMap"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference report.ecore#//DocumentRoot/xSISchemaLocation"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference report.ecore#//DocumentRoot/report"/>
+    </genClasses>
+    <genClasses ecoreClass="report.ecore#//ExceptionReport">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//ExceptionReport/message"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//ExceptionReport/stackTrace"/>
+    </genClasses>
+    <genClasses ecoreClass="report.ecore#//GenericReport">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//GenericReport/log"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//GenericReport/result"/>
+    </genClasses>
+    <genClasses ecoreClass="report.ecore#//Info">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//Info/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//Info/value"/>
+    </genClasses>
+    <genClasses ecoreClass="report.ecore#//Report">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference report.ecore#//Report/reportInfo"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference report.ecore#//Report/aReport"/>
+    </genClasses>
+    <genClasses ecoreClass="report.ecore#//ReportInfo">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference report.ecore#//ReportInfo/info"/>
+    </genClasses>
+    <genClasses ecoreClass="report.ecore#//TefReport">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference report.ecore#//TefReport/tefTestCaseSummary"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference report.ecore#//TefReport/tefTestStepSummary"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference report.ecore#//TefReport/tefTestRunWsProgramSummary"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefReport/log"/>
+    </genClasses>
+    <genClasses ecoreClass="report.ecore#//TefTestCase">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestCase/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestCase/result"/>
+    </genClasses>
+    <genClasses ecoreClass="report.ecore#//TefTestCaseSummary">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference report.ecore#//TefTestCaseSummary/testCase"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestCaseSummary/count"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestCaseSummary/fail"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestCaseSummary/inconclusive"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestCaseSummary/pass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestCaseSummary/skippedSelectively"/>
+    </genClasses>
+    <genClasses ecoreClass="report.ecore#//TefTestRunWsProgram">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestRunWsProgram/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestRunWsProgram/result"/>
+    </genClasses>
+    <genClasses ecoreClass="report.ecore#//TefTestRunWsProgramSummary">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference report.ecore#//TefTestRunWsProgramSummary/testCase"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestRunWsProgramSummary/abort"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestRunWsProgramSummary/count"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestRunWsProgramSummary/fail"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestRunWsProgramSummary/inconclusive"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestRunWsProgramSummary/panic"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestRunWsProgramSummary/pass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestRunWsProgramSummary/unexecuted"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestRunWsProgramSummary/unknown"/>
+    </genClasses>
+    <genClasses ecoreClass="report.ecore#//TefTestStep">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestStep/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestStep/result"/>
+    </genClasses>
+    <genClasses ecoreClass="report.ecore#//TefTestStepSummary">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference report.ecore#//TefTestStepSummary/testCase"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestStepSummary/abort"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestStepSummary/count"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestStepSummary/fail"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestStepSummary/inconclusive"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestStepSummary/panic"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestStepSummary/pass"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestStepSummary/unexecuted"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute report.ecore#//TefTestStepSummary/unknown"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

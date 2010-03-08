@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: STIF Help plug-in
+Bundle-SymbolicName: com.nokia.s60tools.stif.help; singleton:=true
+Bundle-Version: 1.2.49
+Bundle-Activator: com.nokia.s60tools.stif.help.HelpPlugin
+Bundle-Vendor: Nokia
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime
+Eclipse-LazyStart: true

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Guide" link_to="toc.xml#tasks"> 
+
+	<topic label="Creating test modules" href="html/tasks/creating_test_module.htm" />
+	<topic label="Importing test modules" href="html/tasks/import_of_project.htm" />
+ <topic href="html/tasks/configuration_wizard.htm" label="Setting up the STIF configuration file">
+ </topic>
+ <topic href="html/tasks/creation_of_test_case.htm" label="Creating test cases">
+ </topic>
+ <topic href="html/tasks/configuration_editor.htm" label="Editing the configuration file">
+ </topic>
+<topic label="Creating scripts for Test Scripter and Test Combiner" href="html/tasks/script_editor.htm" />
+<topic label="Running the test cases" href="html/tasks/run_test_case.htm" />
+ <topic href="html/tasks/preferences.htm" label="Setting TestDrop preferences">
+ </topic>
+ <topic href="html/tasks/senddialog.htm" label="Sending a STIF test drop to ATS">
+ </topic>
+ <topic href="html/tasks/view_testdrop_results.htm" label="Viewing TestDrop test results">
+ </topic>
+</toc>

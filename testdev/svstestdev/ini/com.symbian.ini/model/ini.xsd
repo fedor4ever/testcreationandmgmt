@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:comment="http://www.symbian.com/comment" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:ini="http://www.symbian.com/ini" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ecore:nsPrefix="ini" ecore:package="com.symbian.ini" targetNamespace="http://www.symbian.com/ini">
+  <xsd:import namespace="http://www.eclipse.org/emf/2002/Ecore" schemaLocation="../../../plugin/org.eclipse.emf.ecore/model/Ecore.xsd"/>
+  <xsd:import namespace="http://www.symbian.com/comment" schemaLocation="comment.xsd"/>
+  <xsd:element ecore:ignore="true" name="IniModel" type="ini:IniModel"/>
+  <xsd:element ecore:ignore="true" name="Ini" type="ini:Ini"/>
+  <xsd:element ecore:ignore="true" name="Section" type="ini:Section"/>
+  <xsd:element ecore:ignore="true" name="Data" type="ini:Data"/>
+  <xsd:complexType name="IniModel">
+    <xsd:attribute ecore:reference="ini:Ini" name="ini">
+      <xsd:simpleType>
+        <xsd:list itemType="xsd:anyURI"/>
+      </xsd:simpleType>
+    </xsd:attribute>
+  </xsd:complexType>
+  <xsd:complexType ecore:interface="true" name="Ini">
+    <xsd:complexContent>
+      <xsd:extension base="comment:Comment"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Section">
+    <xsd:complexContent>
+      <xsd:extension base="ini:Ini">
+        <xsd:sequence>
+          <xsd:element ecore:resolveProxies="true" maxOccurs="unbounded" name="data" type="ini:Data"/>
+        </xsd:sequence>
+        <xsd:attribute name="name" type="ecore:EString" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="Data">
+    <xsd:complexContent>
+      <xsd:extension base="ini:Ini">
+        <xsd:attribute name="key" type="ecore:EString" use="required"/>
+        <xsd:attribute name="value" type="ecore:EString" use="required"/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,31 @@
+<!ELEMENT testExecuteServer (name,(mmpFile|bldInfPath|iniItems?|configFile?|resourceItems?|dependencies?|hostPath?|devicePath?)+)>
+
+<!-- Header operations -->
+<!ELEMENT name (#PCDATA)>
+
+<!-- Operations specific to testExecuteServer -->
+<!ELEMENT configFile ((hostPath,devicePath+)|(devicePath+,hostPath,devicePath*))>
+<!ELEMENT iniItems (iniFile*)>
+<!ELEMENT iniFile ((hostPath,devicePath+)|(devicePath+,hostPath,devicePath*))>
+
+<!-- Resource Items -->
+<!ELEMENT resourceItems (resource*,aif*)>
+<!ELEMENT resource ((hostPath,devicePath+)|(devicePath+,hostPath,devicePath*))>
+<!ELEMENT aif ((hostPath,devicePath+)|(devicePath+,hostPath,devicePath*))>
+
+<!-- Dependencies of the test -->
+<!ELEMENT dependencies ((data|buildable|build|delete|retrieve)*,(data|buildable|build|delete|retrieve)*,(data|buildable|build|delete|retrieve)*,(data|buildable|build|delete|retrieve)*)*>
+<!ELEMENT data ((hostPath,devicePath+)|(devicePath+,hostPath,devicePath*))>
+<!ELEMENT buildable (hostPath,devicePath+,mmpFile,bldInfPath)>
+<!ATTLIST buildable type (normal|ASSP|Normal_ASSP|test) "test">
+<!ELEMENT build (hostPath,devicePath+,mmpFile,bldInfPath)>
+<!ATTLIST build type (normal|ASSP|Normal_ASSP|test) "test">
+<!ELEMENT retrieve ((hostPath,devicePath+)|(devicePath+,hostPath,devicePath*))>
+<!ATTLIST retrieve timeStamp (yes|no) "no">
+<!ELEMENT delete (devicePath)>
+
+<!-- Used for Resource Items and Dependency -->
+<!ELEMENT mmpFile (#PCDATA)>
+<!ELEMENT bldInfPath (#PCDATA)>
+<!ELEMENT devicePath (#PCDATA)>
+<!ELEMENT hostPath (#PCDATA)>

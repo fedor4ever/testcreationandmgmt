@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<driver:driver xmlns:driver="http://www.symbian.com/TestDriver">
+  <task name="sample" timeout="100000">
+    <task name="te_TestServerSuite">
+      <executeOnPC>
+        <build testBuild="true" URI="${sourceroot}\group\">
+          <componentName>te_testserversuite</componentName>
+        </build>
+      </executeOnPC>
+      <task name="te_TestServerTest" timeout="10000">
+        <transferToSymbian>
+          <transfer move="false" PCPath="${epocroot}\epoc32\winscw\c\testdata\configs\te_TestServerSuite.ini" SymbianPath="$:\testdata\configs\te_TestServerSuite.ini"/>
+        </transferToSymbian>
+        <executeOnSymbian>
+          <testExecuteScript PCPath="${epocroot}\epoc32\winscw\c\testdata\scripts\te_TestServerSuite.script" SymbianPath="$:\testdata\scripts\te_TestServerSuite.script"/>
+        </executeOnSymbian>
+      </task>
+    </task>
+  </task>
+</driver:driver>

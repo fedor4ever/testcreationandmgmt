@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            category="org.eclipse.tdep.Wizard.category.ID"
+            class="com.symbian.tdep.templates.carbide.templatewizard.NewSymbianOSCppTestProjectWizard"
+            icon="icons/New_Symbian_OS_C++_Project_16x16.png"
+            id="com.symbian.tdep.templates.carbide.templatewizard.NewSymbianOSCppTestProjectWizard"
+            name="Symbian OS C++ Test Project"
+            project="true">
+         <description>
+            Create a new Symbian OS Test project
+         </description>
+      </wizard>
+      <wizard
+            category="org.eclipse.tdep.Wizard.category.ID"
+            class="com.symbian.tdep.templates.carbide.templatewizard.NewSymbianOSCppTestClassWizard"
+            icon="icons/_New_Symbian_OS_Class_16x16.png"
+            id="com.symbian.tdep.templates.carbide.templatewizard.NewSymbianOSCppTestClassWizard"
+            name="Symbian OS C++ Test Class"
+            project="false">
+         <description>
+            Create new TEF Block classes
+         </description>
+      </wizard>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension targetID="com.nokia.carbide.cpp.CarbideCppPerspective">
+         <newWizardShortcut id="com.symbian.tdep.templates.carbide.templatewizard.NewSymbianOSCppTestProjectWizard"/>
+         <newWizardShortcut id="com.symbian.tdep.templates.carbide.templatewizard.NewSymbianOSCppTestClassWizard"/>
+      </perspectiveExtension>
+       <perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
+         <perspectiveShortcut id="com.nokia.carbide.cpp.CarbideCppPerspective"/>
+      </perspectiveExtension>
+      <perspectiveExtension targetID="org.eclipse.debug.ui.DebugPerspective">
+         <perspectiveShortcut id="com.nokia.carbide.cpp.CarbideCppPerspective"/>
+      </perspectiveExtension>
+      <perspectiveExtension targetID="com.symbian.driver.editor.SymbianTest">
+         <perspectiveShortcut id="com.nokia.carbide.cpp.CarbideCppPerspective"/>
+      </perspectiveExtension>
+   </extension>
+
+<!-- Common navigator extensions -->
+	<extension
+	  point="org.eclipse.ui.navigator.navigatorContent">
+	 <commonWizard
+		type="new"
+	    wizardId="com.symbian.tdep.templates.carbide.templatewizard.NewSymbianOSCppTestProjectWizard">
+		 <enablement>
+			<or>
+				<instanceof value="org.eclipse.cdt.core.model.ICElement" />	
+	            <adapt type="org.eclipse.core.resources.IProject">
+	               <test
+	                     property="org.eclipse.core.resources.projectNature"
+	                     value="com.nokia.carbide.cdt.builder.carbideCPPBuilderNature"/>
+	            </adapt>
+			</or>
+         </enablement>
+	 </commonWizard>
+	 <commonWizard
+		type="new"
+	    wizardId="com.symbian.tdep.templates.carbide.templatewizard.NewSymbianOSCppTestClassWizard">
+		 <enablement>
+			<or>
+				<instanceof value="org.eclipse.cdt.core.model.ICElement" />	
+	            <adapt type="org.eclipse.core.resources.IProject">
+	               <test
+	                     property="org.eclipse.core.resources.projectNature"
+	                     value="com.nokia.carbide.cdt.builder.carbideCPPBuilderNature"/>
+	            </adapt>
+			</or>
+         </enablement>
+	 </commonWizard>
+	</extension>
+
+   <extension point="com.nokia.carbide.templatewizard.wizardTemplate">
+         <template
+         	groupLabel="Generic Symbian OS Tests"
+         	image="icons/icon_symbian.gif"
+            location="templates/projecttemplates/Tef/template.xml"
+            templateId="com.symbian.tdep.templates.tef"
+            wizardId="com.symbian.tdep.templates.carbide.templatewizard.NewSymbianOSCppTestProjectWizard" />
+         <template
+         	groupLabel="Generic Symbian OS Tests"
+         	image="icons/icon_symbian.gif"
+            location="templates/projecttemplates/TefUnit/template.xml"
+            templateId="com.symbian.tdep.templates.tefunit"
+            wizardId="com.symbian.tdep.templates.carbide.templatewizard.NewSymbianOSCppTestProjectWizard"
+            extraPagesProvider="com.symbian.tdep.templates.carbide.TemplatesPagesProvider" />
+         <template
+            groupLabel="Generic Symbian OS Tests"
+            image="icons/icon_symbian.gif"
+            location="templates/projecttemplates/TefBlock/integration_template.xml"
+            templateId="com.symbian.tdep.templates.tefblock_integration"
+            wizardId="com.symbian.tdep.templates.carbide.templatewizard.NewSymbianOSCppTestProjectWizard"
+            extraPagesProvider="com.symbian.tdep.templates.carbide.SetItemPagesProvider" />
+         <template
+            groupLabel="Symbian OS Tests"
+            image="icons/icon_symbian.gif"
+            location="templates/projecttemplates/TefBlock/unit_template.xml"
+            templateId="com.symbian.tdep.templates.tefblock_unit"
+            wizardId="com.symbian.tdep.templates.carbide.templatewizard.NewSymbianOSCppTestClassWizard"
+            extraPagesProvider="com.symbian.tdep.templates.carbide.GetItemPagesProvider" />
+   </extension>
+   
+   
+   
+   <!-- Eclipse Preference Pages Extension Points. -->
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+      		category="com.symbian.RootPreferencePage"
+            class="com.symbian.tdep.templates.carbide.preferences.PatternPreferencePage"
+            id="com.symbian.tdep.templates.carbide.preferences.PatternPreferencePage"
+            name="SVS Test Suites">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+      		category="com.symbian.tdep.templates.carbide.preferences.PatternPreferencePage"
+            class="com.symbian.tdep.templates.carbide.preferences.TemplatePreferencePage"
+            id="com.symbian.tdep.templates.carbide.preferences.TemplatePreferencePage"
+            name="Template">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.symbian.tdep.templates.carbide.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors.templates">
+      <contextType
+            class="com.symbian.tdep.templates.carbide.contenttype.FileTemplateContextType"
+            id="com.symbian.tdep.templates.carbide.contenttype.filetemplatecontexttype"
+            name="TestBlock">
+      </contextType>
+      <template
+            contextTypeId="com.symbian.tdep.templates.carbide.contenttype.filetemplatecontexttype"
+            description="${baseName}BlockController.h"
+            id="BasenameBlockController.h" 
+            name="BasenameBlockController.h">
+         <pattern><![CDATA[
+/**
+ * @file ${baseName}BlockController.h
+ * @internalTechnology
+ * @author ${author}
+ *
+ * ${copyright}
+ *
+ */
+
+#if (!defined __${baseNameUpper}_BLOCK_CONTROLLER_H__)
+#define __${baseNameUpper}_BLOCK_CONTROLLER_H__
+#include <TestBlockController.h>
+${controllerIncludes}
+
+class C${baseName}BlockController : public CTestBlockController
+	{
+public:
+	static C${baseName}BlockController* NewL();
+	// Base class pure virtual override
+	virtual CDataWrapper* CreateDataL(const TDesC& aData);
+
+// Please Add/modify your class members
+private:
+	};
+
+#endif
+         ]]>
+         </pattern>
+      </template>
+      
+      <template
+            contextTypeId="com.symbian.tdep.templates.carbide.contenttype.filetemplatecontexttype"
+            description="${baseName}BlockServer.h"
+            id="BasenameBlockServer.h"
+            name="BasenameBlockServer.h">
+         <pattern><![CDATA[
+/**
+ * @file ${baseName}BlockServer.h
+ * @internalTechnology
+ * @author ${author}
+ *
+ * ${copyright}
+ *
+ */
+
+#if (!defined __${baseNameUpper}_BLOCK_SERVER_H__)
+#define __${baseNameUpper}_BLOCK_SERVER_H__
+#include <TestServer2.h>
+#include "${baseName}BlockController.h"
+
+class C${baseName}BlockServer : public CTestServer2
+	{
+public:
+	static C${baseName}BlockServer* NewL();
+	// Base class pure virtual override
+	virtual CTestBlockController* CreateTestBlock();
+
+// Please Add/modify your class members
+private:
+	};
+
+#endif
+
+         ]]>
+         </pattern>
+      </template>
+      
+      
+      
+      <template
+            contextTypeId="com.symbian.tdep.templates.carbide.contenttype.filetemplatecontexttype"
+            description="${baseName}BlockController.cpp"
+            id="BasenameBlockController.cpp"
+            name="BasenameBlockController.cpp">
+         <pattern><![CDATA[
+/**
+ * @file ${baseName}BlockController.cpp
+ * @internalTechnology
+ * @author ${author}
+ * 
+ * ${copyright}
+ * 
+ */
+
+#include "${baseName}BlockController.h"
+
+${wrapperLIT}
+
+C${baseName}BlockController* C${baseName}BlockController::NewL()
+/**
+ * @return - Instance of the test block controller
+ */
+    {
+    C${baseName}BlockController* block = new (ELeave) C${baseName}BlockController();
+    return block;
+    }
+
+
+CDataWrapper* C${baseName}BlockController::CreateDataL(const TDesC& aData)
+    {
+    CDataWrapper* wrapper = NULL;
+${wrapperCreating}
+    return wrapper;
+    }
+
+
+         ]]>
+         </pattern>
+      </template>
+      
+      
+      
+      <template
+            contextTypeId="com.symbian.tdep.templates.carbide.contenttype.filetemplatecontexttype"
+            description="${baseName}BlockServer.cpp"
+            id="BasenameBlockServer.cpp"
+            name="BasenameBlockServer.cpp">
+         <pattern><![CDATA[
+/**
+ * @file ${baseName}BlockServer.cpp
+ * @internalTechnology
+ * @author ${author}
+ * 
+ * ${copyright}
+ *
+ */
+
+#include "${baseName}BlockServer.h"
+
+C${baseName}BlockServer* C${baseName}BlockServer::NewL()
+    {
+	C${baseName}BlockServer* server = new (ELeave) C${baseName}BlockServer();
+	CleanupStack::PushL(server);
+	server->ConstructL();
+	CleanupStack::Pop(server);
+	return server; 
+	}
+
+CTestBlockController* C${baseName}BlockServer::CreateTestBlock()
+/**
+ * @return - Instance of the test block controller
+ * Called when C${baseName}BlockServer initializing.
+ */
+    {
+    CTestBlockController* controller = NULL;
+    TRAPD(err, controller = C${baseName}BlockController::NewL());
+    return controller;
+    }
+
+// Secure variants much simpler
+// For EKA2, just an E32Main and a MainL()
+LOCAL_C void MainL()
+/**
+ * Secure variant
+ * Much simpler, uses the new Rendezvous() call to sync with the client
+ */
+	{
+	// Leave the hooks in for platform security
+#if (defined __DATA_CAGING__)
+	RProcess().DataCaging(RProcess::EDataCagingOn);
+	RProcess().DataCaging(RProcess::ESecureApiOn);
+#endif
+	CActiveScheduler* sched=NULL;
+	sched=new(ELeave) CActiveScheduler;
+	CActiveScheduler::Install(sched);
+	C${baseName}BlockServer* server = NULL;
+	// Create the C${baseName}BlockServer derived server
+	TRAPD(err,server = C${baseName}BlockServer::NewL());
+	if(!err)
+		{
+		// Sync with the client and enter the active scheduler
+		RProcess::Rendezvous(KErrNone);
+		sched->Start();
+		}
+	delete server;
+	delete sched;
+	}
+
+
+
+GLDEF_C TInt E32Main()
+/**
+ * @return - Standard Epoc error code on process exit
+ * Secure variant only
+ * Process entry point. Called by client using RProcess API
+ */
+	{
+	__UHEAP_MARK;
+	CTrapCleanup* cleanup = CTrapCleanup::New();
+	if(cleanup == NULL)
+		{
+		return KErrNoMemory;
+		}
+	TRAPD(err,MainL());
+	delete cleanup;
+	__UHEAP_MARKEND;
+	return err;
+    }
+
+         ]]>
+         </pattern>
+      </template>
+      
+   </extension>
+
+</plugin>

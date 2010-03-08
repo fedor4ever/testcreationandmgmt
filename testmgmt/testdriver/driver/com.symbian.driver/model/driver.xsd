@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:driver="http://www.symbian.com/TestDriver" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.symbian.com/TestDriver">
+
+	<xsd:element name="driver" type="driver:driver"/>
+
+	<xsd:complexType name="driver">
+		<xsd:annotation>
+			<xsd:documentation>
+				The root element of all Driver files. This must contain a task element and can contain one driverInfo element.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence maxOccurs="1" minOccurs="1">
+			<xsd:element maxOccurs="1" minOccurs="0" name="driverInfo" type="driver:driverInfo"/>
+			<xsd:element maxOccurs="1" minOccurs="1" name="task" type="driver:task"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="driverInfo">
+		<xsd:annotation>
+			<xsd:documentation>
+				Contains extra user information which gets put in the report also. This is not directly used by TestDriver. It is an
+				annotation tool for Driver files.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element maxOccurs="unbounded" minOccurs="1" name="info" type="driver:info"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="info">
+		<xsd:annotation>
+			<xsd:documentation>A Key - Value pair for any annotations necessary.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="key" type="xsd:string"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="task">
+		<xsd:annotation>
+			<xsd:documentation>
+				A "task" is a set of operations grouped together logically. These operations fall in two categories, the operations that run
+				during the build phase of TestDriver and the operations that run during the run phase of TestDriver. All operations in a
+				task are executed in the order that they appear in the XML file.
+
+				The build phase includes: (1) executing all the operations in "executeOnPC"; and (2) creating the repositories/SIS files for
+				the "transferToSymbian" operation.
+
+				The run phase includes: (1) executing all the operations in "executeOnSymbian", (2) transferring the created repositories/SIS
+				files in build phase to the Symbian device (hardware or emulator) for the "transferToSymbian" operation and any other
+				operations and lastly (3) retrieving all the files from the Symbian device in the "retrieveFromSymbain" operation.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice maxOccurs="unbounded" minOccurs="1">
+			<xsd:element id="executeOnPC" name="executeOnPC"
+				nillable="false" type="driver:executeOnPC" />
+			<xsd:element id="transferToSymbian" name="transferToSymbian"
+				nillable="false" type="driver:transferToSymbian" />
+			<xsd:element id="executeOnSymbian" name="executeOnSymbian"
+				nillable="false" type="driver:executeOnSymbian" />
+			<xsd:element id="retrieveFromSymbian"
+				name="retrieveFromSymbian" nillable="false"
+				type="driver:retrieveFromSymbian" />
+			<xsd:element id="reference" name="reference" nillable="true"
+				type="driver:reference" />
+			<xsd:element id="task" name="task" nillable="false"
+				type="driver:task" />
+			<xsd:element name="flashrom" type="driver:flashROM" />
+			<xsd:element name="startTrace" type="driver:startTrace"></xsd:element>
+
+			<xsd:element name="stopTrace" type="driver:stopTrace"></xsd:element>
+		</xsd:choice>
+		<xsd:attribute name="name" type="xsd:ID" use="required">
+			<xsd:annotation>
+				<xsd:documentation>A unique name identifying the task. There cannot be any other task with the same name.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="timeout" type="xsd:int" use="optional">
+			<xsd:annotation>
+				<xsd:documentation>
+					Expressed in the number of seconds. Any number less than or equal to 0 means no timeout. Please note that when executing asynchronous tasks this number should be greater than 0.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+        <xsd:attribute name="preRebootDevice" type="xsd:boolean"/>
+    </xsd:complexType>
+
+	<xsd:complexType name="executeOnPC">
+		<xsd:annotation>
+			<xsd:documentation>
+				This task allows you to execute a command on the PC. Use the generic "cmdPC" tag for executing command line tasks. Use
+				"build" to run a build for TestDriver.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice maxOccurs="unbounded" minOccurs="1">
+			<xsd:element name="cmd" nillable="false" type="driver:cmdPC"/>
+			<xsd:element name="build" nillable="false" type="driver:build"/>
+			<!-- FOR FUTURE EVALUATION
+				<xs:element name="cbr" type="driver:cbr" nillable="false" />
+				<xs:element name="perforce" type="driver:perforce" nillable="false" />
+				<xs:element name="cdb" type="driver:cdb" nillable="false" />
+				<xs:element name="lint" type="driver:lint" nillable="false" />
+				<xs:element name="copyright" type="driver:copyright" nillable="false" />
+				<xs:element name="iprCategory" type="driver:iprCategory" nillable="false" />
+				<xs:element name="leaveScan" type="driver:leaveScan" nillable="false" />
+				<xs:element name="wordScan" type="driver:wordScan" nillable="false" />
+				<xs:element name="tagScan" type="driver:tagScan" nillable="false" />
+				<xs:element name="coverage" type="driver:coverage" nillable="false" />
+				<xs:element name="lineCount" type="driver:lineCount" nillable="false" />
+				<xs:element name="apiDocumentationCheck" type="driver:apiDocumentationCheck" nillable="false" />
+				<xs:element name="ant" type="driver:ant" nillable="false" />
+			-->
+		</xsd:choice>
+	</xsd:complexType>
+
+	<xsd:complexType name="executeOnSymbian">
+		<xsd:annotation>
+			<xsd:documentation>
+				This task allows you to execute a command on the Symbian device (hardware or emulator). Use the generic "CmdSymbian" to run
+				any STAT command on the symbian board. Use "testExecuteScript" or "RTest" to run a test on the device.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice maxOccurs="unbounded" minOccurs="1">
+			<xsd:element name="cmd" nillable="false" type="driver:cmdSymbian"/>
+			<xsd:element name="testExecuteScript" nillable="false" type="driver:testExecuteScript"/>
+			<xsd:element name="rtest" nillable="false" type="driver:rtest"/>
+			<!-- FOR FUTURE EVALUATION
+				<xs:element name="cpuTracer" type="driver:rtest" nillable="false" />
+				<xs:element name="memTracer" type="driver:rtest" nillable="false" />
+				<xs:element name="powTracer" type="driver:rtest" nillable="false" />
+			-->
+		</xsd:choice>
+	</xsd:complexType>
+
+	<xsd:complexType name="transferToSymbian">
+		<xsd:annotation>
+			<xsd:documentation>
+				This task transfers a file from the PC to the Symbian device (hardware or emulator).
+
+				In the build phase of TestDriver, all the files specified in the "transferToSymbian" operation will be collected in a
+				repository and a SIS package will be created irrespective of Platform Security (PlatSec) being on or off.
+
+				In the run phase of TestDriver the action depends on weather PlatSec is on or off. If PlatSec is on then the SIS file will
+				be transfered and installed at the start of the task and un-installed and deleted at the end of the task. If PlatSec is off
+				then the files in the repository will be transfered at the start of the task and deleted at the end of the task.
+
+				The "PCPath" of "TransferToSymbian" accepts the following variables: "${epocroot}", "${sourceroot}", "${xmlroot}",
+				"${platform}" and lastly "${build}". These variables point to the locations and settings specified by the command
+				"TestDriver config" on the command line. If these variables are used thus creating an absolute path then the wildcard "*" is
+				permissible to copy over all files in a directory, for example "${epocroot}\a\b\${platform}\${build}\d\e\*" will copy all
+				files in the directory "e" to the Symbian device.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence maxOccurs="unbounded" minOccurs="1">
+			<xsd:element maxOccurs="unbounded" minOccurs="1" name="transfer" type="driver:transfer"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="retrieveFromSymbian">
+		<xsd:annotation>
+			<xsd:documentation>
+				This task transfers a file from the Symbian device (hardware or emulator) to the PC in the run phase of TestDriver. If no PC
+				path is specified, then the file will be retrieved to the TestDriver result folder.
+
+				The "PCPath" does not currently support variables and/or wildcards.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence maxOccurs="unbounded" minOccurs="1">
+			<xsd:element maxOccurs="unbounded" minOccurs="1" name="transfer" type="driver:transfer"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="transfer">
+		<xsd:annotation>
+			<xsd:documentation>
+				Transfers a file from the PC to the Symbian device or visa-versa. If used during "transferToSymbian" then wildcards and
+				variables are allowed. If used from "retrieveFromSymbian" then wildcards and variables are not permissible.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:attribute name="SymbianPath" type="driver:SymbianPath" use="required">
+			<xsd:annotation>
+				<xsd:documentation>A valid Symbian path. This must be an absolute path and must be valid.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="PCPath" type="xsd:anyURI" use="required">
+			<xsd:annotation>
+				<xsd:documentation>
+					A valid windows path. Depending if placed in "tranferToSymbian" or "retrieveFromSymbian" wildcards and variables will or
+					will not be allowed respectively.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute default="false" name="move" type="xsd:boolean" use="optional">
+			<xsd:annotation>
+				<xsd:documentation>
+					If "true" then a move will be executed, if "false" then a copy will executed on the file to be transfered.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="reference">
+		<xsd:annotation>
+			<xsd:documentation>
+				This task allows you to reference another task, in either this file, or an any other driver XML file. This acts like an
+				import statement. Please note that the URI for this reference must be a fully qualified URI. The URI accepts the following
+				variables: "${epocroot}", "${sourceroot}", "${xmlroot}", "${platform}" and lastly "${build}".
+			</xsd:documentation>
+		</xsd:annotation>
+		<!-- Change this to <xsd:attribute ecore:reference="driver:task" name="href" minOccurrs="1" maxOccurs="1" /> -->
+		<xsd:attribute ecore:reference="driver:task" name="uri" type="xsd:anyURI"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="cmdPC">
+		<xsd:annotation>
+			<xsd:documentation>
+				A Microsoft Windows DOS command. Currently only programs that are able to run under MS-DOS are supported. All StdOut and
+				StdError will be parsed for "ERROR:" and "WARNING:" strings, and be recorded in the log files.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attributeGroup ref="driver:URI"/>
+				<xsd:attributeGroup ref="driver:sync"/>
+				<xsd:attribute default="build" name="phase" use="optional">
+					<xsd:simpleType ecore:name="Phase">
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="build"/>
+							<xsd:enumeration value="run"/>
+							<xsd:enumeration value="both"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="cmdSymbian">
+		<xsd:annotation>
+			<xsd:documentation>
+				Symbian STAT compatible commands. If the attribute "output" is specified, then the results will be printed at this location,
+				otherwise to STDOUT and/or to the log files.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence maxOccurs="1" minOccurs="1">
+			<xsd:element maxOccurs="2" minOccurs="0" name="argument" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>
+						The list of arguments depending on the "statCommand" used. Please ensure that you use the correct arguments. Details
+						can be found in the STAT documentation.
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="statCommand" type="driver:statCommand" use="required">
+			<xsd:annotation>
+				<xsd:documentation>
+					The STAT command to run. For more details on these commands please see the STAT documentation.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="output" type="xsd:anyURI" use="optional">
+			<xsd:annotation>
+				<xsd:documentation>The location of the file to print out all the output.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attributeGroup ref="driver:sync"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="build">
+		<xsd:annotation>
+			<xsd:documentation>
+				Runs a symbian build chain command, packages the targets in a SIS file (if PlatSec is on), transfers them to the device,
+				installs them, runs them and then deletes the files/SIS package.
+
+				This operation is done in two phases, the build phase and the run phase. During the build phase, "abld.bat" is called in the
+				group directory. This directory must contain a "bld.inf" file. Optionally a "bldmake.bat" and "clean" operations will also
+				be run, if specified in the TestDriver configuration. The targets are then calculated using "abld.bat -what" and copied to
+				the repository, and packaged into a SIS file, irrespective of PlatSec being on or off.
+
+				In the run phase the repositories or SIS packages are transfered to the device depending on whether PlatSec is on or off
+				respectively. If PlatSec is on then SIS package is installed at the beginning of the task and un-installed at the end of the
+				task. If PlatSec is off then the repository files are transfered at the beginning of the task and deleted at the end.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence maxOccurs="1" minOccurs="1">
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="componentName">
+				<xsd:annotation>
+					<xsd:documentation>
+						The list of components specified by the MMP files. It is not necessary to include the MMP file extension when
+						listing the components of a group directory.
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:simpleType>
+					<xsd:annotation>
+						<xsd:documentation>
+							The name of the MMP file to build. Does not need the ".mmp" at the end. This must match the regular
+							expression: [^\\ / : \* \? \.]*.
+						</xsd:documentation>
+					</xsd:annotation>
+					<xsd:restriction base="xsd:string">
+						<xsd:pattern value="[^\\ / : \* \? \.]*"/>
+						<!-- "(ani|app|ctl|dll|ecomiic|epocexe|exe|exedll|exexp|fsy|implib|kdll|kext|klib|ldd|lib|mda|mdl|notifier|opx|pdd|pdl|rdl|var)" #x3E #x3C #x22 -->
+					</xsd:restriction>
+				</xsd:simpleType>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attributeGroup ref="driver:URI"/>
+		<xsd:attribute default="false" name="testBuild" type="xsd:boolean" use="optional">
+			<xsd:annotation>
+				<xsd:documentation>
+					Adds the option "test" to all Symbian Build Chain commands. For example "abld.bat" is run as "abld.bat test a component".
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:complexType name="testExecuteScript">
+		<xsd:annotation>
+			<xsd:documentation>
+				A TEF script file which will be transfered, run and the corresponding results retrieved to the TestDriver result folder. TEF
+				Scripts do not accept wildcards but do accept variables in the PCPath. During the build phase of TestDriver all the scripts
+				are collected into the repository and packaged into a SIS file. In the run phase they are subsequently installed or
+				transfered, run and then un-installed or deleted depending on if PlatSec is on or off respectively. Please see the
+				documentation for the TEF tests for further details.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence maxOccurs="1" minOccurs="0">
+			<xsd:element maxOccurs="1" minOccurs="1" name="testCasesList" nillable="true" type="driver:testCasesList"/>
+		</xsd:sequence>
+		<xsd:attribute name="PCPath" type="xsd:anyURI" use="required"/>
+		<xsd:attribute name="SymbianPath" type="driver:SymbianPath" use="required"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="testCasesList">
+		<xsd:sequence maxOccurs="1" minOccurs="1">
+			<xsd:element id="tsetCase" maxOccurs="unbounded" minOccurs="1" name="testCase" type="driver:testCase"/>
+		</xsd:sequence>
+		<xsd:attribute name="operator" use="required">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="include"/>
+					<xsd:enumeration value="exclude"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="testCase">
+		<xsd:attribute name="target" use="required">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:pattern value="(\S+\.tcs)|([^ :\.]+)(\:[^ :\.]+)?"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="rtest">
+		<xsd:annotation>
+			<xsd:documentation>
+				This test is depreciated.
+
+				Copies, runs and retrieves R-Test's. Please see RTest documentation for further details.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:attribute name="SymbianPath" type="xsd:string" use="required"/>
+		<xsd:attribute name="ResultFile" type="driver:SymbianPath" use="optional"/>
+	</xsd:complexType>
+
+	<xsd:simpleType name="statCommand">
+		<xsd:annotation>
+			<xsd:documentation>
+				The possible STAT commands. STAT is the protocol used between the PC and the Symbian device (hardware or emulator). Please
+				see the STAT documentation for further details.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="createFolder"/>
+			<xsd:enumeration value="removeFolder"/>
+			<xsd:enumeration value="listDrives"/>
+			<xsd:enumeration value="listFiles"/>
+			<xsd:enumeration value="getScreenCapture"/>
+			<xsd:enumeration value="delete"/>
+			<xsd:enumeration value="run"/>
+			<xsd:enumeration value="startLogging"/>
+			<xsd:enumeration value="stopLogging"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="SymbianPath">
+		<xsd:annotation>
+			<xsd:documentation>
+				The path to the file on the Symbian device. This must match the regular expression: [a-zA-Z$]:\\([^\\ / : \* \? \.]+\\)*[^\\
+				/ : \* \? \.]*\.[^\\ / : \* \? \.]+.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[a-zA-Z$]:\\([^\\ / : \* \?]+\\)*[^\\ / : \?]+"/>
+      <!-- #x3E #x3C #x22 -->
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:attributeGroup name="URI">
+		<xsd:attribute default="file://c:/" name="URI" type="xsd:anyURI" use="optional">
+			<xsd:annotation>
+				<xsd:documentation>
+					This must be a fully qualified URI. TestDriver currently only supports running with the "file:/"; protocol, but may
+					eventually be able to run over other protocols. The URI does support variables but not wildcards.
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:attributeGroup>
+
+	<xsd:attributeGroup name="sync">
+		<xsd:attribute default="true" name="sync" type="xsd:boolean" use="optional">
+			<xsd:annotation>
+				<xsd:documentation>
+					If sync is "false", then the command will run asyncronously to the current thread, and only be terminated when complete,
+					if the timeout occurs or at the end of the current task (whichever is first). If sync is "true" then the current thread
+					will wait till the command has finished or the timeout occurs. This tag is optional and the default is "true".
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:attributeGroup>
+
+    <xsd:complexType name="flashROM">
+    	<xsd:annotation>
+			<xsd:documentation>
+				Flashes the Symbian OS device with a new ROM specified by the PC Path.
+			</xsd:documentation>
+		</xsd:annotation>
+    	<xsd:attribute name="PCPath" type="xsd:anyURI" use="required"/>
+  	</xsd:complexType>
+  	
+
+
+    <xsd:complexType name="startTrace">
+    	<xsd:attribute name="enable_primary_filters" type="xsd:string"
+    		use="optional">
+    	</xsd:attribute>
+    	<xsd:attribute name="enable_secondary_filters" type="xsd:string"
+    		use="optional">
+    	</xsd:attribute>
+    	<xsd:attribute name="disable_primary_filters" type="xsd:string"
+    		use="optional">
+    	</xsd:attribute>
+    	<xsd:attribute name="disable_secondary_filters"
+    		type="xsd:string" use="optional">
+    	</xsd:attribute>
+    	<xsd:attribute name="config_file_path" type="xsd:string" use="optional"></xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:complexType name="stopTrace"></xsd:complexType>
+</xsd:schema>

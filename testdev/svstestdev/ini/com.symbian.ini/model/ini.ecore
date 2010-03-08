@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ini"
+    nsURI="http://www.symbian.com/ini" nsPrefix="ini">
+  <eClassifiers xsi:type="ecore:EClass" name="IniModel">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ini" lowerBound="1" upperBound="-1"
+        eType="#//Ini" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Ini" abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IniLeaf" abstract="true" interface="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Section" eSuperTypes="comment.ecore#//AttachedComment #//Ini">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        iD="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="iniLeaf" lowerBound="1"
+        upperBound="-1" eType="#//IniLeaf" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Data" eSuperTypes="comment.ecore#//AttachedComment #//Ini #//IniLeaf">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="key" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IniComment" eSuperTypes="comment.ecore#//Comment #//Ini #//IniLeaf"/>
+</ecore:EPackage>

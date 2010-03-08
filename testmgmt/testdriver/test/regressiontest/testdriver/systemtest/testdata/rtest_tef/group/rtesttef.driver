@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<driver:driver xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:driver="http://www.symbian.com/TestDriver">
+  <task name="rtesttef" timeout="100000">
+    <task name="demo">
+	    <startTrace enablePrimaryFilters="1"/>
+      <executeOnPC>
+        <build testBuild="true" URI="${sourceroot}\group\">
+          <componentName>sampleserver</componentName>
+        </build>
+        <build testBuild="true" URI="${sourceroot}\group\">
+          <componentName>testbuilddep</componentName>
+        </build>
+        <build testBuild="true" URI="${sourceroot}\group\">
+          <componentName>testbuilddep2</componentName>
+        </build>
+        <build testBuild="true" URI="${sourceroot}\group\">
+          <componentName>legacytestpass</componentName>
+        </build>
+        <!--build testBuild="true" URI="${sourceroot}\group\">
+          <componentName>legacytestfail</componentName>
+        </build-->
+
+      </executeOnPC>
+      <!--transferToSymbian>
+        <transfer move="false" PCPath="${epocroot}\epoc32\release\winscw\udeb\z\sampletest\SampleTest.ini" SymbianPath="c:\SampleTest\SampleTest.ini"/>
+      </transferToSymbian>
+      <transferToSymbian>
+        <transfer move="false" PCPath="${sourceroot}\Tests\Source\SampleServer\testdata\SampleTest.cfg" SymbianPath="c:\SampleTest\SampleTest.cfg"/>
+      </transferToSymbian -->
+
+      <!--task name="LegacyTestFail" timeout="60">
+        <executeOnSymbian>
+          <rtest SymbianPath="c:\sys\bin\LegacyTestFail.exe"/>
+        </executeOnSymbian>
+      </task-->
+      <task name="LegacyTestPass" timeout="60">
+        <executeOnSymbian>
+          <rtest SymbianPath="c:\sys\bin\LegacyTestPass.exe"/>
+        </executeOnSymbian>
+      </task>
+      <task name="TETestFail" timeout="120">
+        <executeOnSymbian>
+          <testExecuteScript PCPath="${epocroot}\epoc32\release\winscw\urel\z\sampletest\fail.script" SymbianPath="c:\SampleTest\fail.script"/>
+          </executeOnSymbian>
+  </task>
+      <task name="TEFTestPass" timeout="120">
+        <executeOnSymbian>
+          <testExecuteScript PCPath="${epocroot}\epoc32\release\winscw\urel\z\sampletest\pass.script" SymbianPath="c:\SampleTest\pass.script"/>
+        </executeOnSymbian>
+      </task>
+      <stopTrace/>
+    </task>
+  </task>
+</driver:driver>

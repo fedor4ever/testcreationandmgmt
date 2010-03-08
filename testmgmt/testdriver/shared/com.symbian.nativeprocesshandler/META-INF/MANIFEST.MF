@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: com.symbian.nativeprocesshandler
+Bundle-Version: 1.0.1001
+Bundle-Localization: plugin
+Export-Package: com.symbian.nativeprocesshandler
+Require-Bundle: com.symbian.utils
+Bundle-Vendor: %providerName

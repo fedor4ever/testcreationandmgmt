@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         id="com.symbian.driver.plugins.romflashing"
+         name="Symbian Rom Flashing"
+         point="com.symbian.driver.core.RomFlashing">
+         <RomFlashing class="com.symbian.driver.plugins.romflash.Activator">
+            <variable
+                  name="method"
+                  value="usb"/>
+            <variable
+                  name="portnumber"
+                  value="6"/>
+            <variable
+                  name="rebootextension"
+                  value="com.symbian.driver.core.DeviceReboot"/>
+         </RomFlashing>
+   </extension>
+   <extension
+         id="ROMFlahingConfig"
+         point="com.symbian.driver.core.TDConfig">
+         <TDConfig class="com.symbian.driver.plugins.romflash.Activator"/>
+   </extension>
+   <extension
+         point="com.symbian.driver.core.TDLauncher">
+         <TDLauncher class="com.symbian.driver.plugins.romflash.ROMFlashLaunchTab"/>
+   </extension>
+</plugin>

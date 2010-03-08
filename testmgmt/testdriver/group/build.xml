@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="pde_headless_build" name="Testdriver_build">
+	<target name="init">
+		<property environment="env" />
+		<property name="td.eclipse" value="${env.ECLIPSEHOME}" />
+		<property name="td.eclipse.startupjar" value="${env.ECLIPSEHOME}/plugins/org.eclipse.equinox.launcher.jar" />
+		<property name="Build.Type" value="I" />
+		<property name="Build.Id" value="testdriver2"/>
+		<property name="TDArchive.Name" value="testdriver2"/>
+                <property name="Build.Config" value="win32.win32.x86"/>
+
+		<!-- Depended 3rdparty component paths -->
+		<property name="commons.cli.path" value="..\..\..\..\..\dev\eclipseenv\eclipseplugins\commons-cli-1.0.1"/>
+		<property name="commons.net.path" value="..\..\..\..\..\dev\eclipseenv\eclipseplugins\commons-net-1.4.1"/>
+		<property name="oro.path" value="..\..\..\..\..\dev\eclipseenv\eclipseplugins\oro-2.0.8"/>
+		<property name="javamail.path" value="..\..\..\..\..\dev\eclipseenv\eclipseplugins\javamail-1.4"/>
+		<property name="jdom.path" value="..\..\..\..\..\dev\eclipseenv\eclipseplugins\jdom-1.0"/>
+		<property name="rxtx.path" value="..\..\..\..\..\dev\eclipseenv\eclipseplugins\rxtx-1.0.0"/>
+
+		<!-- create tmp duild dir -->
+		<property name="td.builddir" value="${env.EPOCROOT}epoc32\BUILD\TDBuildDir" />
+		<property name="td.plugins" value="${td.builddir}\plugins" />
+		<property name="td.features" value="${td.builddir}\features" />
+	</target>
+        
+	<target name="copysource" depends="init">
+		<mkdir dir="${td.builddir}" />
+		<mkdir dir="${td.builddir}\features" />
+		<mkdir dir="${td.builddir}\plugins" />
+
+		<!--copy built-in plugins to tmp build dir-->
+		<copy overwrite="false" todir="${td.plugins}\com.symbian.driver"> <fileset dir="..\driver\com.symbian.driver"/>
+		</copy>
+		<copy overwrite="false" todir="${td.plugins}\com.symbian.driver.core"> <fileset dir="..\driver\com.symbian.driver.core"/>
+		</copy>
+		<copy overwrite="false" todir="${td.plugins}\com.symbian.driver.report"> <fileset dir="..\driver\com.symbian.driver.report"/>
+		</copy>
+		<copy overwrite="false" todir="${td.plugins}\com.symbian.driver.plugins.reboot"> <fileset dir="..\plugins\com.symbian.driver.plugins.reboot"/>
+		</copy>
+		<copy overwrite="false" todir="${td.plugins}\com.symbian.driver.plugins.romflash"> <fileset dir="..\plugins\com.symbian.driver.plugins.romflash"/>
+		</copy>
+		<copy overwrite="false" todir="${td.plugins}\com.symbian.driver.plugins.comms.stat"> <fileset dir="..\plugins\com.symbian.driver.plugins.comms.stat"/>
+		</copy>
+		<copy overwrite="false" todir="${td.plugins}\com.symbian.driver.plugins.comms.ftptelnet"> <fileset dir="..\plugins\com.symbian.driver.plugins.comms.ftptelnet"/>
+		</copy>
+		<copy overwrite="false" todir="${td.plugins}\com.symbian.driver.plugins.utrace"> <fileset dir="..\plugins\com.symbian.driver.plugins.utrace"/>
+		</copy>
+		<copy overwrite="false" todir="${td.plugins}\com.symbian.driver.plugins.coredump"> <fileset dir="..\plugins\com.symbian.driver.plugins.coredump"/>
+		</copy>
+		<copy overwrite="false" todir="${td.plugins}\com.symbian.jstat"> <fileset dir="..\shared\com.symbian.jstat"/>
+		</copy>
+		<copy overwrite="false" todir="${td.plugins}\com.symbian.nativeprocesshandler"> <fileset dir="..\shared\com.symbian.nativeprocesshandler"/>
+		</copy>
+		<copy overwrite="false" todir="${td.plugins}\com.symbian.utils"> <fileset dir="..\shared\com.symbian.utils"/>
+		</copy>
+
+		<copy overwrite="false" todir="${td.plugins}\org.apache.commons.cli"> <fileset dir="${commons.cli.path}"/>
+		</copy>
+		<copy overwrite="false" todir="${td.plugins}\org.apache.commons.net"> <fileset dir="${commons.net.path}"/>
+		</copy>
+		<copy overwrite="false" todir="${td.plugins}\org.apache.oro"> <fileset dir="${oro.path}"/>
+		</copy>
+		<copy overwrite="false" todir="${td.plugins}\org.java.javax.mail"> <fileset dir="${javamail.path}"/>
+		</copy>
+		<copy overwrite="false" todir="${td.plugins}\org.jdom"> <fileset dir="${jdom.path}"/>
+		</copy>
+		<copy overwrite="false" todir="${td.plugins}\org.RXTX"> <fileset dir="${rxtx.path}"/>
+		</copy>
+	</target>
+
+	<!-- ================================= 
+          target: default_target
+		build testdriver as an rcp application,
+      		build tep
+		update zip files
+		copy to epoc tree		
+         ================================= -->
+	 <target name="pde_headless_build" depends="copysource">
+		<copy tofile="${env.ECLIPSEHOME}/plugins/org.eclipse.equinox.launcher.jar">
+			<fileset dir="${env.ECLIPSEHOME}/plugins" includes="**/org.eclipse.equinox.launcher_*.jar"/>
+		</copy>
+
+		<!-- build TD rcp standalone application -->
+		<echo> Building TestDriver as RCP Standalone application </echo>
+		<java classname="org.eclipse.core.launcher.Main" fork="yes" clonevm="true">
+			<classpath>
+				<pathelement location="${td.eclipse.startupjar}" />
+			</classpath>
+			<arg line=" -application org.eclipse.ant.core.antRunner -buildfile ${basedir}/productBuild.xml -Dbuilder=${basedir} -Dbase=${env.ECLIPSEHOME}/.. -Dproduct=${basedir}/../driver/com.symbian.driver.core/testdriver.product -DbuildDirectory=${td.builddir} -DbuildType=${Build.Type} -DbuildId=${Build.Id} -Dtd.archivename=${TDArchive.Name} -DjavacDebugInfo=false -DjavacFailOnError=true -DjavacVerbose=false -DjavacSource=1.5 -DjavacTarget=1.5 -DcompilerArg=-nowarn"/>
+		</java>	
+
+		<!-- add root files from com.symbian.driver.core to the generated zip file -->
+		<zip destfile="${td.builddir}/${Build.Type}.${Build.Id}/${TDArchive.Name}-${Build.Config}-new.zip" filesonly="true" whenempty="skip" update="false">
+			<zipfileset dir="${basedir}/../driver/com.symbian.driver.core/rootfiles/automation" includes="**/*" prefix="testdriver/eclipse/automation" />
+			<zipfileset dir="${basedir}/../driver/com.symbian.driver.core/rootfiles" includes="startup.jar" prefix="testdriver/eclipse" />
+			<zipfileset dir="${basedir}/../driver/com.symbian.driver.core/rootfiles" includes="logging.properties" prefix="testdriver/eclipse" />
+			<zipfileset file="${basedir}/testdriver.cmd" prefix="testdriver" />
+			<zipfileset src="${td.builddir}/${Build.Type}.${Build.Id}/${TDArchive.Name}-${Build.Config}.zip" includes="**/*" prefix="testdriver" />
+		</zip>
+		<delete file="${td.builddir}/${Build.Type}.${Build.Id}/${TDArchive.Name}-${Build.Config}.zip" />
+
+  		<!-- Copy the zip files to epoc tree -->
+  		<copy file="${td.builddir}/${Build.Type}.${Build.Id}/${TDArchive.Name}-${Build.Config}-new.zip" tofile="${env.EPOCROOT}${TDArchive.Name}.zip" overwrite="true"/>
+	</target>
+
+	<!-- ================================= 
+       	target: clean
+	- This target is mandatory for the Symbian buid process.
+	- Please clean up all generated files during the build proccess.
+	- Used by "abld clean" and "abld reallyclean".
+	================================= -->
+	<target name="clean" depends="init">
+		<java classname="org.eclipse.core.launcher.Main" fork="yes" clonevm="true">
+			<classpath>
+				<pathelement location="${td.eclipse.startupjar}" />
+			</classpath>
+			<arg line="-application org.eclipse.ant.core.antRunner -buildfile ${basedir}/productBuild.xml clean -Dbuilder=${basedir} -Dbase=${env.ECLIPSEHOME}/.. -Dproduct=${basedir}/../driver/com.symbian.driver.core/testdriver.product -DbuildDirectory=${td.builddir} -DbuildType=${Build.Type} -DbuildId=${Build.Id} -Dtd.archivename=${TDArchive.Name}"/>
+		</java>
+
+		<delete dir="${td.builddir}/${Build.Type}.${Build.Id}" />
+		<delete file="${env.EPOCROOT}${TDArchive.Name}.zip"/>
+	</target>
+
+	<!-- ================================= 
+          target: what
+                    
+          - This target is mandatory for the Symbian buid process.
+          - Please echo all created files, sperated by whitespace.
+          - Used by "abld build -what".
+         ================================= -->
+	 <target name="what" depends="init" description="Prints out all releasables">
+		<unzip src="${env.EPOCROOT}${TDArchive.Name}.zip" dest = "${env.EPOCROOT}" />
+		<pathconvert pathsep="${line.separator}" property="output">
+			<fileset id="jar.set" dir="${env.EPOCROOT}" casesensitive="no">
+				<include name="${TDArchive.Name}.zip" />
+			</fileset>
+		</pathconvert>
+		<echo message="${env.EPOCROOT}testdriver" />
+	</target>	
+
+</project>

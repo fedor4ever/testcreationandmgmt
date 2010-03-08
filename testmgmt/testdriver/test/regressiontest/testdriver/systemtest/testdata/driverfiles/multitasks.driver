@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<driver:driver xmlns:driver="http://www.symbian.com/TestDriver">
+  <task name="multitasks" timeout="100">
+    <task name="te_TestServerSuite">
+      <task name="level2">
+        <task name="level3">
+           <task name="level4">
+             <task name="level5">
+                 <executeOnPC>
+                 <cmd phase="build">echo multitasktest</cmd>
+                 </executeOnPC>
+	     </task>
+	  </task>
+	</task>
+      </task>
+    </task>
+  </task>
+</driver:driver>

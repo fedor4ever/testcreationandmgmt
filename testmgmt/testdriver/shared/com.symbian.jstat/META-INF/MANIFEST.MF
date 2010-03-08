@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: com.symbian.jstat
+Bundle-Version: 1.0.1001
+Bundle-Localization: plugin
+Require-Bundle: com.symbian.utils
+Export-Package: com.symbian.jstat
+Bundle-Vendor: %providerName

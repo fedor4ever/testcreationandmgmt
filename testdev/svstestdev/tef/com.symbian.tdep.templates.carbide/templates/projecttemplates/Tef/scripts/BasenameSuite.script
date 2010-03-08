@@ -1,0 +1,48 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+// Sample Test Script
+
+PRINT Run all $(baseName) Suite Tests
+
+LOAD_SUITE $(baseName)Suite
+
+
+//Please add or make change of you test steps, here is sample only:
+START_TESTCASE UsingTestData0
+
+RUN_TEST_STEP 100 $(baseName)Suite test0Step $(dataExportLoc)\$(baseName)Suite.ini Section0
+RUN_TEST_STEP 100 $(baseName)Suite test1Step $(dataExportLoc)\$(baseName)Suite.ini Section0
+RUN_TEST_STEP 100 $(baseName)Suite test2Step $(dataExportLoc)\$(baseName)Suite.ini Section0
+
+END_TESTCASE UsingTestData0
+
+START_TESTCASE UsingTestData1
+
+RUN_TEST_STEP 100 $(baseName)Suite test0Step $(dataExportLoc)\$(baseName)Suite.ini Section1
+RUN_TEST_STEP 100 $(baseName)Suite test1Step $(dataExportLoc)\$(baseName)Suite.ini Section1
+RUN_TEST_STEP 100 $(baseName)Suite test2Step $(dataExportLoc)\$(baseName)Suite.ini Section1
+
+END_TESTCASE UsingTestData1
+
+START_TESTCASE UsingTestData2
+
+RUN_TEST_STEP 100 $(baseName)Suite test0Step $(dataExportLoc)\$(baseName)Suite.ini Section2
+RUN_TEST_STEP 100 $(baseName)Suite test1Step $(dataExportLoc)\$(baseName)Suite.ini Section2
+RUN_TEST_STEP 100 $(baseName)Suite test2Step $(dataExportLoc)\$(baseName)Suite.ini Section2
+
+END_TESTCASE UsingTestData2
+
+PRINT Complete $(baseName)Suite

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         id="DeviceCommsConfig"
+         point="com.symbian.driver.core.TDConfig">
+      <TDConfig class="com.symbian.driver.plugins.ftptelnet.Activator"/>
+   </extension>
+   <extension
+         point="com.symbian.driver.core.TDLauncher">
+      <TDLauncher/>
+   </extension>
+   <extension
+         id="com.symbian.driver.plugins.comms.ftptelnet"
+         name="FTPTELNET"
+         point="com.symbian.driver.core.DeviceComms">
+      <DeviceComms class="com.symbian.driver.plugins.ftptelnet.Activator">
+         <DeviceFileTransfer class="com.symbian.driver.plugins.ftptelnet.FtpTransfer"/>
+         <DeviceProcess class="com.symbian.driver.plugins.ftptelnet.TelnetProcess"/>
+         <variable
+               name="telnetport"
+               value="23"/>
+         <variable
+               name="ftpport"
+               value="21"/>
+         <variable
+               name="ftppassive"
+               value="true"/>
+      </DeviceComms>
+   </extension>
+
+</plugin>

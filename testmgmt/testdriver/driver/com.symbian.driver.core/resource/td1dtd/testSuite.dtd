@@ -1,0 +1,39 @@
+<!ELEMENT testSuite (name,((suite|Suite)*|(test|Test)*|testItems|testExecuteServers?|dependencies?)*)>
+
+<!-- Header operations -->
+<!ELEMENT name (#PCDATA)>
+
+<!-- Operations specific to testSuite -->
+<!ELEMENT testItems ((suite|Suite)|(test|Test)|suiteRef|testRef)*>
+<!ELEMENT suite (#PCDATA)>
+<!ELEMENT Suite (#PCDATA)> <!-- Capital must be deleted, Used for bad XML -->
+<!ELEMENT test (#PCDATA)>
+<!ELEMENT Test (#PCDATA)> <!-- Capital must be deleted, Used for bad XML -->
+
+<!-- TEF Servers -->
+<!ELEMENT testExecuteServers (server*)>
+<!ELEMENT server (#PCDATA)>
+
+<!-- Suite Referencing -->
+<!ELEMENT suiteRef (#PCDATA)>
+<!ELEMENT testRef (#PCDATA)>
+
+<!-- Resource Items -->
+<!ELEMENT resource ((hostPath,devicePath+)|(devicePath+,hostPath,devicePath*))>
+<!ELEMENT aif ((hostPath,devicePath+)|(devicePath+,hostPath,devicePath*))>
+<!ELEMENT resourceItems ((resource+,aif+)|(aif+,resource+,aif*))>
+
+<!-- Dependencies of the test -->
+<!ELEMENT dependencies ((data|buildable|delete|retrieve)*,(data|buildable|delete|retrieve)*,(data|buildable|delete|retrieve)*,(data|buildable|delete|retrieve)*)*>
+<!ELEMENT data ((hostPath,devicePath+)|(devicePath+,hostPath,devicePath*))>
+<!ELEMENT buildable (hostPath,devicePath+,mmpFile,bldInfPath)>
+<!ATTLIST buildable type (normal|ASSP|Normal_ASSP|test) "test">
+<!ELEMENT retrieve ((hostPath,devicePath+)|(devicePath+,hostPath,devicePath*))>
+<!ATTLIST retrieve timeStamp (yes|no) "no">
+<!ELEMENT delete (devicePath)>
+
+<!-- Used for Resource Items and Dependency -->
+<!ELEMENT mmpFile (#PCDATA)>
+<!ELEMENT bldInfPath (#PCDATA)>
+<!ELEMENT hostPath (#PCDATA)>
+<!ELEMENT devicePath (#PCDATA)>

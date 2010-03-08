@@ -1,0 +1,31 @@
+// $(baseName)Suite.mmp
+// $(copyright)
+
+TARGET				$(baseName)Suite.exe
+TARGETTYPE			exe
+UID					0x1000007A $(uid3)
+
+//Please add any change under here
+SOURCEPATH			..\$(sourceDir)
+SOURCE				$(baseName)SuiteServer.cpp
+SOURCE				$(baseName)SuiteStepBase.cpp
+SOURCE              test0Step.cpp
+SOURCE              test1Step.cpp
+SOURCE              test2Step.cpp
+	
+
+USERINCLUDE 		..\$(incDir)
+
+SYSTEMINCLUDE		\epoc32\include
+SYSTEMINCLUDE		\epoc32\include\test
+
+//Please add your system include under here. 
+
+LIBRARY				euser.lib
+LIBRARY				testexecuteutils.lib 
+LIBRARY				testexecutelogclient.lib 
+
+//Please add your libraries under here. For example:
+//LIBRARY		efsrv.lib
+//LIBRARY		insock.lib
+//LIBRARY		esock.lib

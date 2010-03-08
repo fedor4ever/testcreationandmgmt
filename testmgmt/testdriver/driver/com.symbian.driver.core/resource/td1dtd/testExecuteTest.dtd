@@ -1,0 +1,44 @@
+<!ELEMENT testExecuteTest (name,(timeout|testScripts|stepLogs?|testServers|dependencies?|beforeTestRun?|afterTestRun?|copyFrom?)+)>
+<!ATTLIST testExecuteTest emulatorMode CDATA "cdma">
+
+<!-- Header operations -->
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT timeout (#PCDATA)>
+
+<!-- Operations specific to testExecuteTest -->
+<!ELEMENT testScripts (script+)>
+<!ELEMENT script ((hostPath,devicePath+)|(devicePath+,hostPath,devicePath*))>
+<!ELEMENT testServers (server+)>
+<!ELEMENT server (#PCDATA)>
+<!ELEMENT stepLogs (log+)>
+<!ELEMENT log (#PCDATA)>
+
+<!-- Resource Items -->
+<!ELEMENT resourceItems ((resource*,aif*,resource*)|(aif*,resource*,aif*))>
+<!ELEMENT aif ((hostPath,devicePath+)|(devicePath+,hostPath,devicePath*))>
+<!ELEMENT resource ((hostPath,devicePath+)|(devicePath+,hostPath,devicePath*))>
+
+<!-- Dependencies of the test -->
+<!ELEMENT dependencies ((data|buildable|delete|retrieve)*,(data|buildable|delete|retrieve)*,(data|buildable|delete|retrieve)*,(data|buildable|delete|retrieve)*)*>
+<!ELEMENT data ((hostPath,devicePath+)|(devicePath+,hostPath,devicePath*))>
+<!ELEMENT buildable (hostPath,devicePath+,mmpFile,bldInfPath)>
+<!ATTLIST buildable type (normal|ASSP|Normal_ASSP|test) "test">
+<!ELEMENT retrieve ((hostPath,devicePath+)|(devicePath+,hostPath,devicePath*))>
+<!ATTLIST retrieve timeStamp (yes|no) "no">
+<!ELEMENT delete (devicePath)>
+
+<!-- Used for Resource Items and Dependency -->
+<!ELEMENT mmpFile (#PCDATA)>
+<!ELEMENT bldInfPath (#PCDATA)>
+<!ELEMENT devicePath (#PCDATA)>
+<!ELEMENT hostPath (#PCDATA)>
+
+<!-- Operations that can occur on every test type -->
+<!ELEMENT beforeTestRun EMPTY>
+<!ATTLIST beforeTestRun cmd CDATA #REQUIRED>
+<!ELEMENT afterTestRun EMPTY>
+<!ATTLIST afterTestRun cmd CDATA #REQUIRED> 
+<!ELEMENT copyFrom EMPTY>
+<!ATTLIST copyFrom
+	src CDATA #REQUIRED
+	dst CDATA #REQUIRED>

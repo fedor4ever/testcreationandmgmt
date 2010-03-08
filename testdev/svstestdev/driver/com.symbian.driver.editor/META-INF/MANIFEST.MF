@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: com.symbian.driver.editor; singleton:=true
+Bundle-Version: 1.0.0
+Bundle-ClassPath: .
+Bundle-Activator: com.symbian.driver.presentation.DriverEditorPlugin$Implementation
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: J2SE-1.5 
+Export-Package: com.symbian.driver.presentation
+Require-Bundle: org.eclipse.core.runtime,
+ org.apache.commons_cli,
+ org.eclipse.debug.core,
+ org.eclipse.debug.ui,
+ org.eclipse.core.resources;visibility:=reexport,
+ com.symbian.driver.core;visibility:=reexport,
+ com.symbian.driver.edit;visibility:=reexport,
+ com.symbian.driver.report.edit;visibility:=reexport,
+ com.symbian.utils;visibility:=reexport,
+ org.eclipse.emf.ecore.xmi;visibility:=reexport,
+ org.eclipse.emf.edit.ui;visibility:=reexport,
+ org.eclipse.ui.ide;visibility:=reexport,
+ org.eclipse.ui.console,
+ org.eclipse.ui.editors
+Eclipse-LazyStart: true

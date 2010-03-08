@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.contexts"?>
+<contexts>
+
+	<context id="Test_Case_Wizard">
+  		<description>Creating test cases using the Test Case Wizard</description>	   
+		<topic label="Creating test cases" href="html/tasks/creation_of_test_case.htm" />	
+	</context>
+	
+	<context id="Test_Module_Wizard">
+		<description>Creating test modules using Test Module Wizard</description> 
+		<topic label="How to create new test module using Test Module Wizard" href="html/tasks/creating_test_module.htm" /> 
+	</context>
+
+	<context id="Script_Editor">
+      	<description>Creating scripts with the STIF Script Editor</description>	   
+		<topic label="Creating scripts for Test Scripter and Test Combiner" href="html/tasks/script_editor.htm" />
+	</context>	  
+
+	<context id="Configuration_File_Wizard">
+      	<description>Setting up the STIF configuration file</description>	   
+		<topic label="Setting up the STIF configuration file" href="html/tasks/configuration_wizard.htm" />
+	</context>	  
+
+	<context id="Configuration_File_Editor">
+      	<description>Editing the configuration file</description>	   
+		<topic label="Editing the configuration file" href="html/tasks/configuration_editor.htm" />
+	</context>	  
+
+<!-- added TestDrop -specific context IDs --> 
+  
+	<context id="TESTDROP_SEND_DIALOG_TARGET_DEVICE_LIST">
+      		<description>Select one target device from the list</description>	   
+		<topic label="Send TestDrop dialog" href="html/tasks/senddialog.htm" /> 
+	</context>    
+
+	<context id="TESTDROP_IMAGE_SELECTION_DIALOG_LIST">
+      		<description>Flash image list</description>	   
+		<topic label="Send TestDrop dialog" href="html/tasks/senddialog.htm" /> 
+	</context>  
+
+	<context id="TESTDROP_PREFERENCES_HOST">
+      		<description>ATS Server host</description>	   
+		<topic label="Setting preferences" href="html/tasks/preferences.htm" /> 
+	</context>  
+	<context id="TESTDROP_PREFERENCES_TEST_CONNECTION">
+      		<description>Test connection to the ATS Server</description>	   
+		<topic label="Setting preferences" href="html/tasks/preferences.htm" /> 
+	</context>  
+	<context id="TESTDROP_PREFERENCES_SHOW_DIALOG_ALWAYS">
+      		<description>Show TestDrop dialog always</description>	   
+		<topic label="Setting preferences" href="html/tasks/preferences.htm" /> 
+	</context>   
+	<context id="TESTDROP_PREFERENCES_TARGET_DEVICE_LIST_CACHE">
+      		<description>Set target device list cache / refresh time</description>	   
+		<topic label="Setting preferences" href="html/tasks/preferences.htm" /> 
+	</context>  
+	<context id="TESTDROP_PREFERENCES_DEFAULT">
+      		<description>Set one target device as default</description>	   
+		<topic label="Setting preferences" href="html/tasks/preferences.htm" /> 
+	</context> 
+	<context id="TESTDROP_PREFERENCES_DEFAULT_TARGET_DEVICE_LIST">
+      		<description>Select one target device from the list</description>	   
+		<topic label="Setting preferences" href="html/tasks/preferences.htm" /> 
+	</context>   
+	<context id="TESTDROP_PREFERENCES_DEFAULT_SET_IMAGES">
+      		<description>Open Target Device Image Selection dialog for selecting flash images</description>	   
+		<topic label="Setting preferences" href="html/tasks/preferences.htm" /> 
+	</context>   
+
+	<context id="TESTDROP_PREFERENCES_TEST_DROP_ENABLE_IMPORT">
+      		<description>Use test drop import for sending test drop</description>	   
+		<topic label="Setting preferences" href="html/tasks/preferences.htm" /> 
+	</context> 
+	<context id="TESTDROP_PREFERENCES_TEST_DROP_PATH_BUTTON">
+      		<description>Browse shared folder for ATS Test drop package</description>	   
+		<topic label="Setting preferences" href="html/tasks/preferences.htm" /> 
+	</context> 
+	<context id="TESTDROP_PREFERENCES_TEST_DROP_PATH">
+      		<description>Shared folder path</description>	   
+		<topic label="Setting preferences" href="html/tasks/preferences.htm" /> 
+	</context> 
+	<context id="TESTDROP_PREFERENCES_TEST_RESULT_VIEW">
+      		<description>Select what kind of test result you want to see in TestDrop Result View</description>	   
+		<topic label="Setting preferences" href="html/tasks/preferences.htm" /> 
+	</context> 
+	<context id="TESTDROP_PREFERENCES_TEST_RESULT_PATH">
+      		<description>Shared folder path where test result will be found</description>	   
+		<topic label="Setting preferences" href="html/tasks/preferences.htm" /> 
+	</context> 
+	<context id="TESTDROP_PREFERENCES_TEST_RESULT_PATH_BROWSE">
+      		<description>Opportunity to select shared folder for test results</description>	   
+		<topic label="Setting preferences" href="html/tasks/preferences.htm" /> 
+	</context> 
+	
+	<context id="TESTDROP_RESULTS_VIEW">
+      		<description>TestDrop test run results from the ATS Server</description>	   
+		<topic label="Viewing TestDrop test results" href="html/tasks/view_testdrop_results.htm" /> 
+	</context> 	  		     
+</contexts>
+

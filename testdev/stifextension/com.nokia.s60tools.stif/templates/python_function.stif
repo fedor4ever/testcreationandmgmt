@@ -1,0 +1,18 @@
+static PyObject* ?member_function(PyObject*self, PyObject* args)
+    {
+    /*Please use PyArg_ParseTupe function with appropriate masks for different types
+      to retrieve parameteres out of the script file.
+      Example usage of PyArg_ParseTuple*/
+    
+    //TInt v1(0), v2(0), v3(0);
+ 	//Get arguments - two mandatory integers, and one optional
+	/*if(!PyArg_ParseTuple(args, "ii|i:?member_function", &v1, &v2, &v3))
+		{
+		return NULL;
+		}  
+	*/       
+	/*
+    	?code
+	*/    
+    return Py_BuildValue(""/*set your ret value here with mask*/);
+    }

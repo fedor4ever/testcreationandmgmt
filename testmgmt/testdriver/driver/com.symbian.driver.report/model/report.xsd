@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema ecore:documentRoot="DocumentRoot" ecore:nsPrefix="report" ecore:package="com.symbian.driver.report"
+	targetNamespace="http://www.symbian.com/DriverReport" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+	xmlns:report="http://www.symbian.com/DriverReport" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<!-- root node -->
+	<xsd:element name="report" type="report:report" />
+
+	<xsd:complexType name="report">
+		<xsd:sequence>
+			<xsd:element name="reportInfo" type="report:reportInfo" />
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="aReport" type="report:baseReport" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="reportInfo">
+		<xsd:sequence>
+			<xsd:element maxOccurs="unbounded" name="info" type="report:info" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType ecore:instanceClass="java.util.Map$Entry" name="info">
+		<xsd:attribute name="key" type="xsd:string" />
+		<xsd:attribute name="value" type="xsd:string" />
+	</xsd:complexType>
+
+	<xsd:complexType name="exceptionReport">
+		<xsd:sequence>
+			<xsd:element name="message" type="xsd:string" />
+			<xsd:element name="stackTrace" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="baseReport">
+		<xsd:sequence>
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="execptionReport" type="report:exceptionReport" />
+		</xsd:sequence>
+		<xsd:attribute name="task" type="xsd:string" use="required" />
+		<xsd:attribute name="name" type="xsd:string" use="required" />
+		<xsd:attribute name="duration" type="xsd:string" use="required" />
+		<xsd:attribute name="timeout" type="xsd:boolean" use="optional" default="false" />
+	</xsd:complexType>
+
+	<xsd:complexType name="genericReport">
+		<xsd:complexContent>
+			<xsd:extension base="report:baseReport">
+				<xsd:attribute name="log" type="xsd:anyURI" use="required" />
+				<xsd:attribute name="result">
+					<xsd:simpleType ecore:name="GenericResult">
+						<xsd:restriction base="xsd:string">
+							<xsd:enumeration value="error" />
+							<xsd:enumeration value="warning" />
+							<xsd:enumeration value="pass" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="tefReport">
+		<xsd:complexContent>
+			<xsd:extension base="report:baseReport">
+				<xsd:sequence>
+					<xsd:element maxOccurs="1" minOccurs="0" name="tefTestCaseSummary" type="report:tefTestCaseSummary" />
+					<xsd:element maxOccurs="1" minOccurs="1" name="tefTestStepSummary" type="report:tefTestStepSummary" />
+					<xsd:element maxOccurs="1" minOccurs="1" name="tefTestRunWsProgramSummary" type="report:tefTestRunWsProgramSummary" />
+				</xsd:sequence>
+				<xsd:attribute name="log" type="xsd:anyURI" use="required" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="tefTestCaseSummary">
+		<xsd:sequence>
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="testCase" type="report:tefTestCase" />
+		</xsd:sequence>
+		<xsd:attribute name="count" type="xsd:int" use="required" />
+		<xsd:attribute name="pass" type="xsd:int" use="required" />
+		<xsd:attribute name="fail" type="xsd:int" use="required" />
+		<xsd:attribute name="inconclusive" type="xsd:int" use="required" />
+		<xsd:attribute name="skipped_selectively" type="xsd:int" use="required" />
+	</xsd:complexType>
+
+	<xsd:complexType name="tefTestCase">
+		<xsd:attribute name="name" type="xsd:string" use="required" />
+		<xsd:attribute name="result" use="required">
+			<xsd:simpleType ecore:name="TefTestCaseResult">
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="pass" />
+					<xsd:enumeration value="fail" />
+					<xsd:enumeration value="inconclusive" />
+					<xsd:enumeration value="skipped_selectively" />
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="tefTestStepSummary">
+		<xsd:sequence>
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="testCase" type="report:tefTestStep" />
+		</xsd:sequence>
+		<xsd:attribute name="count" type="xsd:int" use="required" />
+		<xsd:attribute name="pass" type="xsd:int" use="required" />
+		<xsd:attribute name="fail" type="xsd:int" use="required" />
+		<xsd:attribute name="abort" type="xsd:int" use="required" />
+		<xsd:attribute name="panic" type="xsd:int" use="required" />
+		<xsd:attribute name="unknown" type="xsd:int" use="required" />
+		<xsd:attribute name="unexecuted" type="xsd:int" use="required" />
+		<xsd:attribute name="inconclusive" type="xsd:int" use="required" />
+	</xsd:complexType>
+
+	<xsd:complexType name="tefTestStep">
+		<xsd:attribute name="name" type="xsd:string" use="required" />
+		<xsd:attribute name="result" use="required">
+			<xsd:simpleType ecore:name="TefTestStepResult">
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="pass" />
+					<xsd:enumeration value="fail" />
+					<xsd:enumeration value="inconclusive" />
+					<xsd:enumeration value="abort" />
+					<xsd:enumeration value="panic" />
+					<xsd:enumeration value="unknown" />
+					<xsd:enumeration value="unexecuted" />
+					<xsd:enumeration value="testSuiteError" />
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="tefTestRunWsProgramSummary">
+		<xsd:sequence>
+			<xsd:element maxOccurs="unbounded" minOccurs="0" name="testCase" type="report:tefTestRunWsProgram" />
+		</xsd:sequence>
+		<xsd:attribute name="count" type="xsd:int" use="required" />
+		<xsd:attribute name="pass" type="xsd:int" use="required" />
+		<xsd:attribute name="fail" type="xsd:int" use="required" />
+		<xsd:attribute name="abort" type="xsd:int" use="required" />
+		<xsd:attribute name="panic" type="xsd:int" use="required" />
+		<xsd:attribute name="unknown" type="xsd:int" use="required" />
+		<xsd:attribute name="unexecuted" type="xsd:int" use="required" />
+		<xsd:attribute name="inconclusive" type="xsd:int" use="required" />
+	</xsd:complexType>
+
+	<xsd:complexType name="tefTestRunWsProgram">
+		<xsd:attribute name="name" type="xsd:string" use="required" />
+		<xsd:attribute name="result" use="required">
+			<xsd:simpleType ecore:name="TefTestRunWsProgramResult">
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="pass" />
+					<xsd:enumeration value="fail" />
+					<xsd:enumeration value="inconclusive" />
+					<xsd:enumeration value="abort" />
+					<xsd:enumeration value="panic" />
+					<xsd:enumeration value="unknown" />
+					<xsd:enumeration value="unexecuted" />
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+
+</xsd:schema>

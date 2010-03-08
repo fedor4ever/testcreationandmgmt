@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="com.symbian.tdep"
+      label="%featureName"
+      version="1.0.0"
+      provider-name="%providerName">
+
+   <description url="http://www.symbian.com/">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <includes
+         id="com.symbian.ini.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.symbian.tef.script.feature"
+         version="0.0.0"/>
+
+   <includes
+         id="com.symbian.driver.editor.feature"
+         version="0.0.0"/>
+         
+  <!--includes
+         id="com.symbian.tef.templates.carbide.feature"
+         version="0.0.0"/-->
+
+   <plugin
+         id="org.antlr"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+
+
+</feature>

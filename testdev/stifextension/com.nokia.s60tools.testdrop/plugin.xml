@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+      <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="TestDrop Result Viewer"
+            icon="icons/testdrop_tsk.png"    
+            class="com.nokia.s60tools.testdrop.ui.results.TestResultViewer"
+            id="com.nokia.s60tools.testdrop.results.TestResultViewer">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">         
+      <objectContribution
+	        adaptable="true"
+            objectClass="org.eclipse.core.resources.IProject"
+            id="com.nokia.s60tools.testdrop.popup.actions.project">
+         <action
+               id="com.nokia.s60tools.testdrop.popup.project"
+               label="%popups.TestDropMainMenu"
+               class="com.nokia.s60tools.testdrop.actions.SendTestDropAction"
+               enablesFor="1">       
+         </action>
+         <filter
+              name="projectNature"
+              value="com.nokia.carbide.cdt.builder.carbideCPPBuilderNature"/>
+      </objectContribution>
+    </extension>
+    <extension
+         point="org.eclipse.ui.popupMenus">         
+      <objectContribution
+	        adaptable="true"
+            objectClass="org.eclipse.core.resources.IFile"
+            nameFilter="*.cfg"
+            id="com.nokia.s60tools.testdrop.popup.actions.file">
+         <action
+               id="com.nokia.s60tools.testdrop.popup.file"
+               label="%popups.TestDropMainMenu"
+               class="com.nokia.s60tools.testdrop.actions.SendTestDropAction"
+               enablesFor="1">       
+         </action>
+      </objectContribution>
+    </extension>
+    <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+			label="Send TestDrop"           
+		    visible="true"   
+            id="com.nokia.s60tools.testdrop.actionSet">
+         <action      
+         	   label="&amp;Send TestDrop"               
+               definitionId="com.nokia.s60tools.testdrop.actions.BindingAction"
+               class="com.nokia.s60tools.testdrop.actions.BindingAction"                 
+               menubarPath="com.nokia.carbide.cpp.ui.CarbideMenu/CarbideExtensions"               
+               id="com.nokia.s60tools.testdrop.actions.BindingAction"
+               enablesFor="1">
+         </action>
+      </actionSet>
+   </extension>
+    <extension
+        point="org.eclipse.ui.commands">
+      <category
+           description="Carbide Extensions Keys"
+           name="Carbide Extensions"
+           id="com.nokia.s60tools.ExtensionsCategory"/>    
+      <command
+           categoryId="com.nokia.s60tools.ExtensionsCategory"
+           description="Send TestDrop"
+           id="com.nokia.s60tools.testdrop.actions.BindingAction"
+           name="Send TestDrop"/>
+    </extension>
+  <extension
+        point="org.eclipse.ui.bindings">
+     <key
+           commandId="com.nokia.s60tools.testdrop.actions.BindingAction"
+           contextId="org.eclipse.ui.contexts.window"
+           schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+           sequence="Alt+D"/>        
+  </extension>  
+  <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            name="TestDrop Preferences"
+            class="com.nokia.s60tools.testdrop.ui.preferences.TestDropPreferences"
+            category="com.nokia.carbide.cpp.preferences.ExtensionsPreferencesPage"
+            id="com.nokia.s60tools.testdrop.ui.preferences.TestDropPreferences">
+      </page>
+  </extension>
+  <extension
+         point="org.eclipse.ui.views">
+     <category
+            id="com.nokia.s60tools"
+            name="Carbide Extensions"/>
+      <stickyView
+            closeable="true"
+            id="com.nokia.s60tools.testdrop.ui.views.TestDropResultView"
+            location="RIGHT"
+            moveable="true"/>
+      <view
+            category="com.nokia.s60tools"
+            class="com.nokia.s60tools.testdrop.ui.views.TestDropResultView"
+            icon="icons/testdrop_tsk.png"
+            id="com.nokia.s60tools.testdrop.ui.views.TestDropResultView"
+            name="TestDrop Result View"/>
+   </extension>
+</plugin>

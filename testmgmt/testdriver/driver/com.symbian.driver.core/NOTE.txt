@@ -1,0 +1,7 @@
+WARNING:
+
+Version numbers need to be updated in the following files:
+
+- PDE Overview: Select Project -> right click -> PDE Manifest -> Overview -> Version
+- MANIFEST.MF: In the regular java classpath section (not if using 1.5), not the PDE plugin section
+- TestDriver.cmd: In the rmi.codebase property and in the jar property

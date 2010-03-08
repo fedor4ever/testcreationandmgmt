@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/com.symbian.tef.script/src"
+    modelPluginID="com.symbian.tef.script" modelName="Tef" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false">
+  <foreignModel>tef.ecore</foreignModel>
+  <genPackages prefix="Script" basePackage="com.symbian.tef" resource="XML" disposableProviderFactory="true"
+      ecorePackage="tef.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="tef.ecore#//UtilityCommand">
+      <genEnumLiterals ecoreEnumLiteral="tef.ecore#//UtilityCommand/MakeReadWrite"/>
+      <genEnumLiterals ecoreEnumLiteral="tef.ecore#//UtilityCommand/DeleteFile"/>
+      <genEnumLiterals ecoreEnumLiteral="tef.ecore#//UtilityCommand/DeleteDirectory"/>
+      <genEnumLiterals ecoreEnumLiteral="tef.ecore#//UtilityCommand/CopyFile"/>
+      <genEnumLiterals ecoreEnumLiteral="tef.ecore#//UtilityCommand/MkDir"/>
+    </genEnums>
+    <genClasses ecoreClass="tef.ecore#//TefModel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tef.ecore#//TefModel/tef"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="tef.ecore#//Tef"/>
+    <genClasses image="false" ecoreClass="tef.ecore#//Container">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference tef.ecore#//Container/tef"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="tef.ecore#//Leaf"/>
+    <genClasses ecoreClass="tef.ecore#//TestCase">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//TestCase/name"/>
+    </genClasses>
+    <genClasses ecoreClass="tef.ecore#//Prefix"/>
+    <genClasses ecoreClass="tef.ecore#//Repeat">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//Repeat/name"/>
+    </genClasses>
+    <genClasses ecoreClass="tef.ecore#//TestStep">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//TestStep/server"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//TestStep/timeout"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//TestStep/method"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//TestStep/Error"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//TestStep/PanicString"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//TestStep/PanicCode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//TestStep/Result"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//TestStep/Heap"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//TestStep/OOM"/>
+    </genClasses>
+    <genClasses ecoreClass="tef.ecore#//Print">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//Print/print"/>
+    </genClasses>
+    <genClasses ecoreClass="tef.ecore#//LoadSuite">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//LoadSuite/server"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//LoadSuite/sharedData"/>
+    </genClasses>
+    <genClasses ecoreClass="tef.ecore#//LoadServer">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//LoadServer/server"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//LoadServer/sharedData"/>
+    </genClasses>
+    <genClasses ecoreClass="tef.ecore#//RunUtils">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//RunUtils/utilityCommand"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//RunUtils/param"/>
+    </genClasses>
+    <genClasses ecoreClass="tef.ecore#//RunProgram">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//RunProgram/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//RunProgram/Timeout"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//RunProgram/WS"/>
+    </genClasses>
+    <genClasses ecoreClass="tef.ecore#//RunScript">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//RunScript/script"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//RunScript/scriptPersistance"/>
+    </genClasses>
+    <genClasses ecoreClass="tef.ecore#//Pause"/>
+    <genClasses ecoreClass="tef.ecore#//Delay">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//Delay/timeout"/>
+    </genClasses>
+    <genClasses ecoreClass="tef.ecore#//Consecutive"/>
+    <genClasses ecoreClass="tef.ecore#//Concurrent"/>
+    <genClasses ecoreClass="tef.ecore#//SharedData"/>
+    <genClasses provider="Stateful" image="false" ecoreClass="tef.ecore#//SectionPesistance">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tef.ecore#//SectionPesistance/section"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//SectionPesistance/iniPersistance"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//SectionPesistance/sectionPersistance"/>
+    </genClasses>
+    <genClasses ecoreClass="tef.ecore#//TefComment"/>
+    <genClasses ecoreClass="tef.ecore#//TestBlock" labelFeature="#//script/TestBlock/iniFile">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//TestBlock/Heap"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//TestBlock/timeout"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//TestBlock/server"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//TestBlock/iniFile"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//TestBlock/PanicCode"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//TestBlock/PanicString"/>
+    </genClasses>
+    <genClasses ecoreClass="tef.ecore#//CreateObject">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//CreateObject/objectType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//CreateObject/objectName"/>
+    </genClasses>
+    <genClasses ecoreClass="tef.ecore#//RestoreObject">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//RestoreObject/objectType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//RestoreObject/objectName"/>
+    </genClasses>
+    <genClasses ecoreClass="tef.ecore#//Command" labelFeature="#//script/Command/functionName">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//Command/Error"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//Command/AsyncError"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//Command/objectName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//Command/functionName"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tef.ecore#//Command/section"/>
+    </genClasses>
+    <genClasses ecoreClass="tef.ecore#//Store">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference tef.ecore#//Store/section"/>
+    </genClasses>
+    <genClasses ecoreClass="tef.ecore#//Outstanding">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//Outstanding/pollInterval"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//Outstanding/objectName"/>
+    </genClasses>
+    <genClasses ecoreClass="tef.ecore#//AsyncDelay">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tef.ecore#//AsyncDelay/timeout"/>
+    </genClasses>
+    <genClasses ecoreClass="tef.ecore#//SharedActiveScheduler"/>
+    <genClasses ecoreClass="tef.ecore#//StoreActiveScheduler"/>
+  </genPackages>
+  <genPackages prefix="Comment" basePackage="com.symbian" disposableProviderFactory="true"
+      ecorePackage="comment.ecore#/">
+    <genClasses image="false" ecoreClass="comment.ecore#//Comment">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute comment.ecore#//Comment/comment"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference comment.ecore#//Comment/tag"/>
+    </genClasses>
+    <genClasses ecoreClass="comment.ecore#//CommentTag">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute comment.ecore#//CommentTag/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute comment.ecore#//CommentTag/value"/>
+    </genClasses>
+    <genClasses ecoreClass="comment.ecore#//AttachedComment">
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference comment.ecore#//AttachedComment/attachedComment"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference comment.ecore#//AttachedComment/attachedTag"/>
+      <genOperations ecoreOperation="comment.ecore#//AttachedComment/isAttachedAbove"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Ini" basePackage="com.symbian" disposableProviderFactory="true"
+      ecorePackage="ini.ecore#/">
+    <genClasses ecoreClass="ini.ecore#//IniModel">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ini.ecore#//IniModel/ini"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="ini.ecore#//Ini"/>
+    <genClasses image="false" ecoreClass="ini.ecore#//IniLeaf"/>
+    <genClasses ecoreClass="ini.ecore#//Section">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ini.ecore#//Section/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ini.ecore#//Section/iniLeaf"/>
+    </genClasses>
+    <genClasses ecoreClass="ini.ecore#//Data">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ini.ecore#//Data/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ini.ecore#//Data/value"/>
+    </genClasses>
+    <genClasses ecoreClass="ini.ecore#//IniComment"/>
+  </genPackages>
+</genmodel:GenModel>

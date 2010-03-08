@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+<title>Sending a STIF test drop to ATS</title>
+<link href="../../book.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+
+<h2>Sending a STIF test drop to ATS</h2>
+
+<h5>Before you start</h5>
+<ul>
+<li>Before sending a test drop to the Automatic Test System (ATS), create or import a test module. For instructions, see <a href="creating_test_module.htm">Creating test modules</a> or <a href="import_of_project.htm">Importing existing test modules</a>. The newly created test module contains exemplary test cases and is ready to be compiled. </li>
+<li>Check the settings for TestDrop (for example, connection to the ATS Server, view options for the TestDrop test results and so on). For instructions, see <a href="../tasks/preferences.htm">Setting TestDrop Preferences</a>. </li>
+<li>Test drop can be used to run test modules directly on your computer using an Symbian OS emulator. This feature is extremely handy when you expect immediate results. Using the emulator limits the duration of test drop to the minimum as it avoids any communication actions. Remember that not all SDK environments deliver the emulator. As a result, not all listed devices with "(emulator)" postfix may be valid. </li>
+</ul>
+<p>To send the TestDrop either to a hardware target or an emulator:</p>
+<ol>
+<li>Do either of the following:
+<ul>
+<li>Compile the test module. Depending on the chosen build configuration (debug or release), TestDrop will use the appropriate build version of the test module.</li>
+<li>Use Test Combiner to run test cases that combine various types of test modules. If you use this functionality you first have to compile all test modules that you want to use in your Test Combiner test drop. The Test Combiner can be used both for hardware and emulator targets. To learn more about Test Combiner, see the description in <a href="../concepts/test_case.htm">Test cases</a>.</li>
+</ul></li>
+<li>To send a test drop, do either of the following:
+<ul>
+<li>From the main menu select <b>Carbide > Send TestDrop</b> with a project or a .cfg file focused in the Project Explorer.</li>
+<li>Right-click your project or a .cfg file, and select <b>Send TestDrop</b>.</li>
+<li>Use a keyboard shortcut with a project or a .cfg file focused in the Project Explorer. The shortcut is set by default to Alt+D
+but you can easily change it by modifying the TestDrop key binding in <b>Window > Preferences > General > Keys > Binding</b>.</li>
+</ul>
+<p>The <b>Send TestDrop</b> dialog is displayed.</p>
+<p><b>Note:</b> This selection is shown only if you select the <b>Show the dialog option</b> in TestDrop's preferences. If you only have one target device you are using by default, it is enough to specify that one. </p></li>
+<li>Select the target device on the list: either a hardware or an emulator target.
+<ul>
+<li><b>Only when TestCombiner is used:</b> <p>The following dialog is displayed. You can specify there the variant (debug/release) of Test Combiner that should be used. <br/>
+When hardware device is used the user should also specify the files that will be needed to run the test drop. The listed files will be included into the test drop allowing a successful run of tests.<br/>
+When you are using Test Combiner on emulator environment first make sure that all needed test modules are compiled for the selected variant.</p>
+<p><img src="../images/Components.png"></p></li>
+</ul>
+<p></p></li>
+<li>Click <b>Send</b>. <p>Depending on your test setup, the test drop is either sent directly to the ATS Server or it is run through <i>atsinterface</i> on the emulator. </p></li>
+</ol>
+<p>You can view the results of the test from the <b>TestDrop Result view</b>. For more information, see <a href="view_testdrop_results.htm">Viewing TestDrop test results</a>. </p>
+
+<h5>Related tasks</h5>
+<ul>
+<li><a href="../tasks/preferences.htm">Setting TestDrop Preferences</a></li>
+<li><a href="view_testdrop_results.htm">Viewing TestDrop test results</a></li>
+</ul>
+
+<div id="footer">Copyright &copy; 2009 Nokia Corporation and/or its subsidiary(-ies). All rights reserved. 
+License: <a href="http://www.eclipse.org/legal/epl-v10.html">http://www.eclipse.org/legal/epl-v10.html</a>.</div>
+</body>
+</html>

@@ -1,0 +1,8 @@
+#{"testdriver"},(0x10210d03),1,0,0
+
+%{"symbian"}
+:"symbian"
+
+"${repositoryRoot}\t_fbservapi.exe"-"c:\sys\bin\t_fbservapi.exe"
+"${repositoryRoot}\empty_file.txt"-"$:\graphics\t_fbservapi\empty_file.txt"
+"${repositoryRoot}\testfont.gdr"-"$:\graphics\t_fbservapi\testfont.gdr"

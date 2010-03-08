@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<template label="TEF Block Test Class" version="1.0">
+
+	<description>Creates some TEF Block Test skeleton classes.</description>
+
+    <wizardPage id="directories" label="Directories">
+        <description>Generated files will be copied to the specified directories</description>
+        <filenameField id="testIncDir" label="Include" default="test\inc" mandatory="true" persist="true" />
+        <filenameField id="testSourceDir" label="Source" default="test\src" mandatory="true" persist="true" />
+        <filenameField id="testDataDir" label="Test Data" default="test\data" mandatory="true" persist="true" />
+        <textField id="dataExportLoc" label="Data on Device" default="c:\data" mandatory="true" persist="true" pattern="^c\:\\([0-9a-zA-Z]+\\)*[0-9a-zA-Z]+$" />
+        <filenameField id="testScriptDir" label="Script" default="test\scripts" mandatory="true" persist="true" />
+        <textField id="scriptExportLoc" label="Scripts on Device" default="c:\scripts" mandatory="true" persist="true" pattern="^c\:\\([0-9a-zA-Z]+\\)*[0-9a-zA-Z]+$" />
+        <filenameField id="testGroupDir" label="Group" default="test\group" mandatory="true" persist="true" />
+    </wizardPage>
+
+	<wizardPage id="otherSettings" label="Other Settings">
+		<description>Specify other properties of the generated files</description>
+		<uidField id="uid3" label="UID 3" min="0x00000000" max="0x0fffffff" mandatory="true" persist="true">
+			<description>UID 3</description>
+		</uidField>
+		<textField id="author" label="Author" persist="true">
+			<description>Author</description>
+		</textField>
+		<textField id="copyright" label="Copyright" multiline="true" default="Your copyright notice" persist="true">
+			<description>Copyright</description>
+		</textField>
+	</wizardPage>
+
+    <process class="com.symbian.tdep.templates.carbide.CheckDuplication" bundle="com.symbian.tdep.templates.carbide">
+        <parameter name="project" projectName="$(projectName)" />
+    </process>
+
+    <process class="com.symbian.tdep.templates.carbide.CreateFolders" bundle="com.symbian.tdep.templates.carbide">
+        <parameter name="project" projectName="$(projectName)" />
+        <parameter name="folder" path="$(testIncDir)" />
+        <parameter name="folder" path="$(testSourceDir)" />
+        <parameter name="folder" path="$(testDataDir)" />
+        <parameter name="folder" path="$(testGroupDir)" />
+        <parameter name="folder" path="$(testScriptDir)" />
+    </process>
+
+    <process class="com.symbian.tdep.templates.carbide.FillTestProjectTefBlockUnit" bundle="com.symbian.tdep.templates.carbide">
+        <parameter name="project" projectName="$(projectName)" />
+    </process>
+
+    <process class="com.symbian.tdep.templates.carbide.CopyFiles" bundle="com.symbian.tdep.templates.carbide">
+        <parameter name="project" projectName="$(projectName)" />
+
+        <!-- Project Group Files -->
+        <parameter name="file" sourcePath="group2/Basename.mmp" targetPath="$(testGroupDir)/$(targetName).mmp" />
+        <parameter name="file" sourcePath="group2/Basename.iby" targetPath="$(testGroupDir)/$(targetName).iby" />
+        <parameter name="file" sourcePath="group2/Basename.driver" targetPath="$(testGroupDir)/$(targetName).driver" />
+        
+    </process>
+
+    <process class="com.symbian.tdep.templates.carbide.RestartResourceListener" bundle="com.symbian.tdep.templates.carbide">
+        <parameter name="project" projectName="$(projectName)" />
+    </process>
+
+</template>
+

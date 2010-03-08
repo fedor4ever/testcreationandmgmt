@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension-point id="Processor" name="Test Driver Pre and Post Processor" schema="schema/Processor.exsd"/>
+   <extension-point id="Visitor" name="Test Driver Visitor" schema="schema/Visitor.exsd"/>
+   <extension-point id="DeviceReboot" name="DeviceReboot" schema="schema/Processor.exsd"/>
+   <extension-point id="RomFlashing" name="RomFlashing" schema="schema/Processor.exsd"/>
+   <extension-point id="TDConfig" name="Test Driver configuration" schema="schema/Processor.exsd"/>
+   <extension-point id="TDLauncher" name="TDEP TestDriver Launcher" schema="schema/Processor.exsd"/>
+   <extension-point id="DeviceProcess" name="Device process" schema="schema/Processor.exsd"/>
+   <extension-point id="DeviceFileTransfer" name="File Transfer PC Device" schema="schema/Processor.exsd"/>
+   <extension-point id="DeviceComms" name="Device Communication" schema="schema/Processor.exsd"/>
+   <extension-point id="SoftwareTrace" name="Software Trace" schema="schema/Processor.exsd"/>
+   <extension-point id="CoreDump" name="Core Dump" schema="schema/Processor.exsd"/>
+   <extension
+         id="TestDriver"
+         point="org.eclipse.core.runtime.applications">
+      <application>
+         <run class="com.symbian.driver.TestDriver"/>
+      </application>
+   </extension>
+   <extension
+         id="product1"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="com.symbian.driver.core.TestDriver"
+            name="TestDriver"/>
+   </extension>
+   <!--extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="com.symbian.driver.core.TestDriver"
+            name="TestDriver"/>
+   </extension>
+   <extension
+         id="product1"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="com.symbian.driver.core.TestDriver"
+            name="TestDriver"/>
+   </extension-->
+</plugin>

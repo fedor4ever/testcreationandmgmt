@@ -1,0 +1,27 @@
+?type ?classname::?member_function( ?args )
+    {
+
+    _LIT( KRunning, "Running" );
+	_LIT( KName, "?member_function" );
+    TestModuleIf().Printf( 0, KRunning, KName );
+
+    /*
+
+    ?code
+
+    */
+	
+	_LIT( KState, "State" );
+    _LIT( KFinished, "Finished" );
+    TestModuleIf().Printf( 0, KState, KFinished );
+
+    // Test case passed
+
+    // Sets test case result and description(Maximum size is KStifMaxResultDes)
+    _LIT( KDescription, "?member_function passed" );
+    aResult.SetResult( KErrNone, KDescription );
+
+    // Case was executed
+    return KErrNone;
+
+    }

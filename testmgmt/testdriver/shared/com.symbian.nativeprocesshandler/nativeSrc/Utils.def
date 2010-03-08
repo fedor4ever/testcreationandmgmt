@@ -1,0 +1,7 @@
+LIBRARY      NativeProcessHandler.dll
+
+EXPORTS
+	
+	Java_com_symbian_nativeprocesshandler_ProcessHandler_getPidList		@1
+	Java_com_symbian_nativeprocesshandler_ProcessHandler_kill			@2
+

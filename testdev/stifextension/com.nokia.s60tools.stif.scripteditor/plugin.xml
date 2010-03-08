@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+	
+	<extension
+		point="org.eclipse.ui.editors">
+	
+		<editor
+			name="STIF Script Editor"
+			extensions="cfg"
+			icon="icons/sample.gif"
+			contributorClass="com.nokia.s60tools.stif.scripteditor.editors.ScriptEditorContributor"
+			class="com.nokia.s60tools.stif.scripteditor.editors.ScriptEditor"
+			id="com.nokia.s60tools.stif.scripteditor.editors.ScriptEditor">
+		</editor>
+	</extension>
+	
+</plugin>
+
+

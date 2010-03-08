@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+<title>Creating scripts for Test Scripter and Test Combiner</title>
+<link href="../../book.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+
+<h2>Creating scripts for Test Scripter and Test Combiner</h2>
+
+<h5>Before you start</h5>
+<p>In STIF, you can create scripts that consist of a series of keywords and arguments, describing the operation of the test case. The Script Editor is an easy way to manipulate script files and offers syntax highlighting, code assistant, syntax checker and so on. </p>
+<p>Scripts enable you to create advanced combinations of test cases, which can be suited for your development needs. For more background information, see <a href="../concepts/scripts.htm">Test scripts</a>.</p><p>To create the scripts, do as follows:</p>
+<ol>
+<li>In the Project Explorer, right-click the .cfg file you want to use and select <b>Open With > STIF Script Editor</b>.</li>
+<li>In the mode selection dialog, select either <b>Test Scripter</b> or <b> Test Combiner</b>. <p>The STIF Script Editor will start in the selected mode but the mode can also be changed later from the radio buttons of the dialog, as shown in the example below.</p>
+<p><img src="screenshots\script_editor_test_scripter_view.png" alt="Example of the mode selection"></p></li>
+<li>To start creating the script text, enter the keywords and arguments that describe the test case's operation. <p>For more information on the keywords, see the reference topics <a href="../references/testscripter_keywords.htm">Test Scripter keywords</a> and <a href="../references/testcombiner_keywords.htm">Test Combiner keywords</a>.</p>
+<p><b>Note:</b> In both modes, the <code>title</code> keyword must be the first one. </p><p>For more tips on how to create and edit the script, see the section below. </p></li>
+</ol>
+
+<h3>Tips for working with the STIF Script Editor</h3>
+<ul>
+<li>You can expand and collapse the lines by clicking the plus and minus signs next to the given test case. </li>
+<li>To get code assistance on the keywords, press CTRL + Space. The suggested words depend on the context. </li>
+<li>The editor provides validation for the syntax. If an error is found, a line containing it is marked and a comment is added to it in the <b>Problems</b> tab. <p>See the examples below: </p><p><img src="screenshots\script_editor_code_assist.png" alt="Example of code assist and error validation."></p></li>
+<li>In addition, the <b>Outline</b> tab lists the test cases that the current file contains. Click a test case on the outline to move to the corresponding location in the script. See the example:
+<p><img src="screenshots\script_editor_outline.png" alt="Outline view and the Script Editor"></p></li>
+</ul>
+
+<h5>Related references</h5><ul>
+<li><a href="../references/testscripter_keywords.htm">Test Scripter keywords</a></li>
+<li><a href="../references/testcombiner_keywords.htm">Test Combiner keywords</a></li>
+</ul>
+
+<div id="footer">Copyright &copy; 2009 Nokia Corporation and/or its subsidiary(-ies). All rights reserved. 
+License: <a href="http://www.eclipse.org/legal/epl-v10.html">http://www.eclipse.org/legal/epl-v10.html</a>.</div>
+</body>
+</html>

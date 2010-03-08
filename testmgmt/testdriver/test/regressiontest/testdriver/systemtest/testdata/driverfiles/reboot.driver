@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<driver:driver xmlns:driver="http://www.symbian.com/TestDriver">
+  <task name="reboot" timeout="100000">
+    <task name="te_TestServerSuite" preRebootDevice="true">
+      <flashrom PCPath="test.img"/>
+    </task>
+  </task>
+</driver:driver>

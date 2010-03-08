@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="com.symbian.driver.core.TDConfig">
+      <TDConfig class="com.symbian.driver.plugins.comms.stat.StatConfig"/>
+   </extension>
+   <extension
+         point="com.symbian.driver.core.TDLauncher">
+      <TDLauncher/>
+   </extension>
+   <extension
+         id="com.symbian.driver.plugins.comms.stat"
+         name="STAT"
+         point="com.symbian.driver.core.DeviceComms">
+      <DeviceComms class="com.symbian.driver.plugins.comms.stat.Activator">
+         <DeviceFileTransfer class="com.symbian.driver.plugins.comms.stat.StatTransfer"/>
+         <DeviceProcess class="com.symbian.driver.plugins.comms.stat.StatProcess"/>
+      </DeviceComms>
+   </extension>
+
+</plugin>

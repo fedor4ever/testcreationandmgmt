@@ -1,0 +1,20 @@
+<!ELEMENT RTestRom (name,(timeout|devicePath|resultFile*|beforeTestRun?|afterTestRun?|copyFrom?)+)>
+<!ATTLIST RTestRom type CDATA "normal">
+
+<!-- Header operations -->
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT timeout (#PCDATA)>
+
+<!-- Operations specific to RTestRom -->
+<!ELEMENT devicePath (#PCDATA)>
+<!ELEMENT resultFile (#PCDATA)>
+
+<!-- Operations that can occur on every test type -->
+<!ELEMENT beforeTestRun EMPTY>
+<!ATTLIST beforeTestRun cmd CDATA #REQUIRED>
+<!ELEMENT afterTestRun EMPTY>
+<!ATTLIST afterTestRun cmd CDATA #REQUIRED> 
+<!ELEMENT copyFrom EMPTY>
+<!ATTLIST copyFrom
+	src CDATA #REQUIRED
+	dst CDATA #REQUIRED>

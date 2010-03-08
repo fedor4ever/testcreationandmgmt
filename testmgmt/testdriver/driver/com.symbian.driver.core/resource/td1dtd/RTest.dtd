@@ -1,0 +1,40 @@
+<!ELEMENT RTest (name,(timeout|mmpFile|bldInfPath|devicePath?|resourceItems?|resultFile?|logMemory?|dependencies?|beforeTestRun?|afterTestRun?|copyFrom?)+)>
+<!ATTLIST RTestRom type CDATA "normal">
+
+<!-- Header operations -->
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT timeout (#PCDATA)>
+
+<!-- Operations specific to RTest -->
+<!ELEMENT resultFile (#PCDATA)>
+<!ELEMENT logMemory (#PCDATA)>
+
+<!-- Resource Items -->
+<!ELEMENT resourceItems (resource*,aif*)>
+<!ELEMENT resource (hostPath,devicePath+)>
+<!ELEMENT aif (hostPath,devicePath+)>
+
+<!-- Dependencies of the test -->
+<!ELEMENT dependencies ((data|buildable|delete|retrieve)*,(data|buildable|delete|retrieve)*,(data|buildable|delete|retrieve)*,(data|buildable|delete|retrieve)*)*>
+<!ELEMENT data ((hostPath,devicePath+)|(devicePath+,hostPath,devicePath*))>
+<!ELEMENT buildable (hostPath,devicePath+,mmpFile,bldInfPath)>
+<!ATTLIST buildable type (normal|ASSP|Normal_ASSP|test) "test">
+<!ELEMENT retrieve ((hostPath,devicePath+)|(devicePath+,hostPath,devicePath*))>
+<!ATTLIST retrieve timeStamp (yes|no) "no">
+<!ELEMENT delete (devicePath)>
+
+<!-- Used for Resource Items, Dependency and RTest -->
+<!ELEMENT mmpFile (#PCDATA)>
+<!ELEMENT bldInfPath (#PCDATA)>
+<!ELEMENT devicePath (#PCDATA)>
+<!ELEMENT hostPath (#PCDATA)>
+
+<!-- Operations that can occur on every test type -->
+<!ELEMENT beforeTestRun EMPTY>
+<!ATTLIST beforeTestRun cmd CDATA #REQUIRED>
+<!ELEMENT afterTestRun EMPTY>
+<!ATTLIST afterTestRun cmd CDATA #REQUIRED> 
+<!ELEMENT copyFrom EMPTY>
+<!ATTLIST copyFrom
+	src CDATA #REQUIRED
+	dst CDATA #REQUIRED>

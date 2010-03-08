@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript">
+function toggleDisplay(elementId) {
+var elem = document.getElementById(elementId);
+if (elem.style.display == 'block') {
+elem.style.display = 'none';
+} else {
+elem.style.display = 'block';
+}
+}
+</script>
+<title>
+Test Report
+</title>
+<style>
+body
+{
+background-color:#ffffff;
+margin:0px;
+color:black;
+font-family: verdana, arial, sans-serif;
+font-size: 12px;
+}
+td
+{
+font-family: verdana, arial, tahoma;
+font-size: 12px;
+}
+.tableHeader
+{
+background-color: #7383DF;
+font-family: verdana, arial, tahoma;
+font-size: 11px;
+font-weight: bold;
+color: #ffffff;
+}
+.tableData
+{
+background-color: #ffffff;
+}
+.legendPassed
+{
+background-color: #90ff90;
+border: 1px solid #e6e6e6;
+}
+.legendFailed
+{
+background-color: #ff9090;
+border: 1px solid #e6e6e6;
+}
+.legendCrashed
+{
+background-color: #ffcc66;
+border: 1px solid #e6e6e6;
+}
+.legendTimeout
+{
+background-color: #b0b0b0;
+border: 1px solid #e6e6e6;
+}
+.passed
+{
+background-color: #90ff90;
+}
+.failed
+{
+background-color: #ff9090;
+}
+.crashed
+{
+background-color: #ffcc66;
+}
+.timeout
+{
+background-color: #b0b0b0;
+}
+div.passed {
+font-size: 12px;
+background-color: #90ff90;
+border-top: 0px;
+border-bottom: 1px solid #e6e6e6;
+border-left: 0px;
+border-right: 0px;
+padding:4px;
+}
+div.failed {
+font-size: 12px;
+background-color: #ff9090;
+border-top: 0px;
+border-bottom: 1px solid #e6e6e6;
+border-left: 0px;
+border-right: 0px;
+padding:4px;
+}
+div.crashed {
+font-size: 12px;
+background-color: #ffcc66;
+border-top: 0px;
+border-bottom: 1px solid #e6e6e6;
+border-left: 0px;
+border-right: 0px;
+padding:4px;
+}
+div.timeout {
+font-size: 12px;
+background-color: #b0b0b0;
+border-top: 0px;
+border-bottom: 1px solid #e6e6e6;
+border-left: 0px;
+border-right: 0px;
+padding:4px;
+}
+a
+{
+text-decoration: underline;
+color: #000000;
+}
+a:hover
+{
+text-decoration: underline;
+color: #000000;
+}
+</style>
+</head>
+<body>
+<div>
+<!-- Test run information -->
+<div id="testrun" style="margin:8px 16px 8px 16px;">
+<table cellpadding="0" cellspacing="0" border="0">
+<tr><td><b>Test run:&nbsp;</b></td><td>[test run]</td></tr>
+<tr><td><b>Time of test run:&nbsp;</b></td><td>[emulator time]</td></tr>
+<tr><td><b>Emulator start time:&nbsp;</b></td><td>[start time]</td></tr>
+<tr><td><b>Emulator end time:&nbsp;</b></td><td>[end time]</td></tr>
+<tr><td><b>Overall result:&nbsp;</b></td><td>[overall result]</td></tr>
+<tr><td><b>Passed/Failed ratio:</b></td>
+<td>	
+	<table border="0" cellspacing="0" cellpadding="0">
+	<tr><td bgcolor="#90ff90" width="[passedWidth]" height="15"></td><td bgcolor="#ff9090" width="[failedWidth]" height="15"></td></tr>
+	</table>
+</td>
+</table>
+</div><br/>
+<!-- Summary -->
+<div id="summary" style="margin:8px 16px 8px 16px;">
+<table cellpadding="0" cellspacing="0" border="0">
+<tr><td><b>Summary:&nbsp;</b></td></tr>
+</table>
+<table cellpadding="4" cellspacing="1" border="0" bgcolor="#e6e6e6">
+<tr class="tableHeader">
+<td>&nbsp;</td>
+<td>Total</td>
+<td>Passed</td>
+<td>Failed</td>
+<td>Crashed</td>
+<td>Timeout</td>
+</tr>
+<tr>
+<td class="tableData">Number of test cases</td>
+<td class="tableData" align="right">[total]</td>
+<td class="tableData" align="right">[passed]</td>
+<td class="tableData" align="right">[failed]</td>
+<td class="tableData" align="right">[crashed]</td>
+<td class="tableData" align="right">[timeout]</td>
+</tr>
+</table>
+</div>
+<!-- Legend -->
+<div id="legend" style="margin:8px 16px 8px 16px;">
+<table cellspacing="0" cellpadding="0">
+<tr>
+<td class="legendPassed" width="16" height="16"></td>
+<td>&nbsp;PASSED</td>
+<td width="16">&nbsp;</td>
+<td class="legendFailed" width="16" height="16"></td>
+<td>&nbsp;FAILED</td>
+<td width="16">&nbsp;</td>
+<td class="legendCrashed" width="16" height="16"></td>
+<td>&nbsp;CRASHED</td>
+<td width="16">&nbsp;</td>
+<td class="legendTimeout" width="16" height="16"></td>
+<td>&nbsp;TIMEOUT</td>
+<td width="16">&nbsp;</td>
+</tr>
+</table>
+</div>
+<!-- Test sets -->
+<div id="TestSetResult" style="margin:8px 16px 8px 16px;">
+<table cellpadding="0" cellspacing="0" border="0">
+<tr><td><b>Test module:&nbsp;</b></td></tr>
+</table>
+<div class=[testmoduleresult]>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[testmodule]&nbsp;</div>
+</div>
+<div id="results" style="margin:8px 16px 8px 16px;">
+<table cellpadding="0" cellspacing="0" border="0">
+<tr><td><b>Test case results:&nbsp;</b></td></tr>
+</table>
+<!-- test cases results -->
+<br/><br/>
+</div>
+</div>
+</body>
+</html>

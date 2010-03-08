@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ASCII"?>
+<driver:driver xmlns:driver="http://www.symbian.com/TestDriver">
+  <task name="$(baseName)" timeout="100000">
+    <task name="testProject" timeout="100000">
+      <executeOnPC>
+        <build testBuild="true" URI="${sourceroot}\$(baseName)\$(groupDir)"/>
+      </executeOnPC>
+      <transferToSymbian>
+        <transfer move="false" PCPath="${sourceroot}\$(baseName)\$(dataDir)\$(baseName).ini" SymbianPath="$(dataExportLoc)\$(baseName).ini"/>
+      </transferToSymbian>
+      <executeOnSymbian>
+        <testExecuteScript PCPath="${sourceroot}\$(baseName)\$(scriptDir)\$(baseName).script" SymbianPath="$(scriptExportLoc)\$(baseName).script"/>
+      </executeOnSymbian>
+    </task>
+  </task>
+</driver:driver>

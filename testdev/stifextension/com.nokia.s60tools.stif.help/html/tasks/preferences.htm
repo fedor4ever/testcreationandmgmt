@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+<title>Setting TestDrop preferences</title>
+<link href="../../book.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+
+<h2>Setting TestDrop preferences</h2>
+<p>To configure the TestDrop preferences:</p>
+<ol>
+<li>Choose <b>Windows > Preferences > Carbide Extensions > TestDrop Preferences</b>.</li>
+<li>(Optional) Select the <b>Enable test drop for hardware</b> check box and fill in the necessary ATS Server Connection settings.</li>
+<li>Click <b>Test Connection</b>. <p>If you receive a message <b>"Connection is ok!"</b>, you can continue.</p>
+<p>If there are problems with the connection, revise the settings. </p></li>
+<li>To specify options for the TestDrop dialog, select either of the following:
+<ul>
+<li><b>Show the dialog always:</b> Select this option to always show the <b>Send TestDrop</b> dialog. <p>Define the minutes from <b>Target Device List Cache</b> to set an interval for updating the list. With <b>None</b>, the update is not done. The timer is restarted after every <b>Send TestDrop</b> command. The list contains only devices that are valid for the project. </p></li>
+<li><b>Set one target device as default:</b> Select one device from the list to be the default. The test drop is sent directly to the ATS Server without the dialog. </li>
+<!--Set Image(s) button let user to select needed device images to be flashed to devices 
+before test execution.-->
+</ul></li>
+<li>Specify if the test drop should be sent directly to the ATS Server or to a shared directory <b>shared</b> with ATS Server.
+<ul>
+<li>To send the test drop directly to the ATS Server, select the <b>Use test drop import for sending test drop</b> check box. </li>
+<li>To send the test drop to a shared directory where ATS Server will collect it, leave the check box empty. <p>Click <b>Browse</b> to locate the shared directory name (or type the directory into the field. Be sure to enter the path as a path to a network share, as in: <i>\\[computer_name]\[shared_dir_name]</i>.</p><p><b>Important:</b> Both TestDrop application and ATS Server must have access to the specified directory. Check the <b>Properties > Sharing</b> or <b>Security</b> options of the directory to ensure it is configured properly. </p></li>
+</ul></li>
+<li>On the <b>TestDrop Result</b> list, specify which results are shown in the <b>TestDrop Result View</b>.
+<ul>
+<li><b>All:</b> All test results are displayed. </li>
+<li><b>Failed cases only:</b> Successful results are not displayed. </li>
+</ul></li>
+<li>In the <b>Test Results Path</b>, specify if the TestDrop results should be retrieved directly from the ATS Server or saved to a <b>shared</b> directory.
+<ul>
+<li>To get the results directly, leave the box empty. </li>
+<li>If you want to have the results saved to a <b>shared</b> directory, specify the path to it. Be sure to enter the path as a path to a network share.<p><b>Important:</b> Both TestDrop application and ATS Server must have access to the specified directory. Check the <b>Properties > Sharing</b> or <b>Security</b> options of the directory to ensure it is configured properly.</p></li>
+</ul></li>
+<li>Click <b>Apply</b> and <b>Save</b> to save the modifications.</li>
+</ol>
+
+<h5>Related tasks</h5>
+<ul>
+<li><a href="senddialog.htm">Sending a STIF test drop to ATS</a></li>
+<li><a href="view_testdrop_results.htm">Viewing TestDrop test results</a></li>
+</ul>
+
+<div id="footer">Copyright &copy; 2009 Nokia Corporation and/or its subsidiary(-ies). All rights reserved. 
+License: <a href="http://www.eclipse.org/legal/epl-v10.html">http://www.eclipse.org/legal/epl-v10.html</a>.</div>
+</body>
+</html>

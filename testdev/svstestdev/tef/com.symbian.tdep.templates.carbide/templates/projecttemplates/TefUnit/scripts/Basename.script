@@ -1,0 +1,12 @@
+// Sample $(baseName) Script
+// $(copyright)
+
+PRINT Run all $(baseName) Tests
+
+LOAD_SUITE $(baseName)
+
+
+//Please add or make change of you test steps, here is sample only:
+$(scriptTestCases)
+
+PRINT Complete $(baseName)

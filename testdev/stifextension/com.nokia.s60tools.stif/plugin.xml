@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+	<extension
+      point="org.eclipse.core.runtime.products"
+      id="product">      
+      <product name="STIF" application="org.eclipse.ui.ide.workbench" > 
+          <property name="STIF" value="STIF plug-in"/> 
+     </product> 
+   </extension>
+   
+	<extension 
+		point="org.eclipse.ui.newWizards">
+		
+	    
+	    <category 
+		    name="Carbide Extensions"
+    	    id="com.nokia.s60tools">	        
+	    </category> 
+	    
+		<wizard
+			name="STIF test module"
+			icon="icons/stif_16.png"
+			category="com.nokia.s60tools" 
+			class="com.nokia.s60tools.stif.wizards.NewTestModuleWizard"
+			id="com.nokia.s60tools.stif.wizards.StifNewTestModule">
+			<description>%wizard_new_test_module_description</description>
+		</wizard>
+	</extension>
+	
+	<extension
+        point="org.eclipse.ui.popupMenus">
+		<objectContribution
+            objectClass="org.eclipse.cdt.core.model.IMethodDeclaration"
+            id="com.nokia.s60tools.stif.methodpopup">
+			<menu
+				label="%category_name"
+				path="additions"
+				id="methodmenu">
+				<separator
+					name="group">
+				</separator>
+			</menu>
+			<action
+				label="%popup_item_skeleton"
+				class="com.nokia.s60tools.stif.popup.actions.GenerateWizard"
+				menubarPath="methodmenu/group"
+				enablesFor="*"
+				id="com.nokia.s60tools.stif.actions.generateWizard">
+			</action>
+		</objectContribution>
+	</extension>
+	
+
+</plugin>
