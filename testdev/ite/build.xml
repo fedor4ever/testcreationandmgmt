@@ -1,0 +1,251 @@
+  
+<project name="com.nokia.testfw" default="build.all">
+
+  <!-- declare ant4eclipse -->
+  <taskdef resource="net/sf/ant4eclipse/antlib.xml" />
+
+  <property environment="env"/>
+  
+
+  <!-- Name definitions -->
+  <property name="feature.name" value="ITE"/>
+  <property name="project.name" value="com.nokia.testfw" />
+  <property name="jar.filename" value="${ant.project.name}.jar"/>
+  
+  <!-- Folder definitions -->
+  <property name="workspace.path" value="src/" />
+  <property name="testworkspace.path" value="test/" />
+  <property name="java.location" value="${env.JAVA_HOME}" />
+  <property name="destination.path" value="./build" />
+  
+  <!--property name="carbide.folder" value="C:\Apps\carbide_internal" / -->
+  <property name="carbide.folder" value="${env.ECLIPSE_HOME}" />
+  <property name="carbide.int.folder" location="${carbide.folder}/plugins"/>
+	<!-- property name="carbide.dev.folder" location="c:/Carbide_development/plugins"/ -->
+	
+	<property name="core.test.folder" location="test/com.nokia.testfw.core.test"/>
+	<property name="resultview.test.folder" location="test/com.nokia.testfw.resultview.test"/>
+	<property name="reports.folder" location="./build/reports"/>
+	<property name="binaries.folder" location="${destination.path}/${feature.name}.binaries"/>
+	
+	
+	<delete dir="${reports.folder}"/>
+	<mkdir dir="${reports.folder}"/>
+	
+	<!-- Carbide_classpath -->
+	<path id="carbide_classpath">
+		<fileset dir="${carbide.int.folder}" includes="**/*.jar" />
+	</path>
+
+	<path id="dest_classpath">
+		<fileset dir="${destination.path}" includes="**/*.jar" />
+	</path>
+	<path id="ant_classpath">
+		<fileset dir="C:\Apps\ant\lib" includes="**/*.jar" />
+	</path>
+	
+  <!-- Delete old plugins and features -->
+  <target name="delete">
+      <delete dir="${destination.path}/eclipse" failonerror="false"/>
+	  <delete dir="${destination.path}/plugins" failonerror="false"/>
+	  <delete dir="${destination.path}/features" failonerror="false"/>
+	  <delete dir="src/${ant.project.name}.core/bin" failonerror="false"/>
+	  <ant antfile="src/com.nokia.testfw.codegen/build.xml" target="clean" inheritAll="false"/>
+  </target>
+ 
+  <!--codegen, cmdtool, testrunner, core, codegen.ui, resultview, launch -->
+
+  <!-- build the codegen lib jar -->
+  <target name="buildcodegen">
+	  <ant antfile="src/com.nokia.testfw.codegen/build.xml" inheritAll="false"/>
+  </target>
+   
+  <!-- Target Plugin -->
+  <target name="build.plugins" depends="buildcodegen">
+
+  
+  <buildPlugin workspace="${workspace.path}" targetPlatformLocation="${carbide.folder}" projectname="${ant.project.name}.core" destDir="${destination.path}" packageAsJar="true">
+  	<javacLibraryCompiler>
+  			<compilerSettings debug="true" fork="true"/>
+  	</javacLibraryCompiler>
+  </buildPlugin>
+
+  <buildPlugin workspace="${workspace.path}" targetPlatformLocation="${carbide.folder}" projectname="${ant.project.name}.resultview" destDir="${destination.path}" packageAsJar="true">
+  	<javacLibraryCompiler>
+  			<compilerSettings debug="true" fork="true"/>
+  	</javacLibraryCompiler>
+  </buildPlugin>
+
+  <buildPlugin workspace="${workspace.path}" targetPlatformLocation="${carbide.folder}" projectname="${ant.project.name}.launch" destDir="${destination.path}" packageAsJar="true">
+  	<javacLibraryCompiler>
+  			<compilerSettings debug="true" fork="true"/>
+  	</javacLibraryCompiler>
+  </buildPlugin>
+
+  <copy todir="${workspace.path}/${ant.project.name}.codegen.ui/lib" failonerror="true" overwrite="true">
+	<fileset dir="${workspace.path}/${ant.project.name}.codegen/jar"/>
+  </copy>
+
+  <copy todir="${workspace.path}/${ant.project.name}.codegen.ui/bin" failonerror="true" overwrite="false">
+	  <fileset dir="${workspace.path}/${ant.project.name}.codegen.ui/src/" excludes="**/*.java, **/package.htm*" />
+	</copy>
+
+  <buildPlugin workspace="${workspace.path}" targetPlatformLocation="${carbide.folder}" projectname="${ant.project.name}.codegen.ui" destDir="${destination.path}" packageAsJar="true">
+  	<javacLibraryCompiler>
+  			<compilerSettings debug="true" fork="true"/>
+  	</javacLibraryCompiler>
+  </buildPlugin>
+  <buildPlugin workspace="${workspace.path}" targetPlatformLocation="${carbide.folder}" projectname="${ant.project.name}.stf.help" destDir="${destination.path}" packageAsJar="true">
+  	<javacLibraryCompiler>
+  			<compilerSettings debug="true" fork="true"/>
+  	</javacLibraryCompiler>
+  </buildPlugin>
+  <buildPlugin workspace="${workspace.path}" targetPlatformLocation="${carbide.folder}" projectname="${ant.project.name}.sut.help" destDir="${destination.path}" packageAsJar="true">
+  	<javacLibraryCompiler>
+  			<compilerSettings debug="true" fork="true"/>
+  	</javacLibraryCompiler>
+  </buildPlugin>
+
+  <copy todir="${workspace.path}/${ant.project.name}.stf.configeditor/bin" failonerror="true" overwrite="false">
+	  <fileset dir="${workspace.path}/${ant.project.name}.stf.configeditor/src/" excludes="**/*.java, **/package.htm*" />
+	</copy>
+
+  <buildPlugin workspace="${workspace.path}" targetPlatformLocation="${carbide.folder}" projectname="${ant.project.name}.stf.configeditor" destDir="${destination.path}" packageAsJar="true">
+  	<javacLibraryCompiler>
+  			<compilerSettings debug="true" fork="true"/>
+  	</javacLibraryCompiler>
+  </buildPlugin>
+
+  
+  <copy todir="${workspace.path}/${ant.project.name}.stf.scripteditor/bin" failonerror="true" overwrite="false">
+	  <fileset dir="${workspace.path}/${ant.project.name}.stf.scripteditor/src/" excludes="**/*.java, **/package.htm*" />
+	</copy>
+
+  <buildPlugin workspace="${workspace.path}" targetPlatformLocation="${carbide.folder}" projectname="${ant.project.name}.stf.scripteditor" destDir="${destination.path}" packageAsJar="true">
+  	<javacLibraryCompiler>
+  			<compilerSettings debug="true" fork="true"/>
+  	</javacLibraryCompiler>
+  </buildPlugin>
+                
+  <copy todir="${carbide.folder}" failonerror="true" overwrite="true">
+	<fileset dir="${destination.path}"/>
+  </copy>
+  <!-- build test plugin -->
+  <buildPlugin workspace="${testworkspace.path}" targetPlatformLocation="${carbide.folder}" projectname="${ant.project.name}.test" destDir="${destination.path}" packageAsJar="true">
+  	<javacLibraryCompiler>
+  			<compilerSettings debug="true" fork="true"/>
+  	</javacLibraryCompiler>
+  </buildPlugin>
+
+  <buildPlugin workspace="${testworkspace.path}" targetPlatformLocation="${carbide.folder}" projectname="${ant.project.name}.resultview.test" destDir="${destination.path}" packageAsJar="true">
+  	<javacLibraryCompiler>
+  			<compilerSettings debug="true" fork="true"/>
+  	</javacLibraryCompiler>
+  </buildPlugin>
+
+  <!--buildPlugin workspace="${testworkspace.path}" targetPlatformLocation="${carbide.folder}" projectname="${ant.project.name}.codegen.ui.test" destDir="${destination.path}" packageAsJar="true">
+  	<javacLibraryCompiler>
+  			<compilerSettings debug="true" fork="true"/>
+  	</javacLibraryCompiler>
+  </buildPlugin -->
+
+  <!-- Build feature -->
+  <buildFeature workspace="${workspace.path}"
+               targetPlatformLocation="${carbide.folder}"
+               projectname="${ant.project.name}.common"
+	       buildPluginTarget="build.plugin"
+               destDir="${destination.path}" />
+
+ <copy todir="${carbide.folder}" failonerror="true" overwrite="true">
+	<fileset dir="${destination.path}"/>
+  </copy>
+
+  </target>
+
+  <!-- Empty target to do nothing --> 
+  <target name="build.plugin">
+  </target>
+  
+  <target name="create.zip">
+  
+  	<delete dir="${binaries.folder}/nightly_builds"/>
+  	<mkdir dir="${binaries.folder}/nightly_builds"/>
+  	
+
+	<delete dir="${destiation.path}/eclipse" />
+	<mkdir dir="${destiation.path}/eclipse" />
+	<copydir dest="${destination.path}/eclipse/plugins" 
+		src="${destination.path}/plugins"
+		excludes="com.nokia.testfw.test*/** com.nokia.testfw.resultview.test*/**" 	
+		/>
+	<copydir dest="${destination.path}/eclipse/features" 
+		src="${destination.path}/features" />
+
+ 		<tstamp>
+		   <format property="timestamp" pattern="dd-MM-yyyy" />
+		</tstamp> 
+ 		 
+    <zip destfile="${binaries.folder}/nightly_builds/${feature.name}-${timestamp}.zip"
+	    basedir="${destination.path}"
+	    includes="eclipse/**/*"/>
+	   
+	
+  </target>
+  
+	<!-- Test target, depends on instrumentation and analyze -->
+	<target name="test" description="Run unit tests">
+    	        <!-- Test classpath -->
+    	        <path id="test_classpath">
+			<pathelement location="${core.test.folder}/src"/>
+			<pathelement location="${resultview.test.folder}/src"/>
+
+		   	<path refid="dest_classpath" />
+		   	<path refid="carbide_classpath" />
+		   	<path refid="ant_classpath" />
+		</path>
+
+		<path id="junit_classpath">
+			<pathelement location="${core.test.folder}/src"/>
+			<pathelement location="${resultview.test.folder}/src"/>
+		   	<path refid="dest_classpath" />
+		   	<path refid="ant_classpath" />
+		</path>
+
+	
+		<!-- Compile the tests -->
+     	        <javac srcdir="${core.test.folder}" verbose="false">
+      		<classpath refid="junit_classpath"/>
+	        </javac>
+
+		<!-- Run JUnit -->
+	    <junit printsummary="yes" fork="yes" haltonfailure="no">
+	      	<classpath refid="junit_classpath" />
+	      	<formatter type="plain" />
+	      	<formatter type="xml" />
+		<!-- Test classes -->
+	      	<test name="com.nokia.testfw.core.AllPureJUnitTests" todir="${reports.folder}"/>
+	    </junit>
+
+	    <!-- Run JUnit Plugin tests -->
+	    <!-- reference to instruction at http://dev.eclipse.org/viewcvs/index.cgi/org.eclipse.test/testframework.html?view=co -->
+	    <!--java -jar C:\Apps\carbide_internal\plugins\org.eclipse.equinox.launcher_1.0.101.R34x_v20080819.jar -application org.eclipse.test.uitestapplication -os win32 -ws win32 -arch x86 -dev bin -testpluginname com.nokia.testfw.resultview.test -->
+	    <!--java jar="${carbide.folde}\plugins\org.eclipse.equinox.launcher_1.0.101.R34x_v20080819.jar -application org.eclipse.test.uitestapplication -os win32 -ws win32 -arch x86 -dev bin -testpluginname com.nokia.testfw.resultview.test>
+	     </java -->
+
+	    <!-- generate test report -->
+	    <junitreport todir="${reports.folder}">
+		    <fileset dir="${reports.folder}">
+                <include name="TEST-*.xml"/>
+                </fileset>
+		<report format="frames" todir="${reports.folder}/html"/>
+            </junitreport>
+	    
+	    
+	</target>
+
+
+  
+  <!-- Target Build all -->
+  <target name="build.all" depends="delete, build.plugins, test, create.zip" />
+  
+</project>

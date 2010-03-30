@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+<title>Further Study in Symbian Unit Test</title>
+<link href="../book.css" type="text/css" rel="stylesheet"></head>
+<body>
+
+<p>Further Study in Symbian Unit Test.</p>
+<p>1. SUT for negative test. <br />
+There are also some methods provided by CSymbianUnitTest for running negative test cases.</p>
+<p>SUT_ASSERT<br />
+Asserts a condition in a unit test case. Leaves with a Symbian unit test framework specific error code if the condition evaluates to EFalse.<br />
+In case of a failed assertion, the framework records the failure reason, line number and file name to the test results.</p>
+<p>SUT_ASSERT_EQUALS<br />
+Asserts that two values are equal. Leaves with a Symbian unit test framework specific error code if the values are not equal. <br />
+In case of a failed assertion, the framework records the failure reason, line number and file name to the test results.</p>
+<p>SUT_ASSERT_LEAVE_WITH<br />
+Asserts that a statement leaves an expected value. Leaves with a Symbian unit test framework specific error code if the leave code is not the expected one.<br />
+In case of a failed assertion, the framework records the failure reason, line number and file name to the test results. <br />
+Note: SUT_ASSERT_LEAVE_WITH should be used instead whenever possible, because the implementation of SYMBIAN_UT_ASSERT_LEAVE TRAPs also KErrNoMemory. This means that all the memory allocations are not looped through during the memory allocation failure simulation.</p>
+<p>SUT_ASSERT_LEAVE<br />
+Asserts that a statement leaves. The macro itself leaves with a Symbian unit test framework specific error code if the statement leaves. <br />
+In case of a failed assertion, the framework records the failure reason, the line number and file name to the test results.</p>
+<p>2. Interact with ATS. <br />
+SUT can also interact with ATS, please refer to ATS User Guide for more information.</p>
+<p>3. Convert EUNIT test case to SUT. <br />
+<p>There is a useful tool named eunit_to_symbianunit.pl, we can use it to convert the existing EUNIT test cases to SUT. Run it under the eunit test cases folder then the test cases are converted to SUT test cases.</p> 
+
+</body>
+</html>

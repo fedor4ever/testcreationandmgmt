@@ -1,0 +1,61 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Symbian Foundation License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.symbianfoundation.org/legal/sfl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  
+*
+*/
+
+TARGET        ut_SysLibs.dll
+TARGETTYPE    dll
+UID           0x20022E76 0x20022E76
+
+MACRO         SYMBIAN_UNIT_TEST
+
+SOURCEPATH    ../../ECom/InterfaceClient
+SOURCE        InterfaceClient.cpp
+
+SOURCEPATH    ../../ECom/InterfaceDefinition
+SOURCE        ExampleResolver.cpp
+
+SOURCEPATH    ../../ECom/InterfaceImplementation
+SOURCE        CImplementationClassOne.cpp
+SOURCE        CImplementationClassTwo.cpp
+
+
+SOURCEPATH    ../src
+SOURCE        dllEntry.cpp
+SOURCE        ut_CExampleResolver.cpp
+SOURCE        ut_CImplementationClassOne.cpp
+SOURCE        ut_CImplementationClassTwo.cpp
+SOURCE        ut_TInterfaceClient.cpp
+
+USERINCLUDE   ../inc
+USERINCLUDE   ../../CommonFramework
+USERINCLUDE   ../../ECom/InterfaceClient
+USERINCLUDE   ../../ECom/InterfaceDefinition
+USERINCLUDE   ../../ECom/InterfaceImplementation
+
+SYSTEMINCLUDE /Epoc32/include
+SYSTEMINCLUDE /Epoc32/include/ecom
+SYSTEMINCLUDE /epoc32/include
+SYSTEMINCLUDE /epoc32/include/ecom
+SYSTEMINCLUDE /epoc32/include/symbianunittest
+
+LIBRARY       ECom.lib
+LIBRARY       euser.lib
+LIBRARY       symbianunittestfw.lib
+
+VENDORID 0x101FB657
+
+CAPABILITY    ALL -TCB
+

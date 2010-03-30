@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+
+<toc label="SUT"
+	link_to="../com.nokia.carbide.help.common/carbideHelpTOC.xml#anchorCarbideFeature" >
+
+	<topic label="SUT" href="html/tool.htm">
+
+
+
+	
+      
+   
+   <topic label="Tasks" href="html/tasks/tasks.htm" >
+      <anchor id="tasks"/>
+   </topic>
+
+   <topic label="References" href="html/references/toc.htm" >
+      <anchor id="references"/>
+   </topic>
+      
+      
+   <topic label="Legal" href="html/legal.htm" />
+   
+   </topic>
+      
+</toc>

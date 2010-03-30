@@ -1,0 +1,359 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+<title>Test Scripter keywords</title>
+<link href="../../book.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+
+<h3>Test Scripter keywords</h3>
+<table width="489" border="1" cellspacing="1" cellpadding="2" summary="keywords">
+<colgroup>
+<col width="33*">
+<col width="159*"></colgroup>
+<tbody>
+<tr>
+<td><p><b>Keyword</b></p></td>
+<td><p><b>Explanation and examples</b></p></td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><p>Describes the test case. This is mandatory for every test case and must be the first keyword. The description is placed after the keyword. </p><code>title Create, print, run example and delete</code></td>
+</tr>
+<tr>
+<td><code>timeout</code></td>
+<td><p>Specifies a timeout value for a test case. The timeout value is given in milliseconds. For example, a timeout of 10 seconds would be marked as: </p><code>timeout 10000</code></td>
+</tr>
+<tr>
+<td><code>priority</code></td>
+<td><p>Specifies the priority value of the test case. The value can be either an integer or the string "high", "normal" or "low". Negative values are low and positive values are high.</p><p>For example, &ndash;100 is low, 0 is normal, 100 is high, 1000 is very high: </p><code>priority high<br>priority 100<br>priority &ndash;100<br>priority 0</code></td>
+</tr>
+<tr>
+<td><code>print</code></td>
+<td><p>Specifies a description to print, for example, to print progress information to the UI. The printed description is placed after the print keyword, as in the example in <a href="../concepts/scripts.htm">Test scripts</a>.</p></td>
+</tr>
+<tr>
+<td><code>setresultdescription</code></td>
+<td><p>Sets the description of the current executed test case. In case of an error situation, it will be shown in the test report.</p><code>setresultdescription object creation starts </code></td>
+</tr>
+<tr>
+<td><code>create</code></td>
+<td><p>Creates a new instance of a test class. This keyword has two mandatory arguments: </p>
+<ul>
+<li>Test class name	: The test class name for the new object. It is the first argument.</li>
+<li>Test object name: The name of the created new instance of the test class.</li>
+</ul>
+<code>create TestScriptClass testObject</code></td>
+</tr>
+<tr>
+<td><code>createkernel</code></td>
+<td><p>Creates a new instance of a kernel test class. This keyword has two mandatory arguments: </p>
+<ul>
+<li>Kernel test class name: The kernel test class name for the new object. It is the first argument.</li>
+<li>Test object name: The name of the created new instance of the kernel test class.</li>
+</ul>
+<code>createkernel TSKernelTest testObject</code></td>
+</tr>
+<tr>
+<td><code>delete</code></td>
+<td><p>Deletes an instance of a test class. Keyword has one mandatory argument: </p>
+<ul>
+<li>Test object name: The name of the instance of the test class that is deleted.</li>
+</ul>
+<code>delete testObject</code></td>
+</tr>
+<tr>
+<td><code>allownextresult</code></td>
+<td><p>Adds valid result values for a method and for asynchronous commands. The arguments for this keyword are Symbian platform error codes. </p><p>The default value for the expected result is 0, and if a value is set with allownextresult, 0 is removed from the expected values. </p><p>A method may either return or leave with the specified result. Every method call removes all allowed results. That is, after every method call, the default value 0 is again the only expected result value. Multiple allownextresult keywords can be placed before a method call and before the waittestclass keyword.</p><code>allownextresult &ndash;1 <br>allownextresult &ndash;1 -5 -12</code></td>
+</tr>
+<tr>
+<td><code>allowerrorcodes</code></td>
+<td><p>Adds valid result values for a method and for asynchronous commands. The arguments for this keyword are Symbian platform error codes. </p><p>As a default the expected result is 0 and if new value is set with allowerrorcodes, 0 will remain as an expected value. A method may either return or leave with the specified results. Every method call removes all allowed results. That is, after every method call, the default value 0 is again the only expected result value. </p><p>Multiple allowerrorcodes keywords can be placed before a method call and before the waittestclass keyword.</p><code>allowerrorcodes &ndash;1  <br> allowerrorcodes &ndash;1 -5 -12</code></td>
+</tr>
+<tr>
+<td><code>waittestclass</code></td>
+<td><p>Pauses test case running until the specified test class object calls the Signal function to proceed with the test case execution again. Keyword has one mandatory argument: </p>
+<ul>
+<li>Test object name: The name of the instance of the test class, which must call Signal() to proceed with the test case execution.</li>
+</ul>
+<code>waittestclass testObject </code></td>
+</tr>
+<tr>
+<td><code>pause</code></td>
+<td><p>Pauses test case running for a specified timeout (in milliseconds). That is, no further lines of the test case file will be executed during that delay, but the thread is not halted; any user active objects may still be completed and their RunL() called.</p><p>For example, a pause of 10 seconds would be:</p><code>pause 10000</code></td>
+</tr>
+<tr>
+<td><code>loop</code><br><code>endloop</code></td>
+<td><p>Repeats a section of the test case file for the specified number of iterations. The section to be repeated is enclosed with the loop and endloop keywords. Nested loops are not supported. Available arguments are:</p>
+<ul>
+<li>Loop times: The loop count, that is, the number of times that the loop is executed. </li>
+<li>msec (optional): This keyword says that &lsquo;Loop times&rsquo; argument stands for the time in milliseconds during which loop will be repeated. </li>
+</ul>
+<p>For example, to execute a loop for 5 times: </p><code>loop 5 // execute this 5 times <br>print LOOP_COUNTER // prints loop counter value, from 0 to -1. <br>endloop</code></td>
+</tr>
+<tr>
+<td><code>oomignorefailure</code></td>
+<td><p>Used for OOM testing. Defines if a test class&rsquo;s building block execution result is checked or ignored. Possible values are ON or OFF: </p>
+<ul>
+<li>ON indicates that the building block execution result will be ignored.</li>
+<li>OFF (default) indicates that the building block execution result will be checked and errors will be handled.</li>
+</ul>
+<code>oomignorefailure on</code></td>
+</tr>
+<tr>
+<td><code>oomheapfailnext</code></td>
+<td><p>Used for OOM testing. Defines that heap allocation failure occurs in the test thread.</p>
+<ul>
+<li>Count value (rate): The failure rate. Heap allocation fails every time that is given as an argument. The given argument will be increased by one because the Test Scripter LOOP_COUNTER range starts from 0. The oomheapfailnext range starts from 1.</li>
+</ul>
+<code>oomheapfailnext 0</code></td>
+</tr>
+<tr>
+<td><code>oomheapsetfail</code></td>
+<td><p>Used for OOM testing. Defines that heap allocation failure occurs in the test thread. The user can define the failure type and count (rate).</p><ul>
+<li>The type of failure to be simulated. The values are: random, truerandom, deterministic, none and failnext. </li>
+<li>Count value (rate): The given argument will be increased by one because the Test Scripter LOOP_COUNTER range starts from 0. The oomheapsetfail range starts from 1.</li>
+</ul>
+<code>oomheapsetfail deterministic 2</code></td>
+</tr>
+<tr>
+<td><code>oomheaptonormal</code></td>
+<td><p>Used for OOM testing. Ends OOM testing and normal testing continues. This keyword can be used to initialize OOM parameters to the default ones. The oomheaptonormal keyword enables the test class&rsquo;s building block execution result check and heap failures are not used anymore.</p></td>
+</tr>
+<tr>
+<td><code>testinterference</code></td>
+<td><p>Interferes the testing. It can take the following arguments: </p>
+<ul>
+<li>Object name</li>
+<li>Command (start or stop) </li>
+<li>Category</li>
+<li>Type</li>
+<li>Idle time (in milliseconds) </li>
+<li>Active time (in milliseconds) </li>
+<li>Set priority</li>
+</ul>
+<p>Example of usage: </p><code>#idle = 200 microseconds, active = 2<br> microseconds testinterference object1 start activeobject cpuload 0.2 0.002 <br>. . . <br>testinterference object1 stop</code></td>
+</tr>
+<tr>
+<td><code>callsub</code></td>
+<td><p>Makes TestScripter executing pointed section of script.</p><p>The section that will be called must start with [Sub name] and end with [EndSub] tags, where name is the identifier of the sub. The execution of the sub will continue until its end is reached. You can call a sub from another sub.</p><code>[Test] <br>title calldemo <br>print Starting... <br>callsub T1 <br>callsub T2 <br>print Finishing... <br>[Endtest]<br><br>[Sub T1] <br>print Inside T1 sub<br>callsub T11 <br>[EndSub]  <br><br>[Sub T11] print Inside T11 sub <br>[EndSub]  <br><br>[Sub T2] <br>print Inside T2 sub <br>[EndSub]</code></td>
+</tr>
+<tr>
+<td><code>request</code></td>
+<td><p>Requests an event. If someone wants to use an event, it must first be requested, and after that it can be waited. After the event is not used anymore, it must be released. The event name is a mandatory parameter.</p><code>request Event1</code></td>
+</tr>
+<tr>
+<td><code>wait</code></td>
+<td><p>Waits for an event. A request must be called before wait, and wait on the requested event blocks until the requested event is set. wait may proceed immediately if the requested event is a state event and already pending (for example, a phone call is already active). wait has one mandatory argument, which is the event name. </p><code>wait Event1</code></td>
+</tr>
+<tr>
+<td><code>release</code></td>
+<td><p>Releases an event. Every requested event must be released explicitly when it is not used anymore. release has one mandatory argument, which is the event name. </p><code>release Event1</code></td>
+</tr>
+<tr>
+<td><code>set</code></td>
+<td><p>Sets an event. Every set state event must be explicitly unset. The arguments are: </p>
+<ul>
+<li>Event: The event name. </li>
+<li>State (Optional): If a state is given, sets the state event, otherwise sets an indication event. A state event remains set until it is unset explicitly with the unset keyword. An indication event is set only once to every requester and implicitly unset after that.</li>
+</ul>
+<p>For example: </p><code>set Event1 <br>set Event2 state</code></td>
+</tr>
+<tr>
+<td><code>unset</code></td>
+<td><p>Unsets a state event. Every set state event must be unset. Indication events cannot be unset. Unset of a event blocks until everyone who has requested the specified event has released the event. The mandatory argument is the event name. </p><code>unset Event1</code></td>
+</tr>
+<tr>
+<td><code>bringtoforeground</code></td>
+<td><p>Brings the UI component container to foreground. </p></td>
+</tr>
+<tr>
+<td><code>sendtobackground</code></td>
+<td><p>Sends the UI component container to background. </p></td>
+</tr>
+<tr>
+<td><code>presskey</code></td>
+<td><p>Sends a key event to the tested UI component. It has one mandatory parameter, which is the key code	 (a single character or constant defined in the TKeyCode enumeration). </p><p>Also other, optional parameters can be used. </p><code>presskey a <br>presskey 1 <br>presskey EKeyDownArrow <br>presskey keycode=123 <br>presskey keycode=EKeyDownArrow <br>presskey x modifier=EModifierShift <br>presskey keyscancode=123 <br>presskey EKeyDevice0 // press left softkey<br> presskey local EKeyDevice0 // press left softkey <br>presskey global EKeyDevice0 // press left softkey </code></td>
+</tr>
+<tr>
+<td><code>typetext</code></td>
+<td><p>Sends text to the tested UI component. The text that should be sent to the UI components must be in double quotation marks.</p><code>typetext &ldquo;Text to send&rdquo;</code></td>
+</tr>
+<tr>
+<td><code>measurement</code></td>
+<td><p>Measures the testing. </p>
+<p>Arguments:</p>
+<ul>
+<li>Command for STF Test Measurement control.<p>The supported values are:<br>start for starting test measurement,<br>stop for stopping test measurement.<br>It also releases all allocated resources.</p></li>
+<li>STF Test measurement type.
+<p>The supported values are:<br>measurementplugin01,<br>measurementplugin02,<br>measurementplugin03,<br>measurementplugin04,<br>measurementplugin05,<br>bappeaprofiler</p></li>
+<li>STF Test measurement module configuring, etc. user and test measurement module specific.</li></ul> 
+</td>
+</tr> 
+<tr>
+<td><code>var</code></td>
+<td><p>Assigns a text value to a specified variable. It can be then used in other parts of the script. 
+</p>
+<p>var Name Value</p></td>
+</tr>  
+<tr>
+<td><code>sendpointerevent</code></td>
+<td><p>
+Sends pointer events to the tested UI component. </p>
+<p>Arguments:</p>
+<ul>
+<li>Event type:	the pointer event type.<br>
+<p>The following pointer even types are surpported:<br>EButton1,<br>EButton2,<br>EButton3,<br>EPointerMove,<br>EPointerSwitchOn,<br>EButton1Down,<br>EButton1Up,<br>EButton2Down,<br>EButton2Up,<br>EButton3Down,<br>EButton3Up</p></li>
+<li>x:	Pointer x co-ordinate</li>
+<li>y:	Pointer y co-ordinate</li>
+</ul>
+<p>sendpointerevent EventType Xco-ordinate Yco-ordinate</p>
+</td>
+</tr> 
+<tr>
+<td><code>using</code></td>
+<td><p>Loads an STF specific test harness library.</p>
+<p>Arguments:</p>
+<ul>
+<li>DLL name:	The test harness library name.</li>
+<li>DLL object name:    The alias of the created new instance of the test harness library.</li>
+</ul></td>
+</tr>
+<tr>
+<td><code>expectedpanic</code></td>
+<td><p>Declares a valid panic resume value for the test case.</p>
+<p>Arguments:</p>
+<ul>
+<li>Panic Number, an single integer, which represents the expected panic number</li>
+</ul>
+<p>expectedpanic XXXX</p>
+</td>
+</tr>
+<tr>
+<td><code>createshareobj</code></td>
+<td><p>Creates an object, wihch can be shared with other test cases in the same test script file.</p>
+<p>Arguments:</p>
+<ul>
+<li>Test Class Name:	The test class name for the new object. This is the first argument.</li>
+<li>Test Object Name:   the name of the created new instance of the test class</li>
+</ul>
+<p>createshareobj ClassName ObjName</p>
+</td>
+</tr>	 
+<tr>
+<td><code>restoreshareobj</code></td>
+<td><p>Restores an object, which has been created by the createshareobj keyword.</p>
+<p>Arguments:</p>
+<ul>
+<li>Test Object Name:   the name of the instance of the test class</li>
+</ul>
+</td>
+</tr>	 
+<tr>
+<td><code>deleteshareobj</code></td>
+<td><p>Deletes an instance of a test class created with createshareobj.</p>
+<p>Arguments:</p>
+<ul>
+<li>Test Object Name:   the name of the instance of the test class</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><code>file</code></td>
+<td><p>Specifies a data file name.</p>
+<p>Arguments:</p>
+<ul>
+<li>sectionfile.ini: the data file name</li>
+<li>da:	a short name used in the script to reference the data file</li>
+</ul></td>
+</tr>
+<tr>
+<td><code>section</code></td>
+<td><p>Specifies which section in the data file will be referred to by the test case.</p>
+<p>Arguments:</p>
+<ul>
+<li>SectionName: The section name defined in the data file.</li>
+<li>SectionShortName: The short name (optional).</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><code>canceliferror</code></td>
+<td><p>Cancels the execution of the remaining test cases if one of the executed test cases has failed. This keyword is normally used to stop the test case execution when some of the test cases are long running.</p><code>[Test] <br>title Simple test case with canceliferror keyword <br>canceliferror <br>run testclass1 myConfig.cfg 1 // test case fails  <br>run testclass2 mySecondConfig.cfg 2 // long running test case <br>[Endtest] </code></td>
+</tr>
+<tr>
+<td><code>run</code></td>
+<td><p>Starts a specified test case. It has several mandatory and optional arguments. The mandatory arguments are: </p>
+<ul>
+<li>testmodule: The test module name. </li>
+<li>configfile: The test case configuration file. </li>
+<li>test case number: The test case number to be executed from configfile.</li>
+</ul>
+<p>Optional arguments contain, for example, testid (identification for the test case), ini (initialization file for the test module) and category (normal, leave, panic, exception or timeout). </p><p>For example: </p><code>run netmodule net.cfg 5 testid=test1 expect=3 ini=ini.txt <br><br>run netmodule net.cfg -1 testid=test1 &ldquo;title=My test case example&rdquo;</code></td>
+</tr>
+<tr>
+<td><code>cancel</code></td>
+<td><p>Cancels a running test case. The test case is cancelled by immediately killing the thread that executes the test case. The keyword has one mandatory argument, the test ID. </p><code>cancel test1</code></td>
+</tr>
+<tr>
+<td><code>pausetest</code></td>
+<td><p>Pauses a test case. The test case is paused by pausing the thread that executes
+the test case. The pausetest keyword has one mandatory argument.</p>
+<p>pausetest testid time</p>
+<p>Arguments:</p>
+<ul>
+<li>testid: the test ID from the run command.</li>
+<li>time: (optional) Pause time in milliseconds. After this time, resume is called automatically (if not given, resume needs to be called explicitly).</li>
+</ul>
+<p>For example:</p>
+<p><code>pausetest test1 time=10</code></p> 
+</td>
+</tr>
+<tr>
+<td><code>resume</code></td>
+<td><p>Resumes a paused test case. Has one mandatory argument, the test ID. </p><code>resume test1</code></td>
+</tr>
+<tr>
+<td><code>complete</code></td>
+<td><p>Waits and blocks a running test case. This keyword is used to have a started test case wait to complete and blocks until the test case has finished. Has one mandatory argument, the test ID. </p><code>complete test1</code></td>
+</tr>
+<tr>
+<td><code>allocate</code></td>
+<td><p>Allocates a slave, for example, for running a test case on a remote phone. It uses Remote Control Protocol (RPC). The slave must always be allocated first before it can be used.</p>
+<ul>
+<li>Slave type: The type of the slave. STF only supports slave phone. phone indicates that slave phone is also running STF. Other types must be handled by the slave implementation, that is, when implementing separate support for external network simulator. </li>
+<li>Slave name: A unique name for the slave.</li>
+</ul>
+<p>For example: </p><code>allocate phone MySlave</code></td>
+</tr>
+<tr>
+<td><code>free</code></td>
+<td><p>Frees a slave. Every allocated slave must be freed with free when it becomes unused. It has one mandatory argument, the slave name. </p><code>free MySlave</code></td>
+</tr>
+<tr>
+<td><code>remote</code></td>
+<td><p>Starts the execution of a test case in a slave and also requests and releases events from the slave. Other controlling for remote test cases is done with the same keywords as for the local test cases. </p>
+<ul>
+<li>Slave name: The slave name, the same that was given for allocate. </li>
+<li>Command name	: The remote command name (supported: run, request, wait, set, unset,  release).</li>
+</ul>
+<p>For example: </p><code>remote MySlave run netmodule net.cfg 5 testid=test1 expect=3 ini=ini.txt <br>remote MySlave request Event1 <br>remote MySlave wait Event1 <br>remote MySlave set Event1 <br>remote MySlave unsetEvent1 <br>remote MySlave release Event1</code></td>
+</tr>
+<tr>
+<td><code>INCLUDE</code></td>
+<td><p>Includes a file</p>
+<ul>
+<li>Must be written in capital letters and must start from the first column of the line.</li>
+<li>File name (with path and extension) must follow INCLUDE tr. Rest of line would be ignored.</li>
+<li>All files included from Unicode file should also be in Unicode format (and vice versa).</li>
+<li>Loops in includes are not allowed (for example incorrect situation is when file A includes file B and file B includes file A). In that case, the second include will be ignored, but STF parser will continue working).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div id="footer">Copyright &copy; 2009 Nokia Corporation and/or its subsidiary(-ies). All rights reserved. 
+License: <a href="http://www.eclipse.org/legal/epl-v10.html">http://www.eclipse.org/legal/epl-v10.html</a>.</div>
+</body>
+</html>

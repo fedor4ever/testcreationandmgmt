@@ -1,0 +1,4 @@
+//this is an example.
+
+#include "multiprj1/group/bld.inf"
+#include "multiprj2/group/bld.inf"

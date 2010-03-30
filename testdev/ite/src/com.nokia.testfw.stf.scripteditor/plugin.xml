@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+	
+	<extension
+		point="org.eclipse.ui.editors">
+	
+		<editor
+			name="STF Script Editor"
+			extensions="cfg"
+			icon="icons/full/obj16/scriptfile.gif"
+			contributorClass="com.nokia.testfw.stf.scripteditor.editors.ScriptEditorContributor"
+			class="com.nokia.testfw.stf.scripteditor.editors.ScriptEditor"
+			id="com.nokia.testfw.stf.scripteditor.editors.ScriptEditor"
+			default="true">
+		</editor>
+	</extension>
+	
+ <extension
+       point="org.eclipse.core.runtime.preferences">
+       <initializer
+            class="com.nokia.testfw.stf.scripteditor.preference.PreferenceInitializer">
+      </initializer>
+ </extension>
+ <extension
+       point="org.eclipse.ui.preferencePages">
+       <page
+            name="TestFramework"
+            class="com.nokia.testfw.stf.scripteditor.preference.ItePreferencePage"
+            category="com.nokia.carbide.cpp.preferences.ExtensionsPreferencesPage"
+            id="com.nokia.testfw.preferences"/>
+       <page
+            name="STF Editor"
+            category="com.nokia.testfw.preferences"
+            class="com.nokia.testfw.stf.scripteditor.preference.ScriptEditorPreferencePage"
+            id="com.nokia.testfw.stf.preference.ScriptEditorPreferencePage"/>
+ </extension>
+	
+</plugin>
+
+

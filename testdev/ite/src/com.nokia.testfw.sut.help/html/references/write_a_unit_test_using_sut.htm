@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"> 
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<title>Write a unit test using SUT</title>
+<link rel="StyleSheet" href="../../book.css" type="text/css"/>
+</head>
+<body>
+
+<h2>Write a unit test using SUT</h2>
+
+<p>The following code snippet is from the example Racecar, we can download it from<br />
+<a href="https://developer.symbian.org/sfl/MCL/sftools/ana/testfw/testexecfw/symbianunittestfw/sutfw/sutfwexamples">https://developer.symbian.org/sfl/MCL/sftools/ana/testfw/testexecfw/symbianunittestfw/sutfw/sutfwexamples</a>.</p>
+<div><span>1.<span>&nbsp;</span></span>Select Class and methods to be tested</div>
+<div>For instance, we want to test the class CRaceCar in the example. Two of the functions we want to test are AddFuel() and SpeedL().</div>
+<div>&nbsp;</div>
+
+<div><code>#ifndef CRACECAR_H<br />
+#define CRACECAR_H<br />
+<br />
+class CRaceCar : public CBase <br />
+&nbsp;&nbsp;&nbsp; {<br />
+<span>&nbsp;&nbsp;&nbsp; // some constructors and destructor&hellip;<br />
+<br />
+&nbsp;&nbsp;&nbsp; public: // New functions<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TUint AddFuel( TUint aFuel );<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TUint SpeedL();<br />
+<br />
+&nbsp;&nbsp;&nbsp; // some other methods and attributes&hellip;<br />
+&nbsp;&nbsp;&nbsp; };<br />
+<br />
+#endif // CRACECAR_H</span></code></div>
+<br />
+<div>In order to get enough privillage to access private members in CRaceCar when creating unit test case, we need to define the test class UT_CRaceCar as friend class</div>
+<div><code>class CRaceCar : public CBase</code></div>
+<div>&nbsp;&nbsp;&nbsp; <code>{</code></div>
+<div>&nbsp;&nbsp;&nbsp; <code>// ...</code></div>
+<div>&nbsp;&nbsp;&nbsp;</div>
+<div>&nbsp;&nbsp;&nbsp; <code>private: // Test class</code></div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code>#ifdef SYMBIAN_UNIT_TEST</code></div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code>friend UT_CRaceCar;</code></div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code>#endif&nbsp;// SYMBIAN_UNIT_TEST</code></div>
+<div>&nbsp;&nbsp;&nbsp; <code>};</code></div>
+<div>&nbsp;&nbsp;&nbsp;</div>
+<div>UT_CRaceCar will be introduced to CRaceCar as friend class if the macro SYMBIAN_UNIT_TEST has been defined in test project.</div>
+<div>&nbsp;&nbsp;&nbsp;</div>
+<div><span>2.<span>&nbsp;</span></span>Define Test Class</div>
+<div>Define a test class UT_CRaceCar, it will derive from CSymbianUnitTest,</div>
+<div>&nbsp;</div>
+<div><code>#ifndef UT_RACECAR_H</code></div>
+<div><code>#define UT_RACECAR_H</code></div>
+<div><code>&nbsp;</code></div>
+<div><code>// INCLUDES</code></div>
+<div><code>#include &lt;symbianunittest.h&gt;</code></div>
+<div><code>&nbsp;</code></div>
+<div><code>// FORWARD DECLARATIONS</code></div>
+<div><code>class CRaceCar;</code></div>
+<div><code>&nbsp;</code></div>
+<div><code>// CLASS DECLARATION</code></div>
+<div><code>class UT_CRaceCar : public CSymbianUnitTest</code></div>
+<div><code>&nbsp;&nbsp;&nbsp; {</code></div>
+<div><code>&nbsp;&nbsp;&nbsp; // Constructors and destructor&hellip;</code></div>
+<div><code>&nbsp;&nbsp;&nbsp;&nbsp;</code></div>
+<div><code>&nbsp;&nbsp;&nbsp; protected: // From CSymbianUnitTest</code></div>
+<div><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; void SetupL();&nbsp;<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; void Teardown();&nbsp;</code></div>
+<div><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</code></div>
+<div><code>&nbsp;&nbsp;&nbsp; protected: // Test functions, others are the same as this one.</code></div>
+<div><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; void UT_AddFuel();&nbsp;</code><br />
+<span><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; void UT_SpeedL();</code> </span></div>
+<div><code>&nbsp;</code></div>
+<div><code>&nbsp;&nbsp;&nbsp; private: // Data</code></div>
+<div><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // The object to be tested as a member variable:</code></div>
+<div><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;CRaceCar *iRaceCar;&nbsp;</code></div>
+<div><code>&nbsp;&nbsp;&nbsp; };</code></div>
+<div><code>&nbsp;</code></div>
+<div><code>#endif // UT_RACECAR_H</code></div>
+
+<div>&nbsp;</div>
+<div>Please notice some Symbian C++ essential functions such as NewL() and ConstructL() are ignored in this document.</div>
+<div>Users can provide optional SetupL() and Teardown() functions. They will be called before and after test case execution. SetupL() usually initializes some of the resources, allocates memory, Teardown() usually in charge of some resource destruction so that the test object can reset its state for the next test case execution.</div>
+<div>UT_AddFuel() and UT_SpeedL() are the unit test&nbsp;code to test the corresponding functions defined in the class&nbsp;CRaceCar.</div>
+<div>The iRaceCar is the instance of class under test.</div>
+<div>&nbsp;</div>
+<div><span>3.<span>&nbsp;</span></span>Create Test DLL entry.</div>
+<div>The next file that we should take into consideration is dllentry.cpp which you can find in the example test project dllentry.cpp.</div>
+<div>It only has one global function with the signature EXPORT_C MSymbianUnitTestInterface* CreateTestL(); in this function, it creates and return the test suites, so the SymbianUnitTest framework can load and run test cases.&nbsp;</div>
+<div>&nbsp;</div>
+<div>The example code snippet is shown below:</div>
+<div><code>EXPORT_C MSymbianUnitTestInterface* CreateTestL()</code></div>
+<div><code>&nbsp;&nbsp;&nbsp; {</code></div>
+<div><code>&nbsp;&nbsp;&nbsp; CSymbianUnitTestSuite* testSuite =</code></div>
+<div><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;CSymbianUnitTestSuite::NewLC( _L(&quot;ut_racecar&quot;) );</code></div>
+<div><code>&nbsp;</code></div>
+<div><code>&nbsp;&nbsp;&nbsp; testSuite-&gt;AddL( UT_CRaceCar::NewLC() );</code></div>
+<div><code>&nbsp;&nbsp;&nbsp; CleanupStack::Pop();</code></div>
+<div><code>&nbsp;</code></div>
+<div><code>&nbsp;&nbsp;&nbsp; // Add more tests to the test suite here when testing multiple classes</code></div>
+<div><code>&nbsp;&nbsp;&nbsp; CleanupStack::Pop( testSuite );</code></div>
+<div><code>&nbsp;&nbsp;&nbsp; return testSuite;</code></div>
+<div><code>&nbsp;&nbsp;&nbsp; }</code></div>
+<div><code>&nbsp;&nbsp;&nbsp;</code></div>
+<div><span>4.<span>&nbsp;</span></span>Implement test cases.</div>
+<div>One of the important functions should taken into account is the second phase constructor of the test suite. In this function, we must call the macro BASE_CONSTRUCT at the first line. Then the unit test methods can be added by using the macro ADD_SUT. Please note that SetupL() will be invoked before each test case runs and the Teardown() will be invoked after the test case execution.</div>
+<div>We can specify the SetupL() and Teardown() functions for certain test case simply by using the macro ADD_SUTWITH_SETUP_AND_TEARDOWN.</div>
+<div>&nbsp;</div>
+<div>The example code snippet is shown below:</div>
+<div><code>void UT_CRaceCar::ConstructL()</code></div>
+<div><code>&nbsp;&nbsp;&nbsp; {</code></div>
+<div><code>&nbsp;&nbsp;&nbsp; BASE_CONSTRUCT</code></div>
+<div><code>&nbsp;&nbsp;&nbsp; ADD_SUT( UT_AddFuel )</code></div>
+<div><code>&nbsp;&nbsp;&nbsp; ADD_SUT_WITH_SETUP_AND_TEARDOWN( SetupL, UT_ SpeedL, Teardown )</code></div>
+<div><code>&nbsp;&nbsp;&nbsp; }</code></div>
+<div><code>&nbsp;&nbsp;&nbsp;</code></div>
+<div>Here is an example a a unit test function.</div>
+<div>&nbsp;</div>
+<div><code>void UT_CRaceCar::UT_FuelL()</code></div>
+<div><code>&nbsp;&nbsp;&nbsp; {</code></div>
+<div><code>&nbsp;&nbsp;&nbsp; SUT_ASSERT_EQUALS( 0, iRaceCar-&gt;FuelLeft() )</code></div>
+<div><code>&nbsp;&nbsp;&nbsp; SUT_ASSERT_EQUALS( 0, iRaceCar-&gt;AddFuel( KInitialFuel ) )</code></div>
+<div><code>&nbsp;&nbsp;&nbsp; SUT_ASSERT_EQUALS( KInitialFuel, iRaceCar-&gt;FuelLeft() )</code></div>
+<div><code>&nbsp;&nbsp;&nbsp; SUT_ASSERT_EQUALS( 2, iRaceCar-&gt;AddFuel( 1 ) )&nbsp;</code></div>
+<div><code>&nbsp;&nbsp;&nbsp; SUT_ASSERT_EQUALS( KInitialFuel, iRaceCar-&gt;FuelLeft() )</code></div>
+<div><code>&nbsp;&nbsp;&nbsp; }</code></div>
+<div><code>&nbsp;&nbsp;&nbsp;</code></div>
+<div>In this function, we use the macro SUT_ASSERT_EQUALS to assert if the test function's return value is&nbsp;what we expect, more macros will be introduced in later section. It will be marked as failed if the actual return value doesn't match the expected value when using the macro SUT_ASSERT_EQUALS. The rest of the functions should be tested follow the same way as we mentioned in this section.</div>
+<div>&nbsp;</div>
+<div><span>5.<span>&nbsp;</span></span>Create project mmp file.</div>
+<div>In the next step, we will create a project file. Showing below is a snippet of the mmp file:</div>
+<div>1) &nbsp;TARGET&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ut_racecar.dll</div>
+<div>2)&nbsp; TARGETTYPE&nbsp;&nbsp;&nbsp; dll</div>
+<div>3) &nbsp;UID<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0x20022E76 0x0E6A3C34</span></div>
+<div>4)&nbsp; MACRO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SYMBIAN_UNIT_TEST</div>
+<div>5) &nbsp;SOURCE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; racecar.cpp</div>
+<div>6)&nbsp; SOURCE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dllEntry.cpp</div>
+<div>7) &nbsp;SOURCE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ut_racecar.cpp</div>
+<div>8)&nbsp; SYSTEMINCLUDE /epoc32/include/symbianunittest</div>
+<div>9) &nbsp;LIBRARY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; symbianunittestfw.lib</div>
+<div>&nbsp;</div>
+<div>The type of the test project is a dll project, so we should indicate the target type of the project, like line 2, we specify dll as the TARGETTYPE.</div>
+<div>At line 1, we set a target file name for the file.</div>
+<div>At line 3, we must specify the UID2 as it is identified for the SymbianUnitTest&rsquo;s DLL.</div>
+<div>At line 4, we must add the SYMBIAN_UNIT_TEST macro to enable the macros the test framework provided.</div>
+<div>We also need to list the source code under test (in this case, the source file of the testing class is racecar.cpp), so we add&nbsp;it at line 5.</div>
+<div>We added dllEntry.cpp to the mmp file as stated in section &quot;3 -- Write dll entry&quot; at line 6.</div>
+<div>ut_racecar.cpp is test case implementation, we add it at line 7.</div>
+<div>Line 8 and line 9 contain the directory of the header files and the library file of the SymbianUnitTest &nbsp;we need in our test.</div>
+<div>&nbsp;</div>
+<div><span>6.<span>&nbsp;</span></span>Create bld.inf for the test project.</div>
+<div>We also need to add the newly created project mmp file to bld.inf, just like the following shown below:</div>
+<div>PRJ_TESTMMPFILES</div>
+<div>ut_racecar.mmp</div>
+<div>&nbsp;</div>
+<div><span>7.<span>&nbsp;</span></span>Build project and run it.</div>
+<div>In the test project group directory, execute the following command to build it:</div>
+<div>bldmake bldfiles</div>
+<div>abld test clean winscw</div>
+<div>abld test reallyclean winscw</div>
+<div>abld test build winscw udeb</div>
+<div>&nbsp;</div>
+<div>Run&nbsp;&quot;symbianunittest.exe -t=ut_racecar.dll&quot; to&nbsp;execute the test, we should get the test result at &quot;c:\sut&quot;.</div>
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+<title>Classes and macros</title>
+<link href="../book.css" type="text/css" rel="stylesheet"></head>
+<body>
+
+<h2>Classes and macros</h2>
+
+<p>1. There are several macros used in Symbian Unit Test Framework, we should define the macro SYMBIAN_UNIT_TEST in our test project&rsquo;s mmp file to enable them.</p>
+<p>BASE_CONSTRUCT:<br />
+&nbsp;&nbsp;&nbsp; Calls the base class constructor that sets the name of unit test, usually used in ConstructL in wrapper class.</p>
+<p>ADD_SUT( aTestPtr ):<br />
+&nbsp;&nbsp;&nbsp; Adds a new unit test case to this unit test. The default setup and teardown functions will be used.</p>
+<p>ADD_SUT_WITH_SETUP_AND_TEARDOWN( aSetupPtr, aTestPtr, aTeardownPtr ):<br />
+&nbsp;&nbsp;&nbsp; Adds a new unit test case to this unit test. The user can specify the customized setup and teardown functions. <br />
+&nbsp;&nbsp;&nbsp; <br />
+SUT_ASSERT( aCondition ):<br />
+&nbsp;&nbsp;&nbsp; Asserts a condition in a unit test case. Leaves with a Symbian unit test framework specific error code if the condition evaluates to EFalse.</p>
+<p>SUT_ASSERT_EQUALS( aExpected, aActual ):<br />
+&nbsp;&nbsp;&nbsp; Asserts that two values are equal. Leaves with a Symbian unit test framework specific error code if the values are not equal.</p>
+<p>SUT_ASSERT_LEAVE_WITH( aStatement, aError ):<br />
+&nbsp;&nbsp;&nbsp; Asserts that a statement leaves an expected value. Leaves with a Symbian unit test framework specific error code if the leave code is not the expected one.</p>
+<p>SUT_ASSERT_LEAVE( aStatement ):<br />
+&nbsp;&nbsp;&nbsp; Asserts that a statement leaves. The macro itself leaves with a Symbian unit test framework specific error code if the statement leaves.</p>
+<p>The detailed explaination can be found in symbianunittestmacros.h.</p>
+<p>2. Classes in Symbian Unit Test Framework.</p>
+<p>In this section, we will review some key classes in SymbianUnitTest Framework. While writing a test project, below classes should be aware of from the client&rsquo;s perspective:</p>
+<p>CSymbianUnitTest<br />
+CSymbianUnitTest is a basic test unit; it corresponds to the class which we will test. Client programmer should derive from it and implement test code in CSymbianUnitTest&rsquo;s derived class. <br />
+Client user needs to override two methods SetupL and Teardown if extra initialization needed to run test case.</p>
+<p>CSymbianUnitTestSuite<br />
+CSymbianUnitTestSuite is the collection/container of CSymbianUnitTest. On the other words, it simply collects a number of CSymbianUnitTest's derived classes and run them during a particular test run.</p>
+</body>
+</html>

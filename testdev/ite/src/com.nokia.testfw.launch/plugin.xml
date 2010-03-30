@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension-point id="testRunProcessors" name="%testRunProcessors.name" schema="schema/testRunProcessors.exsd"/>
+
+   <extension
+         point="org.eclipse.debug.core.launchConfigurationTypes">
+      <launchConfigurationType
+            sourceLocatorId="org.eclipse.cdt.debug.core.sourceLocator"
+            sourcePathComputerId="com.nokia.cdt.debug.cw.symbian.CarbideSourcePathComputer"
+            delegate="com.nokia.testfw.launch.TFWEmulationLaunchDelegate"
+            delegateDescription="This Symian Unit Test Emulator Launcher supports running and debugging unit tests on Emulator"
+            delegateName="SymbianUnitTest Emulator Launcher"
+            id="com.nokia.testfw.launch.SUTEmulationLaunch"
+            modes="run,debug"
+            name="SymbianUnitTest Emulator Test"
+            public="true">
+      </launchConfigurationType>
+      <launchConfigurationType
+            sourceLocatorId="org.eclipse.cdt.debug.core.sourceLocator"
+            sourcePathComputerId="com.nokia.cdt.debug.cw.symbian.CarbideSourcePathComputer"
+            delegate="com.nokia.testfw.launch.TFWEmulationLaunchDelegate"
+            delegateDescription="This Symbian Test Framework Emulator Launcher supports running and debugging STF tests on Emulator"
+            delegateName="Symbian Test Framework Emulator Launcher"
+            id="com.nokia.testfw.launch.STFEmulationLaunch"
+            modes="run,debug"
+            name="STF Emulator Test"
+            public="true">
+      </launchConfigurationType>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTabGroups">
+      <launchConfigurationTabGroup
+            class="com.nokia.testfw.launch.ui.SUTEmulationConfigTagGroup"
+            id="com.nokia.testfw.launch.SUTEmulationConfigTagGroup"
+            type="com.nokia.testfw.launch.SUTEmulationLaunch">
+      </launchConfigurationTabGroup>
+      <launchConfigurationTabGroup
+            class="com.nokia.testfw.launch.ui.STFEmulationConfigTagGroup"
+            id="com.nokia.testfw.launch.STFEmulationConfigTagGroup"
+            type="com.nokia.testfw.launch.STFEmulationLaunch">
+      </launchConfigurationTabGroup>
+   </extension>
+   <extension
+         point="org.eclipse.debug.ui.launchConfigurationTypeImages">
+      <launchConfigurationTypeImage
+            configTypeID="com.nokia.testfw.launch.SUTEmulationLaunch"
+            icon="icons/launch_config_file_16x16.png"
+            id="com.nokia.testfw.launch.launchConfigurationTypeSUTImage">
+      </launchConfigurationTypeImage>
+      <launchConfigurationTypeImage
+            configTypeID="com.nokia.testfw.launch.STFEmulationLaunch"
+            icon="icons/launch_config_file_16x16.png"
+            id="com.nokia.testfw.launch.launchConfigurationTypeSTFImage">
+      </launchConfigurationTypeImage>
+   </extension>
+   <extension
+         point="com.nokia.testfw.launch.testRunProcessors">
+         <testRunProcessor class="com.nokia.testfw.launch.processor.SUTProcessor"/>
+         <testRunProcessor class="com.nokia.testfw.launch.processor.STFProcessor"/>
+   </extension>
+</plugin>

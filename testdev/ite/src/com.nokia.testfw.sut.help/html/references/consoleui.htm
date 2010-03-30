@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+<title>Console UI</title>
+<link href="../book.css" type="text/css" rel="stylesheet"></head>
+<body>
+
+<h2>Console UI</h2>
+<p>There is a console based application provided by Symbian Unit Test Framework which is used to execute test cases.</p>
+<p>filename:&nbsp;<br />
+&nbsp;&nbsp;&nbsp; symbianunittest.exe</p>
+<p>allowed arguments:<br />
+&nbsp;&nbsp;&nbsp; -tests|t=&lt;dllfilename1,dllfilename2,...&gt;<br />
+&nbsp;&nbsp;&nbsp; -cases|c=&lt;case1,case2,...&gt;<br />
+&nbsp;&nbsp;&nbsp; -alloc|a<br />
+&nbsp;&nbsp;&nbsp; -help|h<br />
+&nbsp;&nbsp;&nbsp; -output|o=&lt;html|xml|txt&gt;<br />
+&nbsp;&nbsp;&nbsp; -timeout|to<br />
+&nbsp;&nbsp;&nbsp; -noprompt</p>
+<p>each option has a short term form such as -h is the short term form of -help.</p>
+<p>-help/-h : print help message (the same effect as run symbianunittest.exe without any parameter)<br />
+&nbsp;&nbsp;&nbsp; Example : symbianunittest -help<br />
+&nbsp;&nbsp;&nbsp; <br />
+-tests/-t : specify the test dll files which include the symbian unit test cases, seperated by &lsquo;,&rsquo;. <br />
+&nbsp;&nbsp;&nbsp; Example : symbianunittest -tests=testdllfilename1,testdllfilename2,testdllfilename3<br />
+&nbsp;&nbsp;&nbsp; <br />
+-cases/-c : specify which test cases should be ran during the test procedure. the names of the test cases are seperated by &lsquo;,&rsquo;. (optional)<br />
+&nbsp;&nbsp;&nbsp; Example : symbianunittest -tests=testdll -cases=testcasename1,testcasename2,testcasename3<br />
+&nbsp;&nbsp;&nbsp; <br />
+-timeout/-to : set the time out value for test execution, 30 secondes by default, 0 for never timeout. (optional)<br />
+&nbsp;&nbsp;&nbsp; Example : symbianunittest -tests=testdll1,testdll2,testdll3 -to=3<br />
+&nbsp;&nbsp;&nbsp; Set time out to 3 seconds. <br />
+&nbsp;&nbsp;&nbsp; <br />
+-output/-o : set the output format, default is html. Test result file is stored in c:\sut. <br />
+&nbsp;&nbsp;&nbsp; Example : symbianunittest -tests=testdll1,testdll2,testdll3 -to=3 -o=xml</p>
+<p>-alloc/-a : Memory allocation failure simulation. (optional)<br />
+&nbsp;&nbsp;&nbsp; Example : symbianunittest -tests=testdll1,testdll2,testdll3 -to=3 -o=xml -alloc<br />
+&nbsp;&nbsp;&nbsp; <br />
+-noprompt : perform a quiet test for unit test execution. (optional)<br />
+&nbsp;&nbsp;&nbsp; Example : symbianunittest -tests=testdll1,testdll2,testdll3 -to=3 -o=xml -alloc &ndash;noprompt</p>
+</body>
+</html>

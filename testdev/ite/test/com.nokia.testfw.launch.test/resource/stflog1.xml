@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : stflog2.xml.xml
+    Created on : 26. toukokuuta 2009, 13:24
+    Author     : juvestma
+    Description:
+        Purpose of the document follows.
+-->
+
+<stflog
+xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+   xmlns='http://xml.netbeans.org/schema/sftlog'
+   xsi:schemaLocation='http://xml.netbeans.org/schema/sftlog sftlog.xsd'
+    >
+    <testmodule name="default">
+        <testdata file="testdata.dat" />
+        <unittest>
+
+            <testdll name="epoc32/release/winscw/udeb/alltests.dll">
+                <build>2003-04-01T13:01:02</build>
+                <started>2003-04-01T13:01:02</started>
+
+                <testsuite name="AllTests" description="The developer written description of the test case" testcount="1">
+                    <build>2003-04-01T13:01:02</build>
+                    <started>2003-04-01T13:01:02</started>
+                    <declaration>
+                        <location file="toplevelsuite.h" line="11" column="8" />
+                    </declaration>
+                    <definition>
+                        <location file="toplevelsuite.cpp" line="14" column="8" />
+                    </definition>
+            
+			
+                    <test name="TestFirstMethod" description="The developer written description of the test case">
+                        <started>2003-04-01T13:01:02</started>
+                        <declaration>
+                            <location file="toplevelsuite.h" line="27" column="16" />
+                        </declaration>
+                        <definition>
+                            <location file="toplevelsuite.cpp" line="46" column="16" />
+                        </definition>
+                        
+                        <assert type="STF_ASSERT_EQUALS" message="result is not 42" status="pass" >
+                            <location file="toplevelsuite.cpp" line="49" column="16" />
+                        </assert>
+
+                        <log level="info">This is printed by STF_PRINT macro</log>
+
+                        <assert type="STF_ASSERT_EQUALS" message="result is not 13" status="fail" >
+                            <location file="toplevelsuite.cpp" line="50" column="16" />
+                        </assert>
+
+                        <assert type="STF_ASSERT_EQUALS" message="result is not 13" status="fail" >
+                            <location file="toplevelsuite.cpp" line="50" column="16" />
+                        </assert>
+
+
+					    <status type="fail" />
+
+                        <finished>2003-04-01T13:01:04</finished>
+
+                    </test>
+
+				
+
+                    <finished>2003-04-01T13:01:12</finished>
+
+
+
+
+                </testsuite>
+            </testdll>
+
+        </unittest>
+    </testmodule>
+</stflog>
+
+

@@ -1,0 +1,3 @@
+EXPORTS
+	?LibEntryL@@YAPAVCTestModuleTest@@XZ @ 1 NONAME ; class CTestModuleTest * __cdecl LibEntryL(void)
+

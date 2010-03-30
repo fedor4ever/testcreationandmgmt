@@ -1,0 +1,51 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+* 
+* Description: MMP file for STIF Test Framework's Normal test module.
+*
+*/
+
+#include <platform_paths.hrh>
+
+SMPSAFE
+
+TARGET      Testmodule.dll
+TARGETTYPE  dll
+
+CAPABILITY	ALL -TCB
+VENDORID 	0x101FB657
+
+DEFFILE     Test.def
+
+USERINCLUDE     ../inc
+
+OS_LAYER_SYSTEMINCLUDE
+
+SOURCEPATH      ../src
+
+SOURCE          Test.cpp
+
+LIBRARY     euser.lib
+LIBRARY     stiftestinterface.lib
+
+// First UID is DLL UID, Second UID is STIF Test Framework UID
+UID             0x1000008D 0x101FB3E7
+
+#ifndef WINSCW
+epocstacksize 0x4000
+start wins
+	win32_library chkstk.obj
+end
+#endif
+
+// End of File

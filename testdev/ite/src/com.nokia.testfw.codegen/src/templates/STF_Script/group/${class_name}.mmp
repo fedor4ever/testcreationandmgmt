@@ -1,0 +1,62 @@
+/*
+* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+* 
+* Description: MMP file for STF Test Framework's TestScripter 
+* test class.
+*
+*/
+
+#include <platform_paths.hrh>
+
+TARGET          ${class_name}.dll
+TARGETTYPE      dll
+UID             0x1000008D 0x101FB3E3
+
+CAPABILITY      ALL -TCB
+
+DEFFILE         ${class_name}.def
+
+USERINCLUDE     ../inc 
+
+// [System Include] Begin - Do not remove
+OS_LAYER_SYSTEMINCLUDE
+//!!//!![Repeat Section Begin]::// [System Include]
+//!!foreach( ${include} in ${system_include})
+SYSTEMINCLUDE   ${include}
+//!!end
+//!!//!![Repeat Section End]::// [System Include]
+// [System Include] End - Do not remove
+
+SOURCEPATH      ../src
+// [Test Case Source] Begin - Do not remove
+//!!//!![Repeat Section Begin]::// [Test Case Source]
+SOURCE          ${class_name}.cpp
+SOURCE          ${class_name}Blocks.cpp
+//!!//!![Repeat Section End]::// [Test Case Source]
+// [Test Case Source] End - Do not remove
+
+// [Library] Begin - Do not remove
+LIBRARY         euser.lib
+LIBRARY         stiftestinterface.lib
+LIBRARY         stiftestengine.lib
+//!!//!![Repeat Section Begin]::// [Library]
+//!!foreach( ${lib} in ${library})
+LIBRARY         ${lib}
+//!!end
+//!!//!![Repeat Section End]::// [Library]
+// [Library] End - Do not remove
+
+//RESOURCE      resource_file
+//RESOURCE      resource_file2
+
+LANG            SC

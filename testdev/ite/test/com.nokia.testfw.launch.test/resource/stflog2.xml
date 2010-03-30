@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?> <stflog xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+	xmlns='http://xml.netbeans.org/schema/sftlog'
+	xsi:schemaLocation='http://xml.netbeans.org/schema/sftlog sftlog.xsd'
+	>
+    <testmodule>
+        <unittest>
+            <testdll name="demounittestcases.dll">
+                <testsuite name="default">
+                    <test name="FirstTest">
+                        <status type="pass" />
+                    </test>
+                    <test name="SecondTest">
+                        <status type="pass" />
+                    </test>
+                    <test name="ThirdTest">
+                        <status type="crash" />
+                    </test>
+                    <test name="FourthTest">
+                        <status type="fail" />
+                    </test>
+                    <test name="FifthTest">
+                        <status type="pass" />
+                    </test>
+                </testsuite>
+            </testdll>
+        </unittest>
+    </testmodule>
+</stflog>

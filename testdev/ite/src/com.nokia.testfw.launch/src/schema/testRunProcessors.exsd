@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="com.nokia.testfw.launch" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appinfo>
+         <meta.schema plugin="com.nokia.testfw.launch" id="testRunProcessors" name="Test Run Processors"/>
+      </appinfo>
+      <documentation>
+         Extension point to register additional test run processors. A test run processor is notified about the execution of a test run.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
+         <documentation>
+            a fully qualified identifier of the target extension point
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence minOccurs="1" maxOccurs="unbounded">
+            <element ref="testRunProcessor"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  a fully qualified identifier of the target extension point
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="testRunProcessor">
+      <annotation>
+         <documentation>
+            Deprecated: Register the new test run listener
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Test run class implementing com.nokia.testfw.resultview.model.IDataProcessor
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":com.nokia.testfw.resultview.model.IDataProcessor"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="since"/>
+      </appinfo>
+      <documentation>
+         1.0
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="examples"/>
+      </appinfo>
+      <documentation>
+         The following is an example of a test run listener contribution:
+
+&lt;p&gt;
+&lt;pre&gt;
+ &lt;extension point=&quot;com.nokia.testfw.launch.testRunProcessors&quot;&gt;
+  &lt;testRunListener class=&quot;com.example.SampleTestRunProcessor&quot;/&gt;
+ &lt;/extension&gt;
+&lt;/pre&gt;
+&lt;/p&gt;
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="apiInfo"/>
+      </appinfo>
+      <documentation>
+         Test run listeners must must implement the com.nokia.testfw.resultview.model.IDataProcessor interface.
+      </documentation>
+   </annotation>
+
+
+   <annotation>
+      <appinfo>
+         <meta.section type="copyright"/>
+      </appinfo>
+      <documentation>
+         Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+All rights reserved.
+This component and the accompanying materials are made available
+under the terms of &quot;Eclipse Public License v1.0&quot;
+which accompanies this distribution, and is available
+at &lt;a href=&quot;http://www.eclipse.org/legal/epl-v10.html&quot;&gt;http://www.eclipse.org/legal/epl-v10.html&lt;/a&gt;
+
+Initial Contributors:
+Nokia Corporation - initial contribution.
+      </documentation>
+   </annotation>
+
+</schema>

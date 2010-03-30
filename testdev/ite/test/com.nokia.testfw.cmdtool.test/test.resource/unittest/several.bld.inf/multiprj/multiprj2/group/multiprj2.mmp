@@ -1,0 +1,24 @@
+/*
+============================================================================
+ Name		: multiprj2.mmp
+ Author	  : Yue Zhang
+ Copyright   : Test Product Team, Symbian
+ Description : This is the project specification file for multiprj2.
+============================================================================
+*/
+
+TARGET		  multiprj2.exe
+TARGETTYPE	  exe
+UID			 0 0xE5274371
+
+USERINCLUDE	 ..\inc
+SYSTEMINCLUDE   \epoc32\include
+
+SOURCEPATH	  ..\src
+SOURCE		  multiprj2.cpp class2.cpp
+
+LIBRARY		 euser.lib
+
+#ifdef ENABLE_ABIV2_MODE
+DEBUGGABLE_UDEBONLY
+#endif

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Concepts" link_to="toc.xml#concepts">
+	
+	<!-- Enter topic entries here for Concepts section of help -->
+	
+	<topic label="Test cases" href="html/concepts/test_case.htm" />
+	<topic label="Test classes" href="html/concepts/test_class.htm" />
+	<topic label="Test scripts" href="html/concepts/scripts.htm" />
+	<topic label="Automatic Test System (ATS) " href="html/concepts/ats.htm" />
+	
+</toc>

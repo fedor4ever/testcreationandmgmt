@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="com.nokia.testfw.stf.configeditor.editors.ConfigEditor"
+            contributorClass="com.nokia.testfw.stf.configeditor.editors.ConfigEditorContributor"
+            default="true"
+            extensions="ini"
+            icon="icons/stif_16.png"
+            id="com.nokia.testfw.stf.configeditor.editors.MultiPageEditor"
+            name="STF Configuration Editor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category 
+		    name="Carbide Extensions"
+    	    id="com.nokia.s60tools">	        
+	    </category> 
+      <wizard
+            category="com.nokia.s60tools"
+            class="com.nokia.testfw.stf.configeditor.wizards.NewStifConfigWizard"
+            icon="icons/stif_16.png"
+            id="com.nokia.testfw.stf.configeditor.wizards.NewStifConfigWizard"
+            name="STF configuration file">
+            <description>Adds a new configuration file to a chosen test module</description>
+      </wizard>
+   </extension>
+
+</plugin>

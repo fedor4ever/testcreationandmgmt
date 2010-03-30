@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="com.nokia.testfw.codegen.test" default="test" basedir=".">
+
+	<property name="sources.src.dir" value="src"/>
+	<property name="sources.lib.dir" value="lib"/>
+	<property name="classes.dest.dir" value="bin"/>
+	<property name="tests.target.dir" value="../com.nokia.testfw.codegen"/>
+	<property name="tests.target.jar" value="${tests.target.dir}/jar/tfw_codegen.jar"/>
+	<property name="tests.report.dir" value="report"/>
+
+    <target name="init">
+		<ant antfile="build.xml" dir="${tests.target.dir}"/>
+		<copy file="${tests.target.jar}" todir="${sources.lib.dir}"/>		
+	</target>
+
+	<target name="compiletest" depends="init">
+        <mkdir dir="${classes.dest.dir}" />
+        <javac srcdir="${sources.src.dir}"
+            destdir="${classes.dest.dir}"
+            excludes="**/.svn/**"
+            optimize="on"
+            nowarn="no"
+            deprecation="on">
+            <classpath>
+				<fileset dir="lib">
+					<include name="*.jar"/>
+				</fileset>
+			</classpath>
+        </javac>
+	</target>
+
+   <target name="test" depends="compiletest">
+		<mkdir dir="${tests.report.dir}" />
+		<junit printsummary="yes" haltonfailure="no">
+			<classpath>
+				<pathelement location="${classes.dest.dir}"/>
+				<fileset dir="lib">
+					<include name="*.jar"/>
+				</fileset>
+			</classpath>
+
+			<batchtest fork="yes" todir="${tests.report.dir}">
+				<formatter type="xml"/>
+				<fileset dir="${classes.dest.dir}">
+					<include name="**/*Test*.class"/>
+					<exclude name="**/AllPureJUnitTests.class"/>
+				</fileset>
+			</batchtest>
+		</junit>
+		<junitreport todir="${tests.report.dir}">
+			<fileset dir="${tests.report.dir}" includes="TEST-*.xml"/>
+			<report format="frames" todir="${tests.report.dir}"/>
+		</junitreport>
+    </target>
+	
+	<target name="clean">
+		<delete dir="${classes.dest.dir}"/>
+		<delete dir="${outputs.jar.dir}"/>
+	</target>
+
+</project>

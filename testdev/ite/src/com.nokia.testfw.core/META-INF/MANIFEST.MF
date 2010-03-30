@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Core Plug-in
+Bundle-SymbolicName: com.nokia.testfw.core
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.nokia.testfw.core.StfPlugin
+Bundle-Vendor: Nokia
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ActivationPolicy: lazy
+Export-Package: com.nokia.testfw.core,
+ com.nokia.testfw.core.model,
+ com.nokia.testfw.core.model.result,
+ com.nokia.testfw.core.utils

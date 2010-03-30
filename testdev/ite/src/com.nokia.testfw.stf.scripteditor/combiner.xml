@@ -1,0 +1,580 @@
+<?xml version="1.0"?>
+
+<sections>
+
+<section name="Test" endname="Endtest">
+
+<command id="title">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			titleValue 
+		</argument>
+	</mandatory>
+	<optional>
+		<argument type="normal" value="words" binding="none" nextvalue="none">
+			titleValue 
+		</argument>
+	</optional>
+	<errornote>
+	Title commmand requires test title as an argument	
+	</errornote> 
+	<commandinfo>
+The title keyword is used to give a verbal description for a test case.
+	</commandinfo>
+</command>
+
+<command id="timeout">
+	<mandatory>
+		<argument type="normal" value="digit" binding="none" nextvalue="none">
+			timeoutValue 
+		</argument >
+	</mandatory>
+	<errornote>
+	Timeout keyword should have a timeout value as an argument
+	</errornote> 
+	<commandinfo>
+Timeout is used to give a timeout value for a test case.
+Timeout value is passed in milliseconds.
+	</commandinfo>
+</command>
+
+<command id="priority">
+	<mandatory>
+		<argument type="selective" value="none" binding="none" nextvalue="none">
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				normal
+			</argument>
+			<argument type="normal" value="digit" binding="none" nextvalue="none">
+				priorityValue
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				high
+			</argument>
+
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				low
+			</argument>
+ 		</argument>
+	</mandatory>
+	<errornote>
+	"priority" keyword should have a priority value as an argument
+	</errornote> 
+	<commandinfo>
+Priority is used to give a priority for a test case.
+Priority value either as an integer or as the string high, normal or low.
+	</commandinfo>
+</command>
+
+<command id="print">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			TestObjectName
+		</argument >
+	</mandatory>
+	<optional>
+			<argument type="normal" value="words" binding="none" nextvalue="none">
+				yes
+			</argument>
+	</optional>
+	<errornote>
+	"print" keyword has invalid argument
+	</errornote> 
+	<commandinfo>
+The print keyword can be used to print, for example, progress information to UI. 
+	</commandinfo>
+</command>
+
+
+<command id="canceliferror">
+	<errornote>
+	"canceliferror" keyword takes no arguments
+	</errornote> 
+	<commandinfo>
+The canceliferror keyword is used to cancel the execution of the remaining test cases if one of the executed test cases has failed. 
+This keyword is normally used to stop the test case execution when some of the test cases are long running.
+	</commandinfo>
+</command>
+
+<command id="pausecombiner">
+	<mandatory>
+		<argument type="normal" value="digit" binding="none" nextvalue="none">
+			pausecombinerValue 
+		</argument >
+	</mandatory>
+	<errornote>
+	"pausecombiner" keyword takes number of miliseconds as an argument"
+	</errornote> 
+	<commandinfo>
+The pausecombiner keyword is used to pause test combiner for a specified time
+
+Arguments:
+Timeout:	The timeout for the pause, specified in milliseconds.
+	</commandinfo>
+</command>
+
+
+<command id="run">
+	<mandatory>
+			<argument type="normal" value="literal" binding="none" nextvalue="none">
+				testmodule
+			</argument>
+			<argument type="normal" value="literal" binding="none" nextvalue="none">
+				configfile
+			</argument>
+			<argument type="normal" value="digit" binding="none" nextvalue="none">
+				TestCaseNumber
+			</argument>
+	</mandatory>
+	<optional>
+		<argument type="normal" value="name" binding="=" nextvalue="digit">
+			expect
+		</argument>
+		<argument type="normal" value="name" binding="=" nextvalue="literal">
+			testid
+		</argument>
+		<argument type="normal" value="name" binding="=" nextvalue="literal">
+			ini
+		</argument>
+		<argument type="normal" value="name" binding="=" nextvalue="literal">
+			category
+		</argument>
+		<argument type="normal" value="name" binding="=" nextvalue="digit">
+			timeout
+		</argument>
+		<argument type="normal" value="quoted" binding="none" nextvalue="none">
+			title
+		</argument>		
+	</optional>
+	<errornote>
+	"run" keyword takes test module name, configuration file and test case number as argumets
+	</errornote> 
+	<commandinfo>
+The run keyword is used to start a specified test case. It has several mandatory and optional arguments. 
+
+Arguments:
+testmodule:	The test module name.
+configfile:	The test case configuration file.
+Test case number:	The test case number to be executed from configfile.
+
+expect:	The expected result (0 = KErrNone).
+testid:	Test case identification, which is used by other keywords to identify the test case ().
+ini:	The initialization file for test module ().
+category:	The result category; either normal, leave, panic, exception or timeout.
+timeout:	Test case timeout (not supported yet).
+title:	Test case title.  
+	</commandinfo>
+</command>
+
+
+<command id="cancel">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			testid
+		</argument >
+	</mandatory>
+	<errornote>
+	"cancel" keyword takes test an identification of a test case as an argument
+	</errornote>
+	<commandinfo>
+The cancel keyword is used to cancel a started test case. 
+The test case is cancelled by immediately killing the thread that executes the test case.
+ 
+Arguments:
+testid:	The test ID from the run command. 
+	</commandinfo> 
+</command>
+
+
+<command id="pause">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			testid
+		</argument >
+	</mandatory>
+	<optional>
+		<argument type="normal" value="name" binding="=" nextvalue="digit">
+			time
+		</argument>	
+	</optional>
+	<errornote>
+	"cancel" keyword takes test an identification of a test case as an argument and optonal argument: number of miliseconds
+	</errornote>
+	<commandinfo>
+The pause keyword is used to pause a test case.
+The test case is paused by pausing the thread that executes the test case. 
+ 
+Arguments:
+testid:	The test ID from the run command.
+Time	Pause time in milliseconds. After this time, resume is called automatically. 
+	</commandinfo> 
+</command>
+
+
+<command id="resume">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			testid
+		</argument >
+	</mandatory>
+	<errornote>
+	"resume" keyword takes an identification of a test case as an argument
+	</errornote> 
+	<commandinfo>
+The resume keyword is used to resume a paused test case. 
+ 
+Arguments:
+testid:	The test ID from the run command.
+	</commandinfo> 
+</command>
+
+<command id="complete">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			testid
+		</argument >
+	</mandatory>
+	<errornote>
+	"complete" keyword takes an identification of a test case as an argument
+	</errornote> 
+	<commandinfo>
+The complete keyword is used to have a started test case wait to complete. 
+It blocks until the test case has finished.  
+ 
+Arguments:
+testid:	The test ID from the run command.
+	</commandinfo> 
+</command>
+
+<command id="measurement">
+	<mandatory>
+		<argument type="selective" value="none" binding="none" nextvalue="none">
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				start
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				stop
+			</argument>			
+		</argument>
+		<argument type="selective" value="none" binding="none" nextvalue="none">
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				measurementplugin01
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				measurementplugin02
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				measurementplugin03
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				measurementplugin04
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				measurementplugin05
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				stifbappeaprofiler
+			</argument>
+		</argument>
+	</mandatory>
+	<optional>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			STIF Test measurement parameters
+		</argument>
+
+	</optional>
+	<errornote>
+	"testmeasurement" keyword must be follwed by a command, type and optionaly parameters
+	</errornote>
+	<commandinfo>
+The testmeasurement keyword is used for test measurement testing. 
+ 
+Arguments:
+STIF Test measurement command:	Command for STIF Test Measurement control.
+The supported values are: "start" for starting test measurement and "stop" for stopping test measurement. It also releases all allocated resources.
+STIF Test measurement type:	Test measurement type.
+The supported values are: measurementplugin01, measurementplugin02,	measurementplugin03, measurementplugin04, measurementplugin05, bappeaprofiler
+STIF Test measurement parameters:	Optional. Test measurement module configuring etc. user and test measurement module specific. This is returned as a descriptor to the test measurement module in start operation.
+	</commandinfo> 
+</command>
+
+
+<command id="loop">
+	<mandatory>
+			<argument type="normal" value="digit" binding="none" nextvalue="none">
+				loopTimes
+			</argument>
+	</mandatory>
+	<optional>
+		<argument type="selective" value="none" binding="none" nextvalue="none">
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				msec
+			</argument>
+			<argument type="normal" value="name" binding="space" nextvalue="digit">
+				passlimit
+			</argument>
+		</argument>
+	</optional>
+	<errornote>
+	"loop" keyword must be followed by the loop count, optionaly the "msec" word, optional "passlimit" word and passlimit value
+	</errornote> 
+	<commandinfo>
+The loop keyword is used to repeat a section of the test case file for the specified number of iterations. 
+The section to be repeated is enclosed with the loop and endloop keywords.
+Nested loops are not supported. 
+ 
+Arguments:
+Loop times:	The loop count, that is, the number of times that the loop is executed.
+
+msec:  This keyword says that ‘Loop times’ argument stands for the time in milliseconds during which loop will be looped 
+passlimit:	This keyword turns on passlimit (endurance) feature
+Passlimit value:  Says how many iteration must pass to let pass the whole loop
+	</commandinfo> 
+</command>
+
+<command id="endloop">
+	<errornote>
+	"endloop" takes no arguments	
+	</errornote>
+	<commandinfo>
+The endloop keyword is used to specify the end of a looped section.
+	</commandinfo>  
+</command>
+
+<command id="request">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			Event
+		</argument>
+	</mandatory>
+	<errornote>
+	"request" keyword must be follwed by an event name
+	</errornote> 
+	<commandinfo>
+The request keyword is used to request an event.
+If someone wants to use an event, it must first be requested and after that it can be waited. 
+After the event is not used anymore, it must be released.
+ 
+Arguments:
+Event:	The event name.
+	</commandinfo> 
+</command>
+
+<command id="wait">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			Event
+		</argument>
+	</mandatory>
+	<errornote>
+	"wait" keyword must be follwed by an event name
+	</errornote> 
+	<commandinfo>
+The wait keyword is used to wait an event. 
+Request must be called before wait, and wait blocks until the requested event is set. 
+Wait may proceed immediately if the requested event is a state event and already pending 
+ 
+Arguments:
+Event:	The event name.
+	</commandinfo> 
+</command>
+
+<command id="release">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			Event
+		</argument>
+	</mandatory>
+	<errornote>
+	"release" keyword must be follwed by an event name
+	</errornote>
+	<commandinfo>
+The release keyword is used to release an event.
+Every requested event must be released explicitly after it is not used anymore
+ 
+Arguments:
+Event:	The event name.
+	</commandinfo> 
+	 
+</command>
+
+<command id="set">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			Event
+		</argument>
+	</mandatory>
+	<optional>			
+			<argument type="normal" value="literal" binding="=" nextvalue="digit">
+				state
+			</argument>	
+	</optional>
+	<errornote>
+	"set" keyword must be follwed by an event name
+	</errornote>
+	<commandinfo>
+The set keyword is used to set an event. Every set state event must be explicitly unset.
+ 
+Arguments:
+Event:	The event name.
+state	If set to 1, indicates that this is a state event, i.e. it remains set until it is unset explicitly with the unset keyword.
+If set to 0, indicates that the event is an indication, so it is set only once to every requester and implicitly unset after that.
+	</commandinfo>  
+</command>
+
+
+<command id="unset">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			Event
+		</argument>
+	</mandatory>
+	<errornote>
+	"unset" keyword must be follwed by an event name
+	</errornote>
+ 	<commandinfo>
+The unset keyword is used to unset a state event. Every set state event must be unset. 
+Indication events cannot be unset. 
+Unset blocks until everyone who has requested the specified event have released the event.
+ 
+Arguments:
+Event:	The event name.
+	</commandinfo>
+</command>
+
+<command id="allocate">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			SlaveType
+		</argument>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			SlaveName
+		</argument>
+	</mandatory>
+	<errornote>
+	"allocate" keyword must be follwed by slave type ans slave name
+	</errornote> 
+ 	<commandinfo>
+The allocate keyword is used to allocate a slave, for example for running a test case on a remote phone. 
+It uses Remote Control Protocol (RPC). 
+The slave must always be allocated first before it can be used.
+ 
+Arguments:
+Slave type:	The type of the slave.
+STIF only supports slave phone. phone indicates that slave phone is also running STIF. 
+Other types must be handled by the slave implementation, i.e. when implementing separate support for external network simulator.
+
+Slave name:	A unique name for the slave.
+
+	</commandinfo>	
+</command>
+
+
+<command id="free">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			SlaveName
+		</argument>
+	</mandatory>
+	<errornote>
+	"free" keyword must be follwed by slave name
+	</errornote>
+	<commandinfo>
+Every allocated slave must be freed with free when it becomes unused.
+ 
+Arguments:
+Slave type:	The type of the slave.
+STIF only supports slave phone. phone indicates that slave phone is also running STIF. 
+Other types must be handled by the slave implementation, i.e. when implementing separate support for external network simulator.
+
+	</commandinfo>	 
+</command>
+
+<command id="remote">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			objectName 
+		</argument>
+		<argument type="selective" value="none" binding="none" nextvalue="none">
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				run
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				request
+			</argument>		
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				wait
+			</argument>	
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				set
+			</argument>		
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				unset
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				set
+			</argument>	
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				release	
+			</argument>				
+		</argument>
+			<argument type="normal" value="literal" binding="none" nextvalue="none">
+				module
+			</argument>
+	</mandatory>
+	<optional>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+				testmodule
+		</argument>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+				configfile
+		</argument>
+		<argument type="normal" value="digit" binding="none" nextvalue="none">
+				testCaseNumber
+		</argument>
+		<argument type="normal" value="name" binding="=" nextvalue="digit">
+			expect
+		</argument>
+		<argument type="normal" value="name" binding="=" nextvalue="literal">
+			testid
+		</argument>
+		<argument type="normal" value="name" binding="=" nextvalue="literal">
+			ini
+		</argument>
+		<argument type="normal" value="name" binding="=" nextvalue="literal">
+			category
+		</argument>
+		<argument type="normal" value="name" binding="=" nextvalue="digit">
+			timeout
+		</argument>
+		<argument type="normal" value="quoted" binding="none" nextvalue="none">
+			title
+		</argument>		
+	</optional>
+	<errornote>
+	syntax error error
+	</errornote> 
+	<commandinfo>
+The remote keyword is used to start the execution of a test case in a slave and also to request and release events from the slave.
+Other test case controlling for remote test cases is done with the same keywords as for the local test cases.
+ 
+Arguments:
+Slave name: 	The slave name, the same that was given for allocate.
+Command name:	The remote command name 
+supported commands:
+-run
+-request
+-wait
+-set
+-unset
+-release
+
+
+	</commandinfo>	
+</command>
+
+</section>
+
+<section name="Define" endname="Enddefine">
+</section>
+
+</sections>

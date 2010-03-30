@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+	  <category id="com.nokia.s60tools.testFrameworks.views" name="Test Frameworks" parentCategory="com.nokia.s60tools" /> 
+      <view
+            category="com.nokia.s60tools/com.nokia.s60tools.testFrameworks.views"
+            class="com.nokia.testfw.resultview.view.TestRunnerViewPart"
+            icon="icons/full/main16/stf.gif"
+            id="com.nokia.testfw.resultview.testrunnerview"
+            name="Test Result View"
+            restorable="true">
+      </view>
+   </extension>
+
+</plugin>

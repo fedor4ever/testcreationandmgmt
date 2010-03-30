@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="com.nokia.testfw.codegen.ui" default="copy" basedir=".">
+
+	<property name="codegen.path" value="..\com.nokia.testfw.codegen" />
+
+	<target name="copy">
+		<ant antfile="build.xml" dir="${codegen.path}" />
+		<copy todir="lib">
+			<fileset dir="${codegen.path}/jar">
+				<exclude name="**/.svn" />
+			</fileset>
+		</copy>
+	</target>
+</project>

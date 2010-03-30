@@ -1,0 +1,22 @@
+/*
+============================================================================
+ Name		: testThread.mmp
+ Author	  : Yue Zhang
+ Copyright   : Test Product Team, Symbian
+ Description : This is the project specification file for testThread.
+============================================================================
+*/
+
+TARGET		  testThread.exe
+TARGETTYPE	  exe
+UID			 0 0xEE0ED66F
+
+USERINCLUDE	 ..\inc
+SYSTEMINCLUDE   \epoc32\include
+
+SOURCEPATH	  ..\src
+SOURCE		  testThread.cpp test1.cpp child.cpp
+
+LIBRARY		 euser.lib
+
+

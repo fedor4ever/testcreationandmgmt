@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.help.toc">   
+	    
+      <toc
+            file="toc.xml"
+            primary="true" />
+
+      <toc
+            file="tocgettingstarted.xml"
+            primary="false" />
+
+      <toc
+            file="tocConcepts.xml"
+            primary="false" />
+          
+      <toc
+            file="tocReference.xml"
+            primary="false" />
+            
+      <toc
+            file="tocTasks.xml"
+            primary="false" />   
+       
+   </extension>
+
+	<extension point="org.eclipse.help.contexts">
+  	</extension>
+</plugin>

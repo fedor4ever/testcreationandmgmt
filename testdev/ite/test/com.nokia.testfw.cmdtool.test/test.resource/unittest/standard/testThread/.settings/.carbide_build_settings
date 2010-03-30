@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CarbideBuilderConfigInfo version="1">
+  <configuration name="Emulator Debug (WINSCW) [M04353_Symbian_OS_v9.5]">
+    <sisBuilder additionalOptions="" cert="" contentSearchLocation="" key="" outputFileName="" password="" pkgFile="(none)" signedFileName=""/>
+    <envVars/>
+  </configuration>
+  <configuration name="Emulator Release (WINSCW) [M04353_Symbian_OS_v9.5]">
+    <sisBuilder additionalOptions="" cert="" contentSearchLocation="" key="" outputFileName="" password="" pkgFile="(none)" signedFileName=""/>
+    <envVars/>
+  </configuration>
+  <configuration name="Phone Debug (ARMV5) [M04353_Symbian_OS_v9.5]">
+    <sisBuilder additionalOptions="" cert="" contentSearchLocation="" key="" outputFileName="" password="" pkgFile="(none)" signedFileName=""/>
+    <envVars/>
+  </configuration>
+  <configuration name="Phone Release (ARMV5) [M04353_Symbian_OS_v9.5]">
+    <sisBuilder additionalOptions="" cert="" contentSearchLocation="" key="" outputFileName="" password="" pkgFile="(none)" signedFileName=""/>
+    <envVars/>
+  </configuration>
+  <configuration name="Phone Debug (GCCE) [M04353_Symbian_OS_v9.5]">
+    <sisBuilder additionalOptions="" cert="" contentSearchLocation="" key="" outputFileName="" password="" pkgFile="(none)" signedFileName=""/>
+    <envVars/>
+  </configuration>
+  <configuration name="Phone Release (GCCE) [M04353_Symbian_OS_v9.5]">
+    <sisBuilder additionalOptions="" cert="" contentSearchLocation="" key="" outputFileName="" password="" pkgFile="(none)" signedFileName=""/>
+    <envVars/>
+  </configuration>
+</CarbideBuilderConfigInfo>

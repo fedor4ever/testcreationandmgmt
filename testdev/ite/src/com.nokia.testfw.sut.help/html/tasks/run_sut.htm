@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+<title>Running the test cases</title>
+<link href="../../book.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+
+<h2>Running Symbian unit test</h2>
+<p>Symbian unit test are executed in emulator by defining a launch configuration. This configuration is saved, so it is an operation that needs to be done only once.</p>
+<p>Launch configuration is created by selecting a menu item: <b>Run | Run Configurations...</b>, and then select Symbian Unit Test Emulation as your launch configuration type, then pressing the <b>New</b> button to create a new launch configuration.</p>
+<p>This launch configuration has three tabs. The first one is specific to this launch configuration and the remaining two are common tabs for all launch configuration. It contains settings like where to save the launch configuration, and where to direct its (possible) output. More information about Environment and Common tab can be found from Carbide documentation.</p>
+<p>If the project under Symbian Unit Test is selected in your workspace when the launch configuration is created, the wizard will fill all the fields automatically. Information can be then reviewed and launch can be preceded.</p>
+<p>The picture below is an example:</p>
+<p><img src="./screenshots/launch_config.png" alt="Launch configuration" /></p>
+<p>Some fields of launch configuration should be noted:</p>
+<ul>
+<li><b>Project</b> field defines the project in which the test code is. This is used to get information about active build parameters in the project.</li>
+<li><b>Test dll</b> defines the test dll which is to be executed in the emulator. Tab tries to resolve this automatically based on active build configuration in the project. For example on S60 platform, on "emulator debug" configuration, compiled dll files go to <code>%EPOCROOT%/Epoc32/release/winscw/udeb</code> folder.</li>
+<li><b>Test case</b> defines the test cases which are to be executed in the emulator. To run part of test cases, use <code>UTClassName::TestCaseName</code> to specify individual case, use comma "," to seperate them and no whitespace allowed.</li>
+</ul>
+
+<h2>Viewing Test Execution Results</h2>
+<p>When Symbian Unit Test launch configuration is launched, it will automatically show you the EUnit Results View. This view is by default located at the bottom central area of the IDE, as following:</p>
+<p><img src="./screenshots/blank_result_view.png" alt="Blank result view" /></p>
+<p>As execution is ongoing the results will be updated on the view. After the execution the view looks like as following:</p>
+<p><img src="./screenshots/result_view.png" alt="Result view" /></p>
+<p>Buttons (right side of the upper tab) from left to right indicate:</p>
+<ul>
+<li>Rerun test: Executes again the tests which results are currently displayed.</li>
+<li>Rerun test-failed: Executes again the failed tests which results are currently displayed.</li>
+<li>Test Run History: All the history test result, select the drop down list to show the history result.</li>
+</ul>
+<p>In the result view, double-click the link of failed case will open the source code and locate cursor at the the failed line.</p>
+
+<div id="footer">Copyright &copy; 2009 Nokia Corporation and/or its subsidiary(-ies). All rights reserved. 
+License: <a href="http://www.eclipse.org/legal/epl-v10.html">http://www.eclipse.org/legal/epl-v10.html</a>.</div>
+</body>
+</html>

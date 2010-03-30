@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"> 
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<title>SUT Introduction</title>
+<link rel="StyleSheet" href="../../book.css" type="text/css"/>
+</head>
+<body>
+
+<h2>Introduction</h2>
+<p>SymbianUnitTest Framework consists of several components:<br />
+&nbsp;<img src="../images/symbinunittestcomponents.png" alt="Components"></p>
+<p>Test Framework:</p>
+<div>Implemented as symbianunittestunitfw.dll, it is the core part of SymianUnitTest to handle all unit testing activities.</div>
+<div>&nbsp;</div>
+<div>Unit Test Runner:</div>
+<div>The test runner component is used for driving the test framework. It provides a unified interface to console and graphic UIs.</div>
+<div>&nbsp;</div>
+<div>Test Code:</div>
+<div>It is the user&rsquo;s test cases which are implemented as a DLL file.</div>
+<div>&nbsp;</div>
+<div>Result &amp; Logs:</div>
+<div>The test report will be generated at c:\sut\SymbianUnitTestResults.html</div>
+<div>If the logging is enabled while building and the c:\logs\sut directory exists, SymbianUnitTest will write debug information during test case execution.</div>
+<div>&nbsp;</div>
+<div>ConsoleUI:</div>
+<div>Implemented as symbianunittest.exe, it provides a console interface to users to run test cases via command line.</div>
+<div>&nbsp;</div>
+<div>Usage (will explained in the later section):</div>
+<p>Symbianunittest.exe &ndash;tests [-cases] [-alloc] [-help] [-output] [-timeout] [-noprompt]</p>
+&nbsp;<img src="../images/sutfull.png"></div>
+<p>ConsoleUI accepts user input from keyboard, CSymbianUnitTestCommandParser deals with command line options. Then CSymbianUnitTestRunner starts to handle the test cases by communicating with Symbian Unit Test Framework via MSymbianUnitTestObserver interface. Each test case is executed in a separate thread. At the end of the test case execution, Test Framework generates test result in user specified format.</p>
+
+</body>
+</html>

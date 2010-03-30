@@ -1,0 +1,1312 @@
+<?xml version="1.0"?>
+
+<sections>
+
+<section name="Test" endname="Endtest" proposal="[Test]\    title testcasename\[Endtest]">
+
+<command id="title">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			string 
+		</argument>
+	</mandatory>
+	<optional>
+		<argument type="normal" value="words" binding="none" nextvalue="none">
+			value 
+		</argument>
+	</optional>
+	<errornote>
+	Title commmand requires test title as an argument	
+	</errornote>
+	<commandinfo>
+Specifies a verbal description for a test case.
+
+title testcasedescription
+
+Arguments:
+test case description:	A verbal description for a test case.
+	</commandinfo>
+</command>
+
+<command id="timeout">
+	<mandatory>
+		<argument type="normal" value="digit" binding="none" nextvalue="none">
+			value 
+		</argument>
+	</mandatory>
+	<errornote>
+	Timeout keyword should have a timeout value as an argument
+	</errornote> 
+	<commandinfo>
+Specifies a timeout value for a test case.
+Timeout value is passed in milliseconds.
+
+timeout value
+
+Arguments:
+value:Timeout value,passed in milliseconds.
+	</commandinfo>
+	
+</command>
+
+<command id="priority">
+	<mandatory>
+		<argument type="selective" value="none" binding="none" nextvalue="none">
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				normal
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				high
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				low
+			</argument>
+			<argument type="normal" value="digit" binding="none" nextvalue="none">
+				Priority value
+			</argument>
+ 		</argument>
+	</mandatory>
+	<errornote>
+	Priority keyword should have a priority value as an argument
+	</errornote> 
+	<commandinfo>
+Specifies the priority value of the test case. The value can be either an integer
+or the string "high", "normal" or "low". Negative values are low and positive
+values are high.
+	</commandinfo>
+</command>
+
+<command id="setresultdescription">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			setresultdescriptionValue 
+		</argument>
+	</mandatory>
+	<errornote>
+	Setresultdescription has invalid argument
+	</errornote> 
+	<commandinfo>
+Sets the description of the current executed test case. 
+In case of error situation, it will be shown to user in test report.
+
+setresultdescription setresultdescriptionValue
+	</commandinfo>
+</command>
+
+<command id="create">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			TestClassName
+		</argument>
+		<argument type="creative" value="literal" binding="none" nextvalue="none">
+			TestObjectName 
+		</argument>
+	</mandatory>
+	<errornote>
+	Create has invalid argument
+	</errornote> 
+	<commandinfo>
+Creates keyword is used to create a new instance of a test class.
+
+create TestClassName TestObjectName
+
+Arguments:
+Test class name:	The test class name for the new object.
+Test object name:	The name of the created new instance of the test class.
+	</commandinfo>
+</command>
+
+<command id="createkernel">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			KernelTestClassName
+		</argument>
+		<argument type="creative" value="literal" binding="none" nextvalue="none">
+			TestObjectName 
+		</argument>
+	</mandatory>
+	<errornote>
+	Createkernel has invalid argument
+	</errornote> 
+	<commandinfo>
+Creates a new instance of a kernel test class.
+
+createkernel KernelTestClassName TestObjectName
+
+Arguments:
+Test class name:	The test class name for the new object. It's the first argument.
+Test object name:	The name of the created new instance of the test class.
+	</commandinfo>
+</command>
+
+<command id="delete">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			TestObjectName
+		</argument>
+	</mandatory>
+	<errornote>
+	Delete has invalid argument
+	</errornote> 
+	<commandinfo>
+Deletes an instance of a test class
+
+delete TestObjectName
+
+Arguments:
+Test object name:	The name of the instance of the test class that is deleted.
+	</commandinfo>
+</command>
+
+<command id="allownextresult">
+	<mandatory>
+		<argument type="normal" value="digit" binding="none" nextvalue="none">
+			errorCode 
+		</argument>
+	</mandatory>
+	<optional>
+		<argument type="normal" value="words" binding="none" nextvalue="digit">
+			optionalErrorCode 
+		</argument>
+	</optional>
+	<errornote>
+	"allownextresult" keyword must be followed by an error code
+	</errornote>
+	<commandinfo>
+Adds valid result values for a method and for asynchronous commands.
+The default value for the expected result is 0
+
+allownextresult errorCode
+
+Arguments:
+A Symbian OS error codes:	A Symbian OS error codes, which is allowed from the next method or waittestclass completion. 
+Optional Error Code:	Optional.Multiple error codes, separated by space, can be passed.
+	</commandinfo> 
+</command>
+
+<command id="allowerrorcodes">
+	<mandatory>
+		<argument type="normal" value="digit" binding="none" nextvalue="none">
+			errorCode 
+		</argument>
+	</mandatory>
+	<optional>
+		<argument type="normal" value="words" binding="none" nextvalue="digit">
+			optionalErrorCode 
+		</argument>
+	</optional>
+	<errornote>
+	"allowerrorcodes" keyword must be followed by an error code
+	</errornote>
+	<commandinfo>
+Adds valid result values for a method and for asynchronous commands.
+The default value for the expected result is 0
+
+allowerrorcodes errorCode
+
+Arguments:
+A Symbian OS error codes:	A Symbian OS error codes, which is allowed from the next method or waittestclass completion. 
+Optional Error Code:	Optional.Multiple error codes, separated by space, can be passed.
+	</commandinfo>
+</command>
+
+
+<command id="waittestclass">
+	<mandatory>
+		<argument type="normal" value="object" binding="none" nextvalue="none">
+			TestObjectName
+		</argument>
+	</mandatory>
+	<errornote>
+	Delete has invalid argument
+	</errornote> 
+	<commandinfo>
+Pauses test case running until the specified test class object calls the 
+Signal function to proceed with the test case execution again. 
+
+waittestclass TestObjectName
+
+Arguments:
+Test object name:	The name of the instance of the test class, 
+which must call Signal() to proceed with the test case execution.
+	</commandinfo>	
+</command>
+
+<command id="pause">
+	<mandatory>
+		<argument type="normal" value="digit" binding="none" nextvalue="none">
+			pauseValue 
+		</argument>
+	</mandatory>
+	<errornote>
+	"pause" keyword takes number of miliseconds as an argument"
+	</errornote> 
+		<commandinfo>
+Pauses test case running.
+
+pause pauseValue
+
+Arguments:
+pauseValue:	The timeout for the pause, specified in milliseconds.
+	</commandinfo>
+</command>
+
+<command id="loop">
+	<mandatory>
+			<argument type="normal" value="digit" binding="none" nextvalue="none">
+				loopTimes
+			</argument>
+	</mandatory>
+		<optional>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				msec
+			</argument>
+	</optional>
+	<errornote>
+	"loop" keyword must be followed by the loop count
+	</errornote> 
+	<commandinfo>
+Repeats a section of the test case file for the specified number of iterations. 
+The section to be repeated is enclosed with the loop and endloop keywords. 
+
+loop loopTimes msec
+
+Arguments:
+Loop times:	The loop count, that is, the number of times that the loop is executed.
+Msec: Optional.This keyword says that ‘Loop times’ argument stands for the time in milliseconds during which loop will be looped
+	</commandinfo>
+</command>
+
+<command id="print">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			String
+		</argument>
+	</mandatory>
+	<optional>
+			<argument type="normal" value="words" binding="none" nextvalue="none">
+				yes
+			</argument>
+	</optional>
+	<errornote>
+	incorrect "print" value
+	</errornote>
+	<commandinfo>
+Specifies a description to print, for example, to print progress information to the UI.
+
+print string
+
+Arguments:
+Print string:	The string that want to be printed.
+	</commandinfo> 
+</command>
+
+<command id="endloop">
+	<errornote>
+	"endloop" keyword takes no arguments	
+	</errornote> 
+		<commandinfo>
+The endloop keyword is used to specify the end of a looped section.
+
+endloop
+	</commandinfo> 
+</command>
+
+
+<command id="oomignorefailure">
+	<mandatory>
+		<argument type="selective" value="none" binding="none" nextvalue="none">
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				on
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				off
+			</argument>			
+		</argument>
+	</mandatory>
+	<errornote>
+	"oomignorefailure" keyword must be followed by an on/off value
+	</errornote> 
+	<commandinfo>
+Used for OOM testing. 
+Defines if a test class’s building block execution result is checked or ignored.
+
+Arguments:
+Indication for the result check: The possible values are on and off:
+on indicates that the building block execution result will be ignored.
+off (default) indicates that the building block execution result will be checked and errors will be handled.
+	</commandinfo>
+</command>
+
+<command id="oomheapfailnext">
+	<mandatory>
+		<argument type="normal" value="digit" binding="none" nextvalue="none">
+			CountValue
+		</argument>
+	</mandatory>
+	<errornote>
+	"oomheapfailnext" keyword must be followed by a failure rate
+	</errornote> 
+	<commandinfo>
+Used for OOM testing. 
+Defines that heap allocation failure occurs in the test thread.
+
+oomheapfailnext CountValue
+
+Arguments:
+Count value (rate): The failure rate. Heap allocation fails every time that is given as an argument. 
+The given argument will be increased by one because the Test Scripter LOOP_COUNTER range starts from 0. 
+The oomheapfailnext range starts from 1.
+	</commandinfo>
+</command>
+
+
+<command id="oomheapsetfail">
+	<mandatory>
+		<argument type="selective" value="none" binding="none" nextvalue="none">	
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				random
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				truerandom
+			</argument>	
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				deterministic
+			</argument>	
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				none
+			</argument>	
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				failnext
+			</argument>			
+		</argument>
+		<argument type="normal" value="digit" binding="none" nextvalue="none">
+			CountValue
+		</argument >
+	</mandatory>
+	<errornote>
+	"oomheapsetfail" keyword must be followed by the type of failure and a count value
+	</errornote>
+		<commandinfo>
+Used for OOM testing. 
+Defines that heap allocation failure occurs in the test thread. 
+The user can define the failure type and count (rate).
+
+Arguments:
+The type of failure to be simulated:  The supported value are: random, truerandom, deterministic, none, failnext
+Count value (rate): The given argument will be increased by one because the Test Scripter LOOP_COUNTER range starts from 0. 
+	The oomheapsetfail range starts from 1
+	</commandinfo>
+	
+</command>
+
+<command id="oomheaptonormal">
+	<errornote>
+	"oomheaptonormal" takes no parameter	
+	</errornote> 
+	<commandinfo>
+Used for OOM testing. 
+Ends OOM testing and normal testing continues. 
+
+oomheaptonormal
+	</commandinfo>
+</command>
+
+<command id="testinterference">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			objectName 
+		</argument>
+		<argument type="selective" value="none" binding="none" nextvalue="none">	
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				start
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				stop
+			</argument>			
+		</argument>
+	</mandatory>
+	<optional>
+		<argument type="selective" value="none" binding="none" nextvalue="none">
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				activeobject
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				thread
+			</argument>
+		</argument>
+		<argument type="selective" value="none" binding="none" nextvalue="none">
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				cpuload
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				filesystemreadc
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				filesystemreadd
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				filesystemreade
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				filesystemreadz
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				filesystemwritec
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				filesystemwrited
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				filesystemwritee
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				filesystemfillandemptyc
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				filesystemfillandemptyd
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				filesystemfillandemptye
+			</argument>			
+		</argument>
+		<argument type="normal" value="digit" binding="none" nextvalue="none">
+			idleTime
+		</argument>
+		<argument type="normal" value="digit" binding="none" nextvalue="none">
+			activeTime
+		</argument>
+	</optional>
+	<errornote>
+	syntax error error
+	</errornote> 
+	<commandinfo>
+Interferes the testing.
+
+Arguments:
+object name: Object name that is used for starting and stopping interference operations.
+command: Command for STIF Test Interference control.
+The supported values are: 
+-start
+-stop.
+
+category: Interference category. The supported values are:
+-activeobject
+-thread.
+
+type: Interference type. 
+The supported values are:
+-cpuload
+-filesystemreadc
+-filesystemreadd
+-filesystemreade
+-filesystemreadz
+-filesystemwritec
+-filesystemwrited
+-filesystemwritee
+-filesystemfillandemptyc
+-filesystemfillandemptyd
+-filesystemfillandemptye
+
+idle time: Idle time in milliseconds. 
+active time: Active time in milliseconds.
+set priority: Optional. Set priority for thread or active object.
+	</commandinfo>
+</command>
+
+<command id="measurement">
+	<mandatory>
+		<argument type="selective" value="none" binding="none" nextvalue="none">
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				start
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				stop
+			</argument>			
+		</argument>
+		<argument type="selective" value="none" binding="none" nextvalue="none">
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				measurementplugin01
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				measurementplugin02
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				measurementplugin03
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				measurementplugin04
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				measurementplugin05
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				stifbappeaprofiler
+			</argument>
+		</argument>
+	</mandatory>
+	<optional>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			STIFTestMeasurementParameters
+		</argument>
+
+	</optional>
+	<errornote>
+	"measurement" keyword must be follwed by a command, type and optionaly parameters
+	</errornote>
+	<commandinfo>
+easures the testing. 
+
+Arguments:
+STIF Test measurement command: Commad for STIF Test Measurement control. The supported values are: start for starting test measurement, stop for stopping test measurement. It also releases all allocated resources.
+STIF Test measurement type: Test measurement type.
+The supported values are: measurementplugin01, measurementplugin02, measurementplugin03, measurementplugin04, measurementplugin05, bappeaprofiler
+STIF Test measurement parameters: Test measurement module configuring etc. user and test measurement module specific. 
+	</commandinfo> 
+</command>
+
+<command id="var">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			varName
+		</argument>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			varValue 
+		</argument>		
+	</mandatory>
+	<errornote>
+	"var" keyword requires variable name and value
+	</errornote>
+	<commandinfo>
+Assigns a text value to a specified variable. It can be then used in other part of the script. 
+
+var varName varValue
+	</commandinfo>  
+</command>
+
+
+<command id="callsub">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			callsubValue
+		</argument>
+	</mandatory>
+	<errornote>
+	"callsub" keyword requires subroutine name as the only agrument
+	</errornote>
+	<commandinfo>
+Makes TestScripter executing pointed section of script.
+
+Section which will be called must start with [Sub name] and end with [EndSub] tags, where name is the identifier of the sub. 
+The execution of the sub will continue until its end is reached. There is possibility to call a sub from another sub.
+
+callsub callsubValue
+	</commandinfo>  
+</command>
+
+<command id="request">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			requestValue
+		</argument>
+	</mandatory>
+	<errornote>
+	"request" keyword must be follwed by an event name
+	</errornote>
+	<commandinfo>
+Requests an event. If someone wants to use an event, it must first be requested, and after that it can be waited.
+After the event is not used anymore, it must be released.
+
+request requestValue
+
+Arguments:
+Event: The event name.
+	</commandinfo> 
+</command>
+
+<command id="wait">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			waitValue
+		</argument>
+	</mandatory>
+	<errornote>
+	"wait" keyword must be follwed by an event name
+	</errornote> 
+	<commandinfo>
+Waits for an event.
+A request must be called before wait, and wait blocks until the requested event is set. 
+Wait may proceed immediately if the requested event is a state event and already pending (for example, a phone call is already active). 
+
+wait waitValue
+
+Arguments:
+Event: The event name.
+	</commandinfo> 
+	
+</command>
+
+<command id="release">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			releaseValue
+		</argument>
+	</mandatory>
+	<errornote>
+	"release" keyword must be follwed by an event name
+	</errornote> 
+	<commandinfo>
+Releases an event. 
+Every requested event must be released explicitly when it is not used anymore.
+
+release releaseValue
+ 
+Arguments:
+Event: The event name.
+	</commandinfo> 
+</command>
+
+
+<command id="set">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			setValue
+		</argument>
+	</mandatory>
+	<optional>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			state
+		</argument>
+	</optional>
+	<errornote>
+	"set" keyword must be follwed by an event name
+	</errornote>
+	<commandinfo>
+Sets an event. Every set state event must be explicitly unset.
+
+set setValue state
+
+Arguments:
+Event: The event name.
+State: Optional. If a state is given, sets the state event, otherwise sets an indication event. 
+	</commandinfo>  
+</command>
+
+<command id="unset">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			unsetValue
+		</argument>
+	</mandatory>
+	<errornote>
+	"unset" keyword must be follwed by an event name
+	</errornote> 
+	<commandinfo>
+The unset keyword is used to unset a state event. 
+Every set state event must be unset. 
+Indication events cannot be unset. unset blocks until everyone who has requested the specified event has released the event.
+
+unset unsetValue
+
+Arguments:
+Event: The event name. 
+	</commandinfo> 
+</command>
+
+
+<command id="bringtoforeground">
+	<errornote>
+	"bringtoforeground" keyword takes no arguments	
+	</errornote>
+	<commandinfo>
+Brings UI component container to foreground described in below. 
+
+bringtoforeground
+	</commandinfo> 
+</command>
+
+<command id="sendtobackground">
+	<errornote>
+	"sendtobackground" keyword takes no arguments	
+	</errornote>
+	<commandinfo>
+Sends UI component container to background.
+
+sendtobackground
+	</commandinfo> 
+</command>
+
+<command id="presskey">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			presskeyValue 
+		</argument>
+	</mandatory>
+	<optional>
+		<argument type="normal" value="words" binding="none" nextvalue="none">
+			presskeyValue 
+		</argument>
+	</optional>
+	<errornote>
+	"presskey" keyword takes Key code as an argument.	
+	</errornote> 
+	<commandinfo>	
+Sends key event to tested UI component. 
+
+presskey presskeyValue
+
+Arguments:
+Key code	Single character or constant defined in TKeyCode enumeration. Must be defined if keycode and keyscancode is not defined
+
+keycode:	Numeric value or constant defined in TKeyCode enumeration.  If it is defined, then mandatory argument may be omitted
+keyscancode:	Numeric key value or constant defined in TStdScanCode enumeration. If it is defined, then mandatory argument or keycode argument may be omitted
+modifier:	One of the constant values defined in TEventModifier enumeration
+repeats:	Count of auto repeats generated. 0 means an event without repeats. 1 or more means "this many auto repeat events". In most cases this value is ignored  and treated as a single event.
+local:	Sends key event to focused UI control, constructed under CCoeEnv delivered by STIF.
+global:	Sends key event to focused UI control ( constructed under any CCoeEnv, not necessarily CCoeEnv delivered by STIF ) e.g press left softkey of global message box
+
+	</commandinfo> 
+</command>
+
+
+<command id="typetext">
+	<mandatory>
+		<argument type="normal" value="quoted" binding="none" nextvalue="none">
+			typetextValue 
+		</argument>
+	</mandatory>
+	<errornote>
+	"typetext" keyword takes text as an argument.
+	</errornote>
+	<commandinfo>	
+Sends text to tested UI component. 
+
+typetext typetextValue
+
+Arguments:
+text: Text in quotation marks which should be send to UI component
+
+	</commandinfo>  
+</command>
+
+
+<command id="sendpointerevent">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			sendpointereventValue 
+		</argument>
+	</mandatory>
+	<optional>
+		<argument type="normal" value="words" binding="none" nextvalue="none">
+			SendpointereventValue 
+		</argument>
+	</optional>
+	<errornote>
+	"sendpointerevent" keyword takes Event type and positon as an arguments.
+	</errornote> 
+	<commandinfo>	
+Sends pointer event to tested UI component. 
+
+sendpointerevent sendpointereventValue
+
+Arguments:
+Event type:	Pointer event type. 
+Fallowing pointer even types are sypported: EButton1, EButton2, EButton3, EPointerMove, EPointerSwitchOn, EButton1Down, EButton1Up, EButton2Down, EButton2Up, EButton3Down, EButton3Up
+x:	Pointer x co-ordinate
+y:	Pointer y co-ordinate
+
+	</commandinfo>  
+</command>
+
+
+<command id="using">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			TestLibDLLName
+		</argument>
+		<argument type="creative" value="literal" binding="none" nextvalue="none">
+			DllObjectName 
+		</argument>
+	</mandatory>
+	<errornote>
+	Create has invalid argument
+	</errornote> 
+	<commandinfo>
+Loads STF specific test harness library.
+
+using TestLibDLLName DllObjectName
+
+Arguments:
+DLL name:	The test harness library name.
+DLL object name:    The alias of the created new instance of the test harness library.
+	</commandinfo>
+</command>
+
+<command id="expectedpanic">
+    <mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			PanicNumber
+		</argument>
+	</mandatory>
+	<errornote>
+	"expectedpanic" keyword takes one panic number argument
+	</errornote> 
+	<commandinfo>
+Declares valid panic result value for a test case. It indicates that the test case MUST panic with this specified panic code in execution, and only can be used once with a single parameter. 
+NOTE: expectedpanic does not support UI Testing.
+
+expectedpanic PanicNumber
+
+Arguments:
+Panic Number, An single integer, which represents the expected panic number.
+	
+	</commandinfo>
+</command>
+
+<!-- commands below are for test combiner -->
+
+<command id="canceliferror">
+	<errornote>
+	"canceliferror" keyword takes no arguments
+	</errornote> 
+	<commandinfo>
+Cancels the execution of the remaining test cases if one of the executed test cases has failed. 
+This keyword is normally used to stop the test case execution when some of the test cases are long running.
+
+canceliferror
+	</commandinfo>
+</command>
+
+<command id="run">
+	<mandatory>
+			<argument type="normal" value="literal" binding="none" nextvalue="none">
+				testmodule
+			</argument>
+			<argument type="normal" value="literal" binding="none" nextvalue="none">
+				configfile
+			</argument>
+			<argument type="normal" value="digit" binding="none" nextvalue="none">
+				TestCaseNumber
+			</argument>
+	</mandatory>
+	<optional>
+		<argument type="normal" value="name" binding="=" nextvalue="digit">
+			expect
+		</argument>
+		<argument type="normal" value="name" binding="=" nextvalue="literal">
+			testid
+		</argument>
+		<argument type="normal" value="name" binding="=" nextvalue="literal">
+			ini
+		</argument>
+		<argument type="normal" value="name" binding="=" nextvalue="literal">
+			category
+		</argument>
+		<argument type="normal" value="name" binding="=" nextvalue="digit">
+			timeout
+		</argument>
+		<argument type="normal" value="quoted" binding="none" nextvalue="none">
+			title
+		</argument>		
+	</optional>
+	<errornote>
+	"run" keyword takes test module name, configuration file and test case number as argumets
+	</errornote> 
+	<commandinfo>
+Starts a specified test case. It has several mandatory and optional arguments. 
+
+run testmodule configfile TestCaseNumber expect testid ini category timeout title
+
+Arguments:
+testmodule:	The test module name.
+configfile:	The test case configuration file.
+Test case number:	The test case number to be executed from configfile.
+
+Optional arguments:
+expect:	The expected result (0 = KErrNone).
+testid:	Test case identification, which is used by other keywords to identify the test case ().
+ini:	The initialization file for test module ().
+category:	The result category; either normal, leave, panic, exception or timeout.
+timeout:	Test case timeout (not supported yet).
+title:	Test case title.  
+	</commandinfo>
+</command>
+
+
+<command id="cancel">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			testid
+		</argument >
+	</mandatory>
+	<errornote>
+	"cancel" keyword takes test an identification of a test case as an argument
+	</errornote>
+	<commandinfo>
+Cancels a started test case. 
+The test case is cancelled by immediately killing the thread that executes the test case.
+
+cancel testid
+ 
+Arguments:
+testid:	The test ID from the run command. 
+	</commandinfo> 
+</command>
+
+<command id="pausetest">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			testid
+		</argument >
+	</mandatory>
+	<optional>
+		<argument type="normal" value="name" binding="=" nextvalue="digit">
+			time
+		</argument>
+	</optional>
+	<errornote>
+	"pausetest" keyword takes testid as mandatory argument.
+	</errornote>
+	<commandinfo>
+Pauses a test case. The test case is paused by pausing the thread that executes
+the test case. The pausetest keyword has one mandatory argument
+
+pausetest testid time
+ 
+Arguments:
+testid: the test ID from the run command.
+time: (optional) Pause time in milliseconds. After this time, resume is called automatically (if not given, resume needs to be called explicitly). 
+	</commandinfo> 
+</command>
+
+<command id="resume">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			testid
+		</argument >
+	</mandatory>
+	<errornote>
+	"resume" keyword takes an identification of a test case as an argument
+	</errornote> 
+	<commandinfo>
+Resumes a paused test case. 
+
+resume testid
+ 
+Arguments:
+testid:	The test ID from the run command.
+	</commandinfo> 
+</command>
+
+<command id="complete">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			testid
+		</argument >
+	</mandatory>
+	<errornote>
+	"complete" keyword takes an identification of a test case as an argument
+	</errornote> 
+	<commandinfo>
+Waits and blocks a running test case. This keyword is used to have a started test case wait to complete. 
+It blocks until the test case has finished.  
+
+complete testid
+ 
+Arguments:
+testid:	The test ID from the run command.
+	</commandinfo> 
+</command>
+
+<command id="allocate">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			SlaveType
+		</argument>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			SlaveName
+		</argument>
+	</mandatory>
+	<errornote>
+	"allocate" keyword must be follwed by slave type ans slave name
+	</errornote> 
+ 	<commandinfo>
+Allocates a slave, for example for running a test case on a remote phone. 
+It uses Remote Control Protocol (RPC). 
+The slave must always be allocated first before it can be used.
+ 
+Arguments:
+Slave type:	The type of the slave.
+STIF only supports slave phone. phone indicates that slave phone is also running STIF. 
+Other types must be handled by the slave implementation, i.e. when implementing separate support for external network simulator.
+
+Slave name:	A unique name for the slave.
+
+	</commandinfo>	
+</command>
+
+
+<command id="free">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			SlaveName
+		</argument>
+	</mandatory>
+	<errornote>
+	"free" keyword must be follwed by slave name
+	</errornote>
+	<commandinfo>
+Frees a slave. Every allocated slave must be freed with free when it becomes unused.
+ 
+Arguments:
+Slave type:	The type of the slave.
+STIF only supports slave phone. phone indicates that slave phone is also running STIF. 
+Other types must be handled by the slave implementation, i.e. when implementing separate support for external network simulator.
+
+	</commandinfo>	 
+</command>
+
+<command id="remote">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			objectName 
+		</argument>
+		<argument type="selective" value="none" binding="none" nextvalue="none">
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				run
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				request
+			</argument>		
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				wait
+			</argument>	
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				set
+			</argument>		
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				unset
+			</argument>
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				set
+			</argument>	
+			<argument type="normal" value="name" binding="none" nextvalue="none">
+				release	
+			</argument>				
+		</argument>
+			<argument type="normal" value="literal" binding="none" nextvalue="none">
+				module
+			</argument>
+	</mandatory>
+	<optional>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+				testmodule
+		</argument>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+				configfile
+		</argument>
+		<argument type="normal" value="digit" binding="none" nextvalue="none">
+				testCaseNumber
+		</argument>
+		<argument type="normal" value="name" binding="=" nextvalue="digit">
+			expect
+		</argument>
+		<argument type="normal" value="name" binding="=" nextvalue="literal">
+			testid
+		</argument>
+		<argument type="normal" value="name" binding="=" nextvalue="literal">
+			ini
+		</argument>
+		<argument type="normal" value="name" binding="=" nextvalue="literal">
+			category
+		</argument>
+		<argument type="normal" value="name" binding="=" nextvalue="digit">
+			timeout
+		</argument>
+		<argument type="normal" value="quoted" binding="none" nextvalue="none">
+			title
+		</argument>		
+	</optional>
+	<errornote>
+	syntax error error
+	</errornote> 
+	<commandinfo>
+Starts the execution of a test case in a slave and also to request and release events from the slave.
+Other test case controlling for remote test cases is done with the same keywords as for the local test cases.
+ 
+Arguments:
+Slave name: 	The slave name, the same that was given for allocate.
+Command name:	The remote command name 
+supported commands:
+-run
+-request
+-wait
+-set
+-unset
+-release
+
+
+	</commandinfo>	
+</command>
+
+
+<command id="INCLUDE">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			filename
+		</argument>
+	</mandatory>
+	<errornote>
+	missing mandatory argument: filename.
+	</errornote>
+	<commandinfo>
+Includes a file.
+
+Must be written in capital letters and must start from the first column of the line.
+File name (with path and extension) must follow INCLUDE command. Rest of line would be ignored.
+All files included from Unicode file should also be in Unicode format (and vice versa).
+Loops in includes are not allowed (for example incorrect situation is when file A includes file B and file B includes file A). In that case, the second include will be ignored, but STF parser will continue working).
+	</commandinfo>
+</command>
+
+<!-- end test combiner commands -->
+
+<!-- commands for shareobject -->
+<command id="createshareobj">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			TestClassName
+		</argument>
+		<argument type="creative" value="literal" binding="none" nextvalue="none">
+			TestObjectName
+		</argument>
+	</mandatory>
+	<errornote>
+	syntax error
+	</errornote>
+	<commandinfo>
+Creates an object, wihch can be shared to other test cases in the same test script file.
+ 
+createshareobj TestClassName  TestObjectName
+ 
+Arguments:
+Test Class Name:	The test class name for the new object.
+Test Object Name:   the name of the created new instance of the test class
+	</commandinfo>	 
+</command>
+
+<command id="restoreshareobj">
+	<mandatory>
+		<argument type="creative" value="literal" binding="none" nextvalue="none">
+			TestObjectName
+		</argument>
+	</mandatory>
+	<errornote>
+	syntax error
+	</errornote>
+	<commandinfo>
+Restores an object, which has been created by the createshareobj keyword.
+
+restoreshareobj TestObjectName
+ 
+Arguments:
+Test Object Name:   the name of the instance of the test class
+	</commandinfo>	 
+</command>
+
+<command id="deleteshareobj">
+	<mandatory>
+		<argument type="creative" value="literal" binding="none" nextvalue="none">
+			TestObjectName
+		</argument>
+	</mandatory>
+	<errornote>
+	syntax error
+	</errornote>
+	<commandinfo>
+Deletes an instance of a test class created with createshareobj.
+
+deleteshareobj TestObjectName
+ 
+Arguments:
+Test Object Name:   the name of the instance of the test class
+	</commandinfo>	 
+</command>
+
+<!-- end commands for shareobject -->
+
+</section>
+
+<section name="StifSettings" endname="EndStifSettings" proposal="[StifSettings]\[EndStifSettings]">
+
+</section>
+
+
+<section name="Define" endname="Enddefine" proposal="[Define]\[Enddefine]">
+</section>
+
+
+<section name="New_Include_Module" endname="End_Include_Module" proposal="[New_Include_Module]\[End_Include_Module]">
+</section>
+
+<section name="Data" endname="Enddata" proposal="[Data]\    file sectionfile.ini sectiondescriptor
+\    section SectionName SectionObjectName\[Enddata]">
+
+<command id="file">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			sectionfile.ini
+		</argument>
+	</mandatory>
+	<optional>
+	    <argument type="creative" value="literal" binding="none" nextvalue="none">
+			da 
+		</argument>
+	</optional>
+	<errornote>
+	Create has invalid argument
+	</errornote> 
+	<commandinfo>
+Specifies data file name.
+
+file sectionfile.ini da
+
+Arguments:
+sectionfile.ini:	the data file name
+da:	Optional.A short name used in the script to reference the data file
+	</commandinfo>
+</command>
+
+
+<command id="section">
+	<mandatory>
+		<argument type="normal" value="literal" binding="none" nextvalue="none">
+			SectionName
+		</argument>
+	</mandatory>
+	<optional>
+	    <argument type="normal" value="literal" binding="none" nextvalue="none">
+			SectionShortName 
+	    </argument>
+	</optional>
+	<errornote>
+	Create has invalid argument
+	</errornote> 
+	<commandinfo>
+Specify which section in the data file will be referred
+
+section SectionName SectionShortName
+
+Arguments:
+SectionName:	The section name defined in the data file.
+SectionShortName:	Optional.The short name.
+	</commandinfo>
+</command>
+
+
+</section>
+
+<section name="Sub" endname="Endsub" proposal="[Sub subname]\[Endsub]">
+</section>
+
+</sections>

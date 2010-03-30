@@ -1,0 +1,15 @@
+/*
+============================================================================
+ Name		: bld.inf
+ Author	  : Yue Zhang
+ Copyright   : Test Product Team, Symbian
+ Description : This file provides the information required for building the
+				whole of a multiprj2.
+============================================================================
+*/
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_MMPFILES
+multiprj2.mmp

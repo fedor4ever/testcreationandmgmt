@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?NLS TYPE="org.eclipse.help.toc"?>
+
+<toc label="Guide" link_to="toc.xml#tasks"> 
+
+ <topic href="html/tasks/creating_sut.htm" label="Creating SymbianUnitTest suite">
+ </topic>
+ <topic href="html/tasks/add_case.htm" label="Adding test cases">
+ </topic>
+ <topic href="html/tasks/run_sut.htm" label="Running SymbianUnitTest in emulator">
+ </topic>
+</toc>

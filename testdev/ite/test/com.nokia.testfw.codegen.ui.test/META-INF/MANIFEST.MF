@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Test Fragment
+Bundle-SymbolicName: com.nokia.testfw.codegen.ui.test
+Bundle-Version: 1.0.0
+Bundle-Vendor: Nokia
+Fragment-Host: com.nokia.testfw.codegen.ui
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Require-Bundle: org.junit4,
+ com.nokia.testfw.test

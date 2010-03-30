@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.nokia.testfw.codegen.ui.preferences.PreferenceInitializer">
+      </initializer>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.editors.templates">
+      <contextType
+            id="com.nokia.testfw.codegen.ui.templates.testfw_template_contexttype"
+            class="com.nokia.testfw.codegen.ui.templates.CodeGenTemplateContextType"
+            name="Test Frameworks Template">
+      </contextType>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.newWizards">
+	  <category id="com.nokia.s60tools.testFrameworks.newWizards" name="Test Frameworks" parentCategory="com.nokia.s60tools" /> 
+      <wizard
+			category="com.nokia.s60tools/com.nokia.s60tools.testFrameworks.newWizards" 
+            class="com.nokia.testfw.codegen.ui.wizard.SUTNewTestWizard"
+            icon="icons/project.gif"
+            id="com.nokia.testfw.codegen.ui.wizard.SUTNewTestWizard"
+            name="SymbianUnitTest"/>
+      <wizard
+			category="com.nokia.s60tools/com.nokia.s60tools.testFrameworks.newWizards" 
+            class="com.nokia.testfw.codegen.ui.wizard.STFNewTestWizard"
+            icon="icons/project.gif"
+            id="com.nokia.testfw.codegen.ui.wizard.STFNewTestWizard"
+            name="Symbian Test Framework"/>  
+   </extension>
+   
+   <!--extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="com.nokia.carbide.cpp.CarbideCppPerspective">
+         <newWizardShortcut id="com.nokia.testfw.codegen.ui.wizard.SUTNewTestWizard"/>
+      </perspectiveExtension>
+   </extension-->
+ 
+ 	<!--extension
+	  point="org.eclipse.ui.navigator.navigatorContent">
+	 <commonWizard
+		type="new"
+	    wizardId="com.nokia.testfw.codegen.ui.wizard.SUTNewTestWizard">
+		 <enablement>
+			<or>
+				<instanceof value="org.eclipse.cdt.core.model.ICElement" />	
+	            <adapt type="org.eclipse.core.resources.IProject">
+	               <test
+	                     property="org.eclipse.core.resources.projectNature"
+	                     value="com.nokia.carbide.cdt.builder.carbideCPPBuilderNature"/>
+	            </adapt>
+			</or>
+         </enablement>
+	 </commonWizard>
+ 	</extension-->
+ 
+   <!--extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            name="Symbian Test FrameWork"
+            category="com.nokia.testfw.preferences"
+            class="com.nokia.testfw.codegen.ui.preferences.TESTFWPropertiesPreferencePage"
+            id="com.nokia.testfw.codegen.ui.preferences.TESTFWPropertiesPreferencePage"/>
+      <page
+            name="SymbianUnitTest Templates"
+            category="com.nokia.testfw.preferences"
+            class="com.nokia.testfw.codegen.ui.preferences.TESTFWTemplatePreferencePage"
+            id="com.nokia.testfw.codegen.ui.preferences.TESTFWTemplatePreferencePage"/>
+	</extension-->
+   
+	<extension
+        point="org.eclipse.ui.popupMenus">
+        <!-- SymbianTestFramework (New Test Module) -->
+        <objectContribution
+            objectClass="org.eclipse.core.resources.IProject"
+            id="com.nokia.testfw.codegen.ui.STFNewModulePopup"
+            adaptable="true">
+	        <filter
+    	          name="projectNature"
+        	      value="com.nokia.testfw.codegen.ui.STFProjectNature"/>
+			<menu
+				label="Test Frameworks"
+				path="additions"
+				id="stfmenu">
+				<separator
+					name="group">
+				</separator>
+			</menu>
+			<action
+				label="Generate STF Test Class..."
+				class="com.nokia.testfw.codegen.ui.popup.actions.STFNewTestWizardAction"
+				menubarPath="stfmenu/group"
+				enablesFor="1"
+				id="com.nokia.testfw.codegen.ui.popup.actions.STFNewTestWizardAction">
+			</action>
+		</objectContribution>
+
+        <!-- SymbianTestFramework (New Test Cases) -->
+        <objectContribution
+            objectClass="org.eclipse.cdt.core.model.ITranslationUnit"
+            id="com.nokia.testfw.codegen.ui.STFNewCasePopup"
+            nameFilter="*.h"
+            adaptable="true">
+	        <filter
+    	          name="projectNature"
+        	      value="com.nokia.testfw.codegen.ui.STFProjectNature"/>
+			<menu
+				label="Test Frameworks"
+				path="additions"
+				id="stfmenu">
+				<separator
+					name="group">
+				</separator>
+			</menu>
+			<action
+				label="Generate STF Test Cases..."
+				class="com.nokia.testfw.codegen.ui.popup.actions.STFNewTestWizardAction"
+				menubarPath="stfmenu/group"
+				enablesFor="1"
+				id="com.nokia.testfw.codegen.ui.popup.actions.STFNewTestWizardAction">
+			</action>
+		</objectContribution>
+		
+        <!-- SymbianUnitTest -->
+		<objectContribution
+            objectClass="org.eclipse.cdt.core.model.ICElement"
+            id="com.nokia.testfw.codegen.ui.methodpopup">
+			<visibility>
+	            <or>
+					<objectClass name="org.eclipse.cdt.core.model.ITranslationUnit"/>
+		            <or>
+						<objectClass name="org.eclipse.cdt.core.model.IStructure"/>
+						<objectClass name="org.eclipse.cdt.core.model.IMethodDeclaration"/>
+	            	</or>
+            	</or>
+			</visibility>
+			<menu
+				label="Test Frameworks"
+				path="additions"
+				id="stfmenu">
+				<separator
+					name="group">
+				</separator>
+			</menu>
+			<action
+				label="Generate SymbianUnitTest Cases..."
+				class="com.nokia.testfw.codegen.ui.popup.actions.SUTNewTestWizardAction"
+				menubarPath="stfmenu/group"
+				enablesFor="*"
+				id="com.nokia.testfw.codegen.ui.popup.actions.SUTNewTestWizardAction">
+			</action>
+		</objectContribution>
+	</extension>
+	
+	<extension
+    	point="org.eclipse.core.resources.natures"
+    	id="STFProjectNature"
+    	name="SymbianTestFramework Nature">
+    	<runtime>
+        	<run class="com.nokia.testfw.codegen.ui.STFProjectNature"/>
+    	</runtime>
+	</extension>	
+</plugin>

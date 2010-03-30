@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Test Fragment
+Bundle-SymbolicName: com.nokia.testfw.resultview.test
+Bundle-Version: 1.0.0
+Bundle-Vendor: Nokia
+Fragment-Host: com.nokia.testfw.resultview
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Require-Bundle: com.nokia.testfw.test,
+ org.junit4
+Export-Package: com.nokia.testfw.resultview

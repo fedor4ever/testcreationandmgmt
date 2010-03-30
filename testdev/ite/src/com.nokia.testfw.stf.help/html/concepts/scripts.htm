@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+<title>Test scripts</title>
+<link href="../../book.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+
+<h2>Test scripts</h2>
+<p>In STF, you can create scripts that consist of a series of keywords and arguments, describing the operation of the test case. Scripts let you to create advanced combinations of test cases that can be implemented in various test classes. By using scripts you can reuse test classes and provide test cases with new arguments without a need of recompilation.</p>
+
+<p>A test case file may contain several test cases, the descriptions of which start with the tag <code>[Test]</code> and end with the tag <code>[Endtest]</code>. The test case is executed sequentially line by line. The test case itself is described with keywords, arguments, and argument-value pairs between the start and end tags.</p>
+<p>An example of a test case is shown below:</p>
+<p><code>[Test] <br>title Create, print, run example and delete<br>create TestScriptClass test<br>print Call Example method<br>test Example parameters<br>print Example method called, delete instance<br>delete test<br>[Endtest]</code></p>
+<p>Each mode has a keyword vocabulary. For more information, see the links below.</p>
+
+<h5>Related tasks</h5>
+<ul>
+	<li><a href="../tasks/creating_scripts.htm">Editing scripts</a></li>
+</ul>
+
+<h5>Related references</h5>
+<ul>
+	<li><a href="../references/script_keywords.htm">Script keywords</a></li>
+</ul>
+
+<div id="footer">Copyright &copy; 2009 Nokia Corporation and/or its subsidiary(-ies). All rights reserved. 
+License: <a href="http://www.eclipse.org/legal/epl-v10.html">http://www.eclipse.org/legal/epl-v10.html</a>.</div>
+</body>
+</html>
